@@ -1,76 +1,50 @@
-
 // Importing required frameworks
 import SwiftUI
 import MapKit
 
 // Main ContentView for the application
 struct MapWalk: View {
-    // State variables for managing the map's center and type
     @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060), // Initial center at New York
+        center: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060), // New York
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
-    @State private var mapType: MKMapType = .satellite // Start in Satellite mode
-    @State private var highlighterOn = false // State for highlighter mode
-    @State private var showMenu = false  // State for showing the hamburger menu
-    @State private var points: [CGPoint] = [] // Points to draw
+    @State private var mapType: MKMapType = .satellite
+    @State private var highlighterOn = false
+    @State private var showMenu = false
+    @State private var points: [CGPoint] = []
     
     var body: some View {
-        // Using ZStack to overlay UI elements
         ZStack {
-            // Embedding the custom Map View
-            UserLocationMapView(coordinateRegion: $region, mapType: $mapType)
-            
-            // Separate drawing layer to capture touch events for drawing
-            if highlighterOn {
-                DrawingView(points: $points)
-            }
-            
-            // Vertical Stack for UI elements
             VStack {
-                // Top menu bar
-                HStack {
-                    // "MapWalk" title at the top left, adjusted font size and weight
-                    Text("MapWalk")
-                        .foregroundColor(mapType == .standard ? .black : .white)  // Black in Standard, White in Satellite
-                        .font(.system(size: 32, weight: .heavy))  // Smaller size and more bold
-                    Spacer()
-                    // Hamburger menu button
-                    Button(action: { showMenu.toggle() }) {
-                        Image(systemName: "list.dash")
-                            .foregroundColor(.white)
-                    }
-                    .popover(isPresented: $showMenu) {  // Popover for the menu
-                        VStack {
-                            Spacer()
-                            Text("Settings")
-                                .padding()
-                        }
-                        .frame(height: 100)  // 3-item length menu
+                ZStack {
+                    UserLocationMapView(coordinateRegion: $region, mapType: $mapType)
+                    
+                    if highlighterOn {
+                        DrawingView(points: $points)
+                            .background(Color.white.opacity(0.2))
+                            .zIndex(1)
+                            .allowsHitTesting(true)  // Capture gestures when highlighter is on
+                    } else {
+                        DrawingView(points: $points)
+                            .background(Color.clear)
+                            .zIndex(0)
+                            .allowsHitTesting(false)  // Pass-through gestures when highlighter is off
                     }
                 }
-                .padding()
-                Spacer()
-            }
-            
-            VStack {
-                Spacer() // Spacer to push the following elements to the bottom
-                
-                // Icon bar at the bottom of the screen
+                .frame(maxHeight: .infinity)
+                .padding(.top, 10)
+                // Icon bar at the bottom
                 HStack {
-                    Spacer() // Spacer to move the buttons to the right
-                    
-                    // Button for highlighter mode, using an icon
+                    Spacer()
                     Button(action: toggleHighlighter) {
-                        Image(systemName: "pencil.tip")  // Pen tip icon
+                        Image(systemName: "pencil.tip")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 34, height: 34)
                             .foregroundColor(highlighterOn ? .blue : .gray)
                     }
-                    .padding(.trailing, 17)  // 10% to the left
+                    .padding(.trailing, 17)
                     
-                    // Single button for toggling map type, using an icon
                     Button(action: toggleMapType) {
                         Image(systemName: mapType == .standard ? "map.fill" : "globe")
                             .resizable()
@@ -79,25 +53,45 @@ struct MapWalk: View {
                             .foregroundColor(.white)
                     }
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 52)  // 10% shorter
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 52)
                 .padding()
-                .background(Color.black)  // Solid dark gray
+                .background(Color.black)
+            }
+            
+            // Top menu bar
+            VStack {
+                HStack {
+                    Text("MapWalk")
+                        .foregroundColor(mapType == .standard ? .black : .white)
+                        .font(.system(size: 32, weight: .heavy))
+                    Spacer()
+                    Button(action: { showMenu.toggle() }) {
+                        Image(systemName: "list.dash")
+                            .foregroundColor(.white)
+                    }
+                    .popover(isPresented: $showMenu) {
+                        VStack {
+                            Spacer()
+                            Text("Settings").padding()
+                        }
+                        .frame(height: 100)
+                    }
+                }
+                .padding()
+                Spacer()
             }
         }
     }
     
-    // Function to toggle the map type between standard and satellite
     func toggleMapType() {
         mapType = (mapType == .standard) ? .satellite : .standard
     }
     
-    // Function to toggle the highlighter mode
     func toggleHighlighter() {
         highlighterOn.toggle()
     }
 }
 
-// Custom View for Drawing
 struct DrawingView: View {
     @Binding var points: [CGPoint]
     
@@ -109,7 +103,7 @@ struct DrawingView: View {
                     path.addLine(to: point)
                 }
             }
-            .stroke(Color.blue, lineWidth: 8) // 2mm thick line
+            .stroke(Color.blue, lineWidth: 8)
             .background(Color.clear)
             .gesture(
                 DragGesture(minimumDistance: 0.1)
@@ -122,7 +116,6 @@ struct DrawingView: View {
     }
 }
 
-// UIViewRepresentable struct to integrate MKMapView into SwiftUI
 struct UserLocationMapView: UIViewRepresentable {
     @Binding var coordinateRegion: MKCoordinateRegion
     @Binding var mapType: MKMapType
@@ -152,7 +145,6 @@ struct UserLocationMapView: UIViewRepresentable {
     }
 }
 
-// Main App struct
 @main
 struct MapWalkApp: App {
     var body: some Scene {
@@ -161,3 +153,4 @@ struct MapWalkApp: App {
         }
     }
 }
+
