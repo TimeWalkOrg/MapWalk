@@ -21,21 +21,9 @@ struct MapWalk: View {
             // Embedding the custom Map View
             UserLocationMapView(coordinateRegion: $region, mapType: $mapType)
             
-            // Highlighter drawing layer
+            // Separate drawing layer to capture touch events for drawing
             if highlighterOn {
-                Path { path in
-                    for point in points {
-                        path.move(to: point)
-                        path.addLine(to: point)
-                    }
-                }
-                .stroke(Color.blue, lineWidth: 8) // 2mm thick line
-                .gesture(
-                    DragGesture(minimumDistance: 0.1)
-                        .onChanged({ value in
-                            self.points.append(value.location)
-                        })
-                )
+                DrawingView(points: $points)
             }
             
             // Vertical Stack for UI elements
@@ -109,6 +97,31 @@ struct MapWalk: View {
     }
 }
 
+// Custom View for Drawing
+struct DrawingView: View {
+    @Binding var points: [CGPoint]
+    
+    var body: some View {
+        GeometryReader { geometry in
+            Path { path in
+                for point in points {
+                    path.move(to: point)
+                    path.addLine(to: point)
+                }
+            }
+            .stroke(Color.blue, lineWidth: 8) // 2mm thick line
+            .background(Color.clear)
+            .gesture(
+                DragGesture(minimumDistance: 0.1)
+                    .onChanged({ value in
+                        let point = CGPoint(x: value.location.x, y: value.location.y - geometry.frame(in: .global).minY)
+                        self.points.append(point)
+                    })
+            )
+        }
+    }
+}
+
 // UIViewRepresentable struct to integrate MKMapView into SwiftUI
 struct UserLocationMapView: UIViewRepresentable {
     @Binding var coordinateRegion: MKCoordinateRegion
@@ -148,4 +161,3 @@ struct MapWalkApp: App {
         }
     }
 }
-
