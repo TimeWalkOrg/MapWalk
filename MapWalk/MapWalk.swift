@@ -13,6 +13,7 @@ struct MapWalk: View {
     @State private var mapType: MKMapType = .satellite // Start in Satellite mode
     @State private var highlighterOn = false // State for highlighter mode
     @State private var showMenu = false  // State for showing the hamburger menu
+    @State private var points: [CGPoint] = [] // Points to draw
     
     var body: some View {
         // Using ZStack to overlay UI elements
@@ -20,16 +21,21 @@ struct MapWalk: View {
             // Embedding the custom Map View
             UserLocationMapView(coordinateRegion: $region, mapType: $mapType)
             
-            // Highlighter overlay
+            // Highlighter drawing layer
             if highlighterOn {
-                ZStack {
-                    // Dark transparent layer
-                    Color.black.opacity(0.3)
-                    // Blue dot in the center
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 12, height: 12)  // 3mm diameter approx
+                Path { path in
+                    for point in points {
+                        path.move(to: point)
+                        path.addLine(to: point)
+                    }
                 }
+                .stroke(Color.blue, lineWidth: 8) // 2mm thick line
+                .gesture(
+                    DragGesture(minimumDistance: 0.1)
+                        .onChanged({ value in
+                            self.points.append(value.location)
+                        })
+                )
             }
             
             // Vertical Stack for UI elements
@@ -74,7 +80,7 @@ struct MapWalk: View {
                             .frame(width: 34, height: 34)
                             .foregroundColor(highlighterOn ? .blue : .gray)
                     }
-                    .padding(.trailing, 19)
+                    .padding(.trailing, 17)  // 10% to the left
                     
                     // Single button for toggling map type, using an icon
                     Button(action: toggleMapType) {
@@ -85,9 +91,9 @@ struct MapWalk: View {
                             .foregroundColor(.white)
                     }
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 58)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 52)  // 10% shorter
                 .padding()
-                .background(Color.black.opacity(0.8))
+                .background(Color.black)  // Solid dark gray
             }
         }
     }
