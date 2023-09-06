@@ -15,6 +15,7 @@
 		2F34B6652AA52D8100365E96 /* MapWalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F34B6642AA52D8100365E96 /* MapWalkTests.swift */; };
 		2F34B66F2AA52D8100365E96 /* MapWalkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F34B66E2AA52D8100365E96 /* MapWalkUITests.swift */; };
 		2F34B6712AA52D8100365E96 /* MapWalkUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F34B6702AA52D8100365E96 /* MapWalkUITestsLaunchTests.swift */; };
+		2F7797FC2AA7F154001F3EA3 /* MapWalkLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7797FB2AA7F154001F3EA3 /* MapWalkLauncher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,12 +42,12 @@
 		2F34B6542AA52D8100365E96 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2F34B6562AA52D8100365E96 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2F34B6592AA52D8100365E96 /* MapWalk.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapWalk.xcdatamodel; sourceTree = "<group>"; };
-		2F34B65B2AA52D8100365E96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F34B6602AA52D8100365E96 /* MapWalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapWalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F34B6642AA52D8100365E96 /* MapWalkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWalkTests.swift; sourceTree = "<group>"; };
 		2F34B66A2AA52D8100365E96 /* MapWalkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapWalkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F34B66E2AA52D8100365E96 /* MapWalkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWalkUITests.swift; sourceTree = "<group>"; };
 		2F34B6702AA52D8100365E96 /* MapWalkUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWalkUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2F7797FB2AA7F154001F3EA3 /* MapWalkLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWalkLauncher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,9 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				2F34B64F2AA52D8000365E96 /* MapWalk.swift */,
-				2F34B6512AA52D8100365E96 /* Assets.xcassets */,
+				2F7797FB2AA7F154001F3EA3 /* MapWalkLauncher.swift */,
 				2F34B6562AA52D8100365E96 /* Persistence.swift */,
-				2F34B65B2AA52D8100365E96 /* Info.plist */,
+				2F34B6512AA52D8100365E96 /* Assets.xcassets */,
 				2F34B6582AA52D8100365E96 /* MapWalk.xcdatamodeld */,
 				2F34B6532AA52D8100365E96 /* Preview Content */,
 			);
@@ -262,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F7797FC2AA7F154001F3EA3 /* MapWalkLauncher.swift in Sources */,
 				2F34B6572AA52D8100365E96 /* Persistence.swift in Sources */,
 				2F34B65A2AA52D8100365E96 /* MapWalk.xcdatamodeld in Sources */,
 				2F34B6502AA52D8000365E96 /* MapWalk.swift in Sources */,
@@ -426,6 +428,9 @@
 				DEVELOPMENT_TEAM = 63K8J7P389;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MapWalk/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Required for map usage";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Required for mapping";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -455,6 +460,9 @@
 				DEVELOPMENT_TEAM = 63K8J7P389;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MapWalk/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Required for map usage";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Required for mapping";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
