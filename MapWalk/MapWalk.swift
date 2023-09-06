@@ -114,6 +114,7 @@ struct DrawingView: View {
                     .onChanged({ value in
                         let point = CGPoint(x: value.location.x, y: value.location.y - geometry.frame(in: .global).minY)
                         self.points.append(point)
+                        print(self.points)
                     })
             )
         }
