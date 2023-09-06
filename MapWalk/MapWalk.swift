@@ -1,13 +1,12 @@
 // Importing required frameworks
 import SwiftUI
 import MapKit
+import CoreLocation
 
 // Main ContentView for the application
 struct MapWalk: View {
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060), // New York
-        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-    )
+    @ObservedObject private var locationManager = LocationManager()
+    @State private var region = MKCoordinateRegion()
     @State private var mapType: MKMapType = .satellite
     @State private var highlighterOn = false
     @State private var showMenu = false
@@ -18,7 +17,12 @@ struct MapWalk: View {
             VStack {
                 ZStack {
                     UserLocationMapView(coordinateRegion: $region, mapType: $mapType)
-                    
+                        .onAppear {
+                            region = MKCoordinateRegion(
+                                center: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 40.704978680390475, longitude: -74.01368692013155), // sets to current location or defaults to specified lat-long if location is not available
+                                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05) // sets the zoom level
+                            )
+                        }
                     if highlighterOn {
                         DrawingView(points: $points)
                             .background(Color.white.opacity(0.2))
@@ -53,7 +57,7 @@ struct MapWalk: View {
                             .foregroundColor(.white)
                     }
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 52)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 53)
                 .padding()
                 .background(Color.black)
             }
@@ -145,12 +149,34 @@ struct UserLocationMapView: UIViewRepresentable {
     }
 }
 
-@main
-struct MapWalkApp: App {
-    var body: some Scene {
-        WindowGroup {
-            MapWalk()
-        }
+class LocationManager: NSObject, ObservableObject {
+    private let locationManager = CLLocationManager()
+    @Published var location: CLLocation?
+    
+    override init() {
+        super.init()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.startUpdatingLocation()
     }
 }
 
+extension LocationManager: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.last
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .denied, .restricted:
+            print("Location access was denied or restricted.")
+        case .notDetermined:
+            print("User has not yet made a choice about location permission.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("Location access was granted.")
+        @unknown default:
+            print("A new case was added to CLAuthorizationStatus that we have not handled.")
+        }
+    }
+}
