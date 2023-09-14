@@ -13,7 +13,7 @@
         <!--Map Walk View Controller-->
         <scene sceneID="FrG-zs-c8L">
             <objects>
-                <viewController storyboardIdentifier="MapWalkViewController" id="dUi-wJ-Ftr" customClass="MapWalkViewController" customModule="MapWalkSwift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapWalkViewController" id="dUi-wJ-Ftr" customClass="MapWalkViewController" customModule="MapWalk" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b5r-1m-FTp">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,7 +34,7 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
-                                            <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="map.fill" catalog="system" symbolScale="large"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
                                         </state>
                                         <connections>
@@ -166,6 +166,21 @@
                                             <constraint firstAttribute="bottom" secondItem="zyw-wb-fCo" secondAttribute="bottom" id="mkp-wR-je2"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7Z-6H-68D">
+                                        <rect key="frame" x="15" y="0.0" width="50" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="QS6-VS-O4a"/>
+                                            <constraint firstAttribute="width" constant="50" id="ijd-pY-HDq"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="tinted" image="arrow.uturn.backward" catalog="system">
+                                            <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="btnUndoAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="rZp-iK-LRM"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -176,6 +191,7 @@
                                     <constraint firstAttribute="height" constant="60" id="IgL-TP-6t4"/>
                                     <constraint firstItem="s1L-RT-V0Q" firstAttribute="width" secondItem="wlf-02-VdX" secondAttribute="width" multiplier="1.02381" id="Ppj-Ws-KEg"/>
                                     <constraint firstAttribute="trailing" secondItem="h1x-D8-ftL" secondAttribute="trailing" constant="10" id="QO9-tD-Q0S"/>
+                                    <constraint firstItem="c7Z-6H-68D" firstAttribute="leading" secondItem="ZaH-lg-z3n" secondAttribute="leading" constant="15" id="SSA-Bg-uGe"/>
                                     <constraint firstItem="h1x-D8-ftL" firstAttribute="leading" secondItem="wlf-02-VdX" secondAttribute="trailing" constant="10" id="STc-Nh-bpQ"/>
                                     <constraint firstAttribute="bottom" secondItem="h1x-D8-ftL" secondAttribute="bottom" constant="20" id="ZfF-sk-FcS"/>
                                     <constraint firstItem="gdC-TR-MzY" firstAttribute="top" secondItem="ZaH-lg-z3n" secondAttribute="top" id="bhe-ul-dz7"/>
@@ -185,6 +201,7 @@
                                     <constraint firstAttribute="bottom" secondItem="gdC-TR-MzY" secondAttribute="bottom" id="p0p-X1-WXP"/>
                                     <constraint firstItem="wlf-02-VdX" firstAttribute="top" secondItem="ZaH-lg-z3n" secondAttribute="top" id="sXH-yM-a7z"/>
                                     <constraint firstAttribute="bottom" secondItem="wlf-02-VdX" secondAttribute="bottom" id="vkr-jM-cUe"/>
+                                    <constraint firstItem="c7Z-6H-68D" firstAttribute="top" secondItem="ZaH-lg-z3n" secondAttribute="top" id="xD4-VT-mYB"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MapWalk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tbo-1Y-HDa">
@@ -247,8 +264,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.uturn.backward" catalog="system" width="128" height="113"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
-        <image name="map" catalog="system" width="128" height="112"/>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="pencil.tip" catalog="system" width="99" height="128"/>
     </resources>
 </document>
