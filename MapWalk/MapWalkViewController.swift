@@ -55,7 +55,7 @@ class MapWalkViewController: UIViewController {
         super.viewDidLoad()
         
         self.mapView.delegate = self
-        self.currentMapType = .satellite
+        
         // Request location permission if needed
         LocationManager.shared.requestLocationPermission()
         
@@ -106,6 +106,20 @@ class MapWalkViewController: UIViewController {
         self.selectedPencilType = .Shop
         self.startEndDragging()
     }
+        
+    @IBAction func btnUndoAction(_ sender: Any) {
+//        if coordinates.isEmpty {
+//            return // Nothing to undo
+//        }
+        
+        // Remove the last drawn shape's coordinates
+        coordinates.removeAll()
+        
+        // Clear the existing overlays on the map
+        if let lastOverlay = mapView.overlays.last {
+            mapView.removeOverlay(lastOverlay)
+        }
+    }
     
     func startEndDragging() {
         if isDrawingPolygon == false {
@@ -134,7 +148,7 @@ class MapWalkViewController: UIViewController {
                 }
                 mapView.addOverlay(MKPolygon(coordinates: &points, count: numberOfPoints))
             }
-
+            addGestureRecognizerToOverlay()
             isDrawingPolygon = false
             canvasView.image = nil
             canvasView.removeFromSuperview()
@@ -205,6 +219,49 @@ extension MapWalkViewController: MKMapViewDelegate {
             return overlayPathView
         }
         return MKOverlayRenderer()
+    }
+    func addGestureRecognizerToOverlay() {
+        for overlay in mapView.overlays {
+            if overlay is MKPolygon {
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+                mapView.addGestureRecognizer(tapGesture)
+            }
+        }
+    }
+    
+    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: mapView)
+        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
+
+        for overlay in mapView.overlays {
+            if let polygon = overlay as? MKPolygon {
+                if isCoordinateInsidePolygon(coordinate, polygon: polygon) {
+                    // Handle tap on the specific overlay here
+                    print("Tapped on the overlay")
+                    break
+                }
+            }
+        }
+    }
+    
+    func isCoordinateInsidePolygon(_ coordinate: CLLocationCoordinate2D, polygon: MKPolygon) -> Bool {
+        let polygonPath = CGMutablePath()
+        let points = polygon.points()
+        
+        for i in 0..<polygon.pointCount {
+            let polygonCoordinate = points[i]
+            if i == 0 {
+                polygonPath.move(to: CGPoint(x: polygonCoordinate.x, y: polygonCoordinate.y))
+            } else {
+                polygonPath.addLine(to: CGPoint(x: polygonCoordinate.x, y: polygonCoordinate.y))
+            }
+        }
+        
+        let mapPoint = MKMapPoint(coordinate)
+        let boundingBox = polygonPath.boundingBox
+        let mapRect = MKMapRect(x: Double(boundingBox.minX), y: Double(boundingBox.minY), width: Double(boundingBox.width), height: Double(boundingBox.height))
+        
+        return mapRect.contains(mapPoint)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
