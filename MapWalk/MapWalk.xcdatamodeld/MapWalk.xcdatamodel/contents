@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Map" representedClassName=".Map" syncable="YES">
+        <attribute name="isMyMap" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="mapID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mapName" optional="YES" attributeType="String"/>
+        <relationship name="mapOverlays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Overlays" inverseName="overlaysMap" inverseEntity="Overlays"/>
+    </entity>
+    <entity name="Overlays" representedClassName=".Overlays" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="coordinates" optional="YES" attributeType="String"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="overlayID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="overlaysMap" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Map" inverseName="mapOverlays" inverseEntity="Map"/>
+    </entity>
 </model>
