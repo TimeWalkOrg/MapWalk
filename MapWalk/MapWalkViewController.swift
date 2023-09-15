@@ -48,11 +48,33 @@ class MapWalkViewController: UIViewController {
     }
     
     private var coordinates: [CLLocationCoordinate2D] = []
+    var allCoordinates: [[CLLocationCoordinate2D]] = []
+    
     private var isDrawingPolygon: Bool = false
     private var canvasView: CanvasView!
+    var currentMap: Map?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setupView()
+    }
+    
+    func setupView() {
+        let map = CoreDataManager.shared.getMap()
+        if map.count == 0 {
+            CoreDataManager.shared.saveMap(mapName: "MyMap", isMyMap: true)
+            let myMaps = CoreDataManager.shared.getMap()
+            self.currentMap = myMaps.last!
+        }
+        else {
+            for myMap in map {
+                if myMap.isMyMap == true {
+                    self.currentMap = myMap
+                    break
+                }
+            }
+        }
         
         self.mapView.delegate = self
         
@@ -64,6 +86,8 @@ class MapWalkViewController: UIViewController {
             // Use the updated location for your map
             self?.updateMap(with: location)
         }
+        
+        self.loadOverlaysOnMap()
     }
     
     func updateMap(with location: CLLocation) {
@@ -83,6 +107,29 @@ class MapWalkViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
 
+    func loadOverlaysOnMap() {
+        // Load saved overlays of current map
+        var overlays = CoreDataManager.shared.getOverlays()
+        overlays = overlays.filter({$0.overlaysMap?.mapID == self.currentMap?.mapID})
+        if overlays.count > 0 {
+            for overlay in overlays {
+                let coordinatesArray = self.convertJSONStringToCoordinates(jsonString: overlay.coordinates ?? "")
+                
+                let numberOfPoints = coordinatesArray.count
+                
+                if numberOfPoints > 2 {
+                    var points: [CLLocationCoordinate2D] = []
+                    for i in 0..<numberOfPoints {
+                        points.append(coordinatesArray[i])
+                    }
+                    let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
+                    polygon.overlay = overlay
+                    mapView.addOverlay(polygon)
+                }
+            }
+        }
+    }
+    
     @IBAction func btnMapTypeAction(_ sender: Any) {
         // Toggle between map types when the button is tapped
         if currentMapType == .standard {
@@ -108,16 +155,21 @@ class MapWalkViewController: UIViewController {
     }
         
     @IBAction func btnUndoAction(_ sender: Any) {
-//        if coordinates.isEmpty {
-//            return // Nothing to undo
-//        }
+        var overlays = CoreDataManager.shared.getOverlays()
+        overlays = overlays.filter({$0.overlaysMap?.mapID == self.currentMap?.mapID}).sorted(by: {$0.overlayID < $1.overlayID})
         
-        // Remove the last drawn shape's coordinates
-        coordinates.removeAll()
+        if overlays.isEmpty {
+            return
+        }
         
-        // Clear the existing overlays on the map
-        if let lastOverlay = mapView.overlays.last {
-            mapView.removeOverlay(lastOverlay)
+        let overlayToDelete = overlays.last
+        CoreDataManager.shared.deleteOverlay(overlayID: overlayToDelete?.overlayID ?? 0)
+        
+        DispatchQueue.main.async {
+            // Remove the last drawn shape's coordinates
+            if let lastOverlay = self.mapView.overlays.last {
+                self.mapView.removeOverlay(lastOverlay)
+            }
         }
     }
     
@@ -142,12 +194,35 @@ class MapWalkViewController: UIViewController {
             let numberOfPoints = coordinates.count
 
             if numberOfPoints > 2 {
+                
                 var points: [CLLocationCoordinate2D] = []
                 for i in 0..<numberOfPoints {
                     points.append(coordinates[i])
                 }
-                mapView.addOverlay(MKPolygon(coordinates: &points, count: numberOfPoints))
+                
+                var color = ""
+                if self.selectedPencilType == .Avoid {
+                    color = "red"
+                }
+                else if self.selectedPencilType == .Pretty {
+                    color = "blue"
+                }
+                else if self.selectedPencilType == .Shop {
+                    color = "green"
+                }
+                
+                let savedOverlay = CoreDataManager.shared.saveOverlay(color: color, note: "", coordinates: self.convertCoordinatesToJSONString(coordinates: self.coordinates), overlaysMap: self.currentMap!)
+                
+                let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
+                polygon.overlay = savedOverlay
+                mapView.addOverlay(polygon)
             }
+
+            self.allCoordinates.append(self.coordinates)
+            
+            //UserDefaultManager.shared.saveCoordinates(self.allCoordinates)
+
+            print("calling2: \(self.allCoordinates.count)")
             addGestureRecognizerToOverlay()
             isDrawingPolygon = false
             canvasView.image = nil
@@ -155,6 +230,41 @@ class MapWalkViewController: UIViewController {
             self.selectedPencilType = .None
         }
         self.setImageTintColor()
+    }
+    
+    func convertCoordinatesToJSONString(coordinates: [CLLocationCoordinate2D]) -> String {
+        var arrayCord: [[String: Any]] = []
+        for cord in coordinates {
+            let dic: [String: Any] = ["latitude": cord.latitude, "longitude": cord.longitude]
+            arrayCord.append(dic)
+        }
+        var coordString: String = ""
+        if let data = try? JSONSerialization.data(withJSONObject: arrayCord, options: []) {
+            coordString = String(data: data, encoding: String.Encoding.utf8) ?? ""
+        }
+        return coordString
+    }
+    
+    func convertJSONStringToCoordinates(jsonString: String) -> [CLLocationCoordinate2D] {
+        var coordinates: [CLLocationCoordinate2D] = []
+        
+        if let data = jsonString.data(using: .utf8) {
+            do {
+                if let jsonArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                    for jsonCoordinate in jsonArray {
+                        if let latitude = jsonCoordinate["latitude"] as? CLLocationDegrees,
+                            let longitude = jsonCoordinate["longitude"] as? CLLocationDegrees {
+                            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                            coordinates.append(coordinate)
+                        }
+                    }
+                }
+            } catch {
+                print("Error decoding JSON string to coordinates: \(error)")
+            }
+        }
+        
+        return coordinates
     }
     
     @IBAction func btnCurrentLocationAction(_ sender: Any) {
@@ -191,17 +301,17 @@ class MapWalkViewController: UIViewController {
 
 extension MapWalkViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let polygon = overlay as? MKPolygon {
+        if let polygon = overlay as? MapPolygon {
             let overlayPathView = MKPolygonRenderer(polygon: polygon)
-            if self.selectedPencilType == .Avoid {
+            if polygon.overlay?.color == "red" {
                 overlayPathView.fillColor = self.redColor.withAlphaComponent(0.2)
                 overlayPathView.strokeColor = self.redColor.withAlphaComponent(0.7)
             }
-            else if self.selectedPencilType == .Pretty {
+            else if polygon.overlay?.color == "pretty" {
                 overlayPathView.fillColor = self.blueColor.withAlphaComponent(0.2)
                 overlayPathView.strokeColor = self.blueColor.withAlphaComponent(0.7)
             }
-            else if self.selectedPencilType == .Shop {
+            else if polygon.overlay?.color == "green" {
                 overlayPathView.fillColor = self.greenColor.withAlphaComponent(0.2)
                 overlayPathView.strokeColor = self.greenColor.withAlphaComponent(0.7)
             }
@@ -220,9 +330,10 @@ extension MapWalkViewController: MKMapViewDelegate {
         }
         return MKOverlayRenderer()
     }
+    
     func addGestureRecognizerToOverlay() {
         for overlay in mapView.overlays {
-            if overlay is MKPolygon {
+            if overlay is MapPolygon {
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
                 mapView.addGestureRecognizer(tapGesture)
             }
@@ -234,7 +345,7 @@ extension MapWalkViewController: MKMapViewDelegate {
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
 
         for overlay in mapView.overlays {
-            if let polygon = overlay as? MKPolygon {
+            if let polygon = overlay as? MapPolygon {
                 if isCoordinateInsidePolygon(coordinate, polygon: polygon) {
                     // Handle tap on the specific overlay here
                     print("Tapped on the overlay")
@@ -266,24 +377,5 @@ extension MapWalkViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         return nil
-        /*if annotation is MKUserLocation {
-            return nil
-        }
-
-        let annotationIdentifier = "CustomAnnotation"
-
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView?.image = UIImage(systemName: "location.north.circle.fill")
-            annotationView?.alpha = 1
-        } else {
-            annotationView?.annotation = annotation
-        }
-
-        annotationView?.canShowCallout = true
-        
-        return annotationView*/
     }
 }
