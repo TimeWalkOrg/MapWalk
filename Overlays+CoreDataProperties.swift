@@ -2,7 +2,7 @@
 //  Overlays+CoreDataProperties.swift
 //  MapWalk
 //
-//  Created by MyMac on 15/09/23.
+//  Created by MyMac on 18/09/23.
 //
 //
 
@@ -16,10 +16,11 @@ extension Overlays {
         return NSFetchRequest<Overlays>(entityName: "Overlays")
     }
 
-    @NSManaged public var overlayID: Int32
     @NSManaged public var color: String?
-    @NSManaged public var note: String?
     @NSManaged public var coordinates: String?
+    @NSManaged public var note: String?
+    @NSManaged public var overlayID: Int32
+    @NSManaged public var isLine: Bool
     @NSManaged public var overlaysMap: Map?
 
 }

@@ -12,6 +12,7 @@ class CanvasView: UIImageView {
     weak var delegate: MapWalkViewController?
     private var location: CGPoint = .zero
     var selectedColor = UIColor.blue
+    var drawingType = DrawingType.None
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -27,9 +28,16 @@ class CanvasView: UIImageView {
         UIGraphicsBeginImageContext(frame.size)
         if let ctx = UIGraphicsGetCurrentContext() {
             image?.draw(in: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-            ctx.setLineCap(.round)
-            ctx.setLineWidth(2.5)
-            ctx.setStrokeColor(selectedColor.withAlphaComponent(0.7).cgColor)
+            if drawingType == .EncirclingArea {
+                ctx.setLineCap(.round)
+                ctx.setLineWidth(2.5)
+                ctx.setStrokeColor(selectedColor.withAlphaComponent(0.7).cgColor)
+            }
+            else {
+                ctx.setLineCap(.square)
+                ctx.setLineWidth(5)
+                ctx.setStrokeColor(selectedColor.withAlphaComponent(0.7).cgColor)
+            }
             ctx.beginPath()
             ctx.move(to: CGPoint(x: location.x, y: location.y))
             ctx.addLine(to: CGPoint(x: currentLocation.x, y: currentLocation.y))
@@ -49,8 +57,14 @@ class CanvasView: UIImageView {
         UIGraphicsBeginImageContext(frame.size)
         if let ctx = UIGraphicsGetCurrentContext() {
             image?.draw(in: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-            ctx.setLineCap(.round)
-            ctx.setLineWidth(2.5)
+            if drawingType == .EncirclingArea {
+                ctx.setLineCap(.round)
+                ctx.setLineWidth(2.5)
+            }
+            else {
+                ctx.setLineCap(.square)
+                ctx.setLineWidth(5)
+            }
             ctx.setStrokeColor(selectedColor.withAlphaComponent(0.7).cgColor)
             ctx.beginPath()
             ctx.move(to: CGPoint(x: location.x, y: location.y))
