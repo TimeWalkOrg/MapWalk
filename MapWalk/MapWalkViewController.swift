@@ -16,22 +16,49 @@ enum PencilType {
     case None
 }
 
+enum DrawingType {
+    case EncirclingArea
+    case TracingStreet
+    case None
+}
+
 class MapWalkViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var btnMapType: UIButton!
-    @IBOutlet weak var btnAvoid: UIButton!
+    
+    @IBOutlet weak var viewAvoid: UIView!
+    @IBOutlet weak var viewPretty: UIView!
+    @IBOutlet weak var viewShop: UIView!
+    
+    @IBOutlet weak var btnAvoid: CustomButton!
+    @IBOutlet weak var btnPretty: CustomButton!
+    @IBOutlet weak var btnShop: CustomButton!
     
     @IBOutlet weak var imgAvoidPen: UIImageView!
     @IBOutlet weak var imgPrettyPen: UIImageView!
     @IBOutlet weak var imgShopPen: UIImageView!
-    
+        
     let blueColor = UIColor(red: 41.0/255.0, green: 74.0/255.0, blue: 241.0/255.0, alpha: 1.0)
     let redColor = UIColor(red: 245.0/255.0, green: 85.0/255.0, blue: 70.0/255.0, alpha: 1.0)
     let greenColor = UIColor(red: 46.0/255.0, green: 197.0/255.0, blue: 25.0/255.0, alpha: 1.0)
     let grayColor = UIColor(red: 142.0/255.0, green: 141.0/255.0, blue: 146.0/255.0, alpha: 1.0)
     
-    var selectedPencilType = PencilType.None
+    //var selectedPencilType = PencilType.None
+    var selectedPencilType = PencilType.None {
+        didSet {
+            print("selectedPencilType: \(selectedPencilType)")
+            
+        }
+    }
+    
+    //var drawingType = DrawingType.TracingStreet
+    var drawingType = DrawingType.None {
+        didSet {
+            print("drawingType: \(drawingType)")
+            
+        }
+    }
     
     var currentMapType: MKMapType = .standard {
         didSet {
@@ -48,7 +75,6 @@ class MapWalkViewController: UIViewController {
     }
     
     private var coordinates: [CLLocationCoordinate2D] = []
-    var allCoordinates: [[CLLocationCoordinate2D]] = []
     
     private var isDrawingPolygon: Bool = false
     private var canvasView: CanvasView!
@@ -88,6 +114,9 @@ class MapWalkViewController: UIViewController {
         }
         
         self.loadOverlaysOnMap()
+        self.setupDrawTypeSelectionMenu(sender: self.btnAvoid)
+        self.setupDrawTypeSelectionMenu(sender: self.btnPretty)
+        self.setupDrawTypeSelectionMenu(sender: self.btnShop)
     }
     
     func updateMap(with location: CLLocation) {
@@ -122,9 +151,17 @@ class MapWalkViewController: UIViewController {
                     for i in 0..<numberOfPoints {
                         points.append(coordinatesArray[i])
                     }
-                    let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
-                    polygon.overlay = overlay
-                    mapView.addOverlay(polygon)
+                    
+                    if overlay.isLine == true {
+                        let polyLine = MapPolyline(coordinates: &points, count: numberOfPoints)
+                        polyLine.overlay = overlay
+                        mapView.addOverlay(polyLine)
+                    }
+                    else {
+                        let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
+                        polygon.overlay = overlay
+                        mapView.addOverlay(polygon)
+                    }
                 }
             }
         }
@@ -138,20 +175,63 @@ class MapWalkViewController: UIViewController {
             currentMapType = .standard
         }
     }
+
+    func setupDrawTypeSelectionMenu(sender: CustomButton) {
+        print(sender)
+        let encirclingArea = UIAction(title: "Encircling an area", image: nil) { _ in
+            self.resetCanvasView()
+            if sender.tag == 1 {
+                self.selectedPencilType = .Avoid
+            }
+            else if sender.tag == 2 {
+                self.selectedPencilType = .Pretty
+            }
+            else {
+                self.selectedPencilType = .Shop
+            }
+            self.drawingType = .EncirclingArea
+            self.startEndDragging()
+        }
+        
+        let tracingStreet = UIAction(title: "Tracing a street", image: nil) { _ in
+            self.resetCanvasView()
+            if sender.tag == 1 {
+                self.selectedPencilType = .Avoid
+            }
+            else if sender.tag == 2 {
+                self.selectedPencilType = .Pretty
+            }
+            else {
+                self.selectedPencilType = .Shop
+            }
+            self.drawingType = .TracingStreet
+            self.startEndDragging()
+        }
+
+        sender.onContextMenuDismissed = { [weak self] in
+            print("Context menu dismissed")
+            if self?.drawingType == .None {
+                self?.setImageTintColor()
+                self?.startEndDragging()
+            }
+        }
+        sender.overrideUserInterfaceStyle = .dark
+        sender.showsMenuAsPrimaryAction = true
+        sender.menu = UIMenu(title: "", children: [tracingStreet, encirclingArea])
+    }
     
     @IBAction func btnAvoidAction(_ sender: Any) {
         self.selectedPencilType = .Avoid
-        self.startEndDragging()
     }
     
     @IBAction func btnPrettyAction(_ sender: Any) {
         self.selectedPencilType = .Pretty
-        self.startEndDragging()
+        //self.startEndDragging()
     }
     
     @IBAction func btnShopAction(_ sender: Any) {
         self.selectedPencilType = .Shop
-        self.startEndDragging()
+        //self.startEndDragging()
     }
         
     @IBAction func btnUndoAction(_ sender: Any) {
@@ -187,6 +267,7 @@ class MapWalkViewController: UIViewController {
             else if self.selectedPencilType == .Shop {
                 canvasView.selectedColor = self.greenColor
             }
+            canvasView.drawingType = self.drawingType
             canvasView.isUserInteractionEnabled = true
             canvasView.delegate = self
             view.addSubview(canvasView)
@@ -213,23 +294,32 @@ class MapWalkViewController: UIViewController {
                 
                 let savedOverlay = CoreDataManager.shared.saveOverlay(color: color, note: "", coordinates: self.convertCoordinatesToJSONString(coordinates: self.coordinates), overlaysMap: self.currentMap!)
                 
-                let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
-                polygon.overlay = savedOverlay
-                mapView.addOverlay(polygon)
+                if self.drawingType == .EncirclingArea {
+                    let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
+                    polygon.overlay = savedOverlay
+                    mapView.addOverlay(polygon)
+                }
+                else {
+                    let polyLine = MapPolyline(coordinates: &points, count: numberOfPoints)
+                    polyLine.overlay = savedOverlay
+                    mapView.addOverlay(polyLine)
+                }
+                
+                self.addGestureRecognizerToOverlay()
             }
-
-            self.allCoordinates.append(self.coordinates)
             
-            //UserDefaultManager.shared.saveCoordinates(self.allCoordinates)
-
-            print("calling2: \(self.allCoordinates.count)")
-            addGestureRecognizerToOverlay()
-            isDrawingPolygon = false
-            canvasView.image = nil
-            canvasView.removeFromSuperview()
-            self.selectedPencilType = .None
+            self.resetCanvasView()
         }
         self.setImageTintColor()
+    }
+    
+    func resetCanvasView() {
+        isDrawingPolygon = false
+        self.selectedPencilType = .None
+        if canvasView != nil {
+            canvasView.image = nil
+            canvasView.removeFromSuperview()
+        }
     }
     
     func convertCoordinatesToJSONString(coordinates: [CLLocationCoordinate2D]) -> String {
@@ -273,6 +363,10 @@ class MapWalkViewController: UIViewController {
     }
     
     func setImageTintColor() {
+        self.viewAvoid.backgroundColor = self.selectedPencilType == .Avoid ? .white : .clear
+        self.viewPretty.backgroundColor = self.selectedPencilType == .Pretty ? .white : .clear
+        self.viewShop.backgroundColor = self.selectedPencilType == .Shop ? .white : .clear
+        
         self.imgAvoidPen.tintColor = self.selectedPencilType == .Avoid ? self.redColor : self.grayColor
         self.imgPrettyPen.tintColor = self.selectedPencilType == .Pretty ? self.blueColor : self.grayColor
         self.imgShopPen.tintColor = self.selectedPencilType == .Shop ? self.greenColor : self.grayColor
@@ -322,10 +416,22 @@ extension MapWalkViewController: MKMapViewDelegate {
             overlayPathView.lineWidth = 2.5
             return overlayPathView
         }
-        else if let polyline = overlay as? MKPolyline {
+        else if let polyline = overlay as? MapPolyline {
             let overlayPathView = MKPolylineRenderer(polyline: polyline)
-            overlayPathView.strokeColor = UIColor.blue.withAlphaComponent(0.7)
-            overlayPathView.lineWidth = 2.5
+            
+            if polyline.overlay?.color == "red" {
+                overlayPathView.strokeColor = self.redColor.withAlphaComponent(0.7)
+            }
+            else if polyline.overlay?.color == "pretty" {
+                overlayPathView.strokeColor = self.blueColor.withAlphaComponent(0.7)
+            }
+            else if polyline.overlay?.color == "green" {
+                overlayPathView.strokeColor = self.greenColor.withAlphaComponent(0.7)
+            }
+            else {
+                overlayPathView.strokeColor = UIColor.blue.withAlphaComponent(0.7)
+            }
+            overlayPathView.lineWidth = 10
             return overlayPathView
         }
         return MKOverlayRenderer()
@@ -334,6 +440,10 @@ extension MapWalkViewController: MKMapViewDelegate {
     func addGestureRecognizerToOverlay() {
         for overlay in mapView.overlays {
             if overlay is MapPolygon {
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+                mapView.addGestureRecognizer(tapGesture)
+            }
+            else if overlay is MapPolyline {
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
                 mapView.addGestureRecognizer(tapGesture)
             }
@@ -379,3 +489,4 @@ extension MapWalkViewController: MKMapViewDelegate {
         return nil
     }
 }
+

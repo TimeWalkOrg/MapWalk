@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F2D6E292AB8295500ACE87D /* MapPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E282AB8295500ACE87D /* MapPolyline.swift */; };
+		5F2D6E2C2AB84F8300ACE87D /* Overlays+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E2A2AB84F8300ACE87D /* Overlays+CoreDataClass.swift */; };
+		5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E2B2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift */; };
+		5F2D6E2F2AB8728100ACE87D /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E2E2AB8728100ACE87D /* CustomButton.swift */; };
 		5F460CC32AB1E2690053887A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CC22AB1E2690053887A /* AppDelegate.swift */; };
 		5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CC42AB1E2690053887A /* SceneDelegate.swift */; };
 		5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CC82AB1E2690053887A /* Main.storyboard */; };
@@ -22,8 +26,6 @@
 		5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CFE2AB1E2C90053887A /* MapWalkViewController.swift */; };
 		5F69D2A32AB432F900AAF34E /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2A22AB432F900AAF34E /* UserDefaultManager.swift */; };
 		5F69D2BA2AB44E0F00AAF34E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2B92AB44E0F00AAF34E /* CoreDataManager.swift */; };
-		5F69D2C12AB451A100AAF34E /* Overlays+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2BD2AB451A100AAF34E /* Overlays+CoreDataClass.swift */; };
-		5F69D2C22AB451A100AAF34E /* Overlays+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2BE2AB451A100AAF34E /* Overlays+CoreDataProperties.swift */; };
 		5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */; };
 		5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */; };
 		5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C52AB469E400AAF34E /* MapPolygon.swift */; };
@@ -47,6 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F2D6E282AB8295500ACE87D /* MapPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolyline.swift; sourceTree = "<group>"; };
+		5F2D6E2A2AB84F8300ACE87D /* Overlays+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Overlays+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		5F2D6E2B2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Overlays+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		5F2D6E2E2AB8728100ACE87D /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		5F460CBF2AB1E2690053887A /* MapWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F460CC22AB1E2690053887A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F460CC42AB1E2690053887A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,8 +72,6 @@
 		5F460CFE2AB1E2C90053887A /* MapWalkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapWalkViewController.swift; sourceTree = "<group>"; };
 		5F69D2A22AB432F900AAF34E /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		5F69D2B92AB44E0F00AAF34E /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		5F69D2BD2AB451A100AAF34E /* Overlays+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Overlays+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		5F69D2BE2AB451A100AAF34E /* Overlays+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Overlays+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C52AB469E400AAF34E /* MapPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolygon.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 				5F460CF82AB1E29D0053887A /* CanvasView.swift */,
 				5F460CF72AB1E29C0053887A /* Extensions.swift */,
 				5F69D2C52AB469E400AAF34E /* MapPolygon.swift */,
+				5F2D6E282AB8295500ACE87D /* MapPolyline.swift */,
+				5F2D6E2E2AB8728100ACE87D /* CustomButton.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -168,8 +174,8 @@
 		5F69D2A42AB44D2300AAF34E /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				5F69D2BD2AB451A100AAF34E /* Overlays+CoreDataClass.swift */,
-				5F69D2BE2AB451A100AAF34E /* Overlays+CoreDataProperties.swift */,
+				5F2D6E2A2AB84F8300ACE87D /* Overlays+CoreDataClass.swift */,
+				5F2D6E2B2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift */,
 				5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */,
 				5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */,
 			);
@@ -307,19 +313,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F69D2C22AB451A100AAF34E /* Overlays+CoreDataProperties.swift in Sources */,
 				5F460CFA2AB1E29D0053887A /* Extensions.swift in Sources */,
 				5F460CF92AB1E29D0053887A /* LocationManager.swift in Sources */,
 				5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */,
 				5F69D2A32AB432F900AAF34E /* UserDefaultManager.swift in Sources */,
+				5F2D6E2F2AB8728100ACE87D /* CustomButton.swift in Sources */,
 				5F460CFB2AB1E29D0053887A /* CanvasView.swift in Sources */,
 				5F460CCD2AB1E2690053887A /* MapWalk.xcdatamodeld in Sources */,
+				5F2D6E2C2AB84F8300ACE87D /* Overlays+CoreDataClass.swift in Sources */,
 				5F69D2BA2AB44E0F00AAF34E /* CoreDataManager.swift in Sources */,
-				5F69D2C12AB451A100AAF34E /* Overlays+CoreDataClass.swift in Sources */,
 				5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */,
 				5F460CC32AB1E2690053887A /* AppDelegate.swift in Sources */,
 				5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */,
 				5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */,
+				5F2D6E292AB8295500ACE87D /* MapPolyline.swift in Sources */,
+				5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */,
 				5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
