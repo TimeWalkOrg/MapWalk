@@ -76,13 +76,14 @@ class CoreDataManager {
     }
     
     // MARK: - CRUD Functions Overlays on map
-    func saveOverlay(color: String, note: String, coordinates: String, overlaysMap: Map) -> Overlays {
+    func saveOverlay(color: String, note: String, coordinates: String, overlaysMap: Map, isLine: Bool) -> Overlays {
         let overlay = Overlays(context: context)
         overlay.overlayID = self.getOverlayID()
         overlay.color = color
         overlay.note = note
         overlay.coordinates = coordinates
         overlay.overlaysMap = overlaysMap
+        overlay.isLine = isLine
         
         do {
             try context.save()

@@ -275,6 +275,7 @@
                         <outlet property="imgAvoidPen" destination="HWw-vR-AtA" id="rhw-w9-Y38"/>
                         <outlet property="imgPrettyPen" destination="QPf-cK-MK7" id="8z4-nu-Msy"/>
                         <outlet property="imgShopPen" destination="d3s-9j-SLF" id="CY2-Yp-Des"/>
+                        <outlet property="lblMapWalk" destination="Tbo-1Y-HDa" id="c3l-3v-lPZ"/>
                         <outlet property="mapView" destination="pE5-tt-QUO" id="GWc-MG-13z"/>
                         <outlet property="viewAvoid" destination="wlf-02-VdX" id="hve-Po-qbF"/>
                         <outlet property="viewPretty" destination="s1L-RT-V0Q" id="gk0-2h-1xS"/>

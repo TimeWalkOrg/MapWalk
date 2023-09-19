@@ -38,28 +38,15 @@ class MapWalkViewController: UIViewController {
     @IBOutlet weak var imgAvoidPen: UIImageView!
     @IBOutlet weak var imgPrettyPen: UIImageView!
     @IBOutlet weak var imgShopPen: UIImageView!
-        
+    
     let blueColor = UIColor(red: 41.0/255.0, green: 74.0/255.0, blue: 241.0/255.0, alpha: 1.0)
     let redColor = UIColor(red: 245.0/255.0, green: 85.0/255.0, blue: 70.0/255.0, alpha: 1.0)
     let greenColor = UIColor(red: 46.0/255.0, green: 197.0/255.0, blue: 25.0/255.0, alpha: 1.0)
     let grayColor = UIColor(red: 142.0/255.0, green: 141.0/255.0, blue: 146.0/255.0, alpha: 1.0)
     
-    //var selectedPencilType = PencilType.None
-    var selectedPencilType = PencilType.None {
-        didSet {
-            print("selectedPencilType: \(selectedPencilType)")
-            
-        }
-    }
-    
-    //var drawingType = DrawingType.TracingStreet
-    var drawingType = DrawingType.None {
-        didSet {
-            print("drawingType: \(drawingType)")
-            
-        }
-    }
-    
+    var selectedPencilType = PencilType.None
+    var drawingType = DrawingType.TracingStreet
+        
     var currentMapType: MKMapType = .standard {
         didSet {
             // Update the map type
@@ -68,8 +55,10 @@ class MapWalkViewController: UIViewController {
             // Update the button image based on the map type
             if currentMapType == .standard {
                 btnMapType.setImage(UIImage(systemName: "map.fill"), for: .normal)
+                lblMapWalk.textColor = .black
             } else {
                 btnMapType.setImage(UIImage(systemName: "globe"), for: .normal)
+                lblMapWalk.textColor = .white
             }
         }
     }
@@ -79,6 +68,8 @@ class MapWalkViewController: UIViewController {
     private var isDrawingPolygon: Bool = false
     private var canvasView: CanvasView!
     var currentMap: Map?
+    var currentLocation: CLLocation?
+    @IBOutlet weak var lblMapWalk: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +101,7 @@ class MapWalkViewController: UIViewController {
         // Set up location updates handler
         LocationManager.shared.locationUpdateHandler = { [weak self] location in
             // Use the updated location for your map
+            self?.currentLocation = location
             self?.updateMap(with: location)
         }
         
@@ -120,7 +112,15 @@ class MapWalkViewController: UIViewController {
     }
     
     func updateMap(with location: CLLocation) {
-        // Update your map view with the location data
+        // Update map view with the location data
+        self.addCurrentLocationAnnotation(with: location)
+        
+        // Optionally, you can set the map's region to focus on the updated location.
+        let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func addCurrentLocationAnnotation(with location: CLLocation) {
         let annotation = MKPointAnnotation()
         annotation.coordinate = location.coordinate
         
@@ -128,12 +128,8 @@ class MapWalkViewController: UIViewController {
         annotation.title = "Current Location"
         
         // Clear existing annotations and add the new one.
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.addAnnotation(annotation)
-        
-        // Optionally, you can set the map's region to focus on the updated location.
-        let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
-        mapView.setRegion(region, animated: true)
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        self.mapView.addAnnotation(annotation)
     }
 
     func loadOverlaysOnMap() {
@@ -168,16 +164,30 @@ class MapWalkViewController: UIViewController {
     }
     
     @IBAction func btnMapTypeAction(_ sender: Any) {
-        // Toggle between map types when the button is tapped
-        if currentMapType == .standard {
-            currentMapType = .satellite
-        } else {
-            currentMapType = .standard
+        DispatchQueue.main.async {
+            self.btnMapType.isEnabled = false
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            for overlay in self.mapView.overlays {
+                self.mapView.removeOverlay(overlay)
+            }
+            
+            if self.currentMapType == .standard {
+                self.currentMapType = .satellite
+            } else {
+                self.currentMapType = .standard
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let location = self.currentLocation {
+                self.loadOverlaysOnMap()
+                self.btnMapType.isEnabled = true
+                self.addCurrentLocationAnnotation(with: location)
+            }
         }
     }
 
     func setupDrawTypeSelectionMenu(sender: CustomButton) {
-        print(sender)
         let encirclingArea = UIAction(title: "Encircling an area", image: nil) { _ in
             self.resetCanvasView()
             if sender.tag == 1 {
@@ -292,7 +302,7 @@ class MapWalkViewController: UIViewController {
                     color = "green"
                 }
                 
-                let savedOverlay = CoreDataManager.shared.saveOverlay(color: color, note: "", coordinates: self.convertCoordinatesToJSONString(coordinates: self.coordinates), overlaysMap: self.currentMap!)
+                let savedOverlay = CoreDataManager.shared.saveOverlay(color: color, note: "", coordinates: self.convertCoordinatesToJSONString(coordinates: self.coordinates), overlaysMap: self.currentMap!, isLine: self.drawingType == .EncirclingArea ? false : true)
                 
                 if self.drawingType == .EncirclingArea {
                     let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
@@ -434,6 +444,7 @@ extension MapWalkViewController: MKMapViewDelegate {
             overlayPathView.lineWidth = 10
             return overlayPathView
         }
+        
         return MKOverlayRenderer()
     }
     
