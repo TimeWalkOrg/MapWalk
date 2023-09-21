@@ -43,8 +43,11 @@ class CoreDataManager {
         var mapID: Int32 = 0
         let maps = self.getMap()
         if maps.count > 0 {
-            let mostRecentMap = maps.last
-            mapID = mostRecentMap?.mapID ?? 0
+            if let lastMap = maps.max(by: { ($0.mapID) < ($1.mapID) }) {
+                mapID = lastMap.mapID
+            }
+            //let mostRecentMap = maps.last
+            //mapID = mostRecentMap?.mapID ?? 0
         }
         mapID += 1
         return Int32(mapID)
@@ -98,10 +101,12 @@ class CoreDataManager {
         var overlayID: Int32 = 0
         let overlays = self.getOverlays()
         if overlays.count > 0 {
-            let mostRecentOverlay = overlays.last
-            overlayID = mostRecentOverlay?.overlayID ?? 0
+            if let lastOverlay = overlays.max(by: { ($0.overlayID) < ($1.overlayID) }) {
+                overlayID = lastOverlay.overlayID
+            }
         }
         overlayID += 1
+        print("saved overlayID: \(overlayID)")
         return Int32(overlayID)
     }
     
