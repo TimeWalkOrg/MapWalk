@@ -22,8 +22,7 @@ enum DrawingType {
     case None
 }
 
-class MapWalkViewController: UIViewController {
-    
+class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, CustomMenuDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var btnMapType: UIButton!
     
@@ -70,6 +69,8 @@ class MapWalkViewController: UIViewController {
     var currentMap: Map?
     var currentLocation: CLLocation?
     @IBOutlet weak var lblMapWalk: UILabel!
+    var customMenu: CustomMenuView?
+    var overlayView: CustomMenuOverlayView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,6 +139,9 @@ class MapWalkViewController: UIViewController {
         overlays = overlays.filter({$0.overlaysMap?.mapID == self.currentMap?.mapID})
         if overlays.count > 0 {
             for overlay in overlays {
+                
+                print("overlay ID: \(overlay.overlayID)")
+                
                 let coordinatesArray = self.convertJSONStringToCoordinates(jsonString: overlay.coordinates ?? "")
                 
                 let numberOfPoints = coordinatesArray.count
@@ -151,14 +155,21 @@ class MapWalkViewController: UIViewController {
                     if overlay.isLine == true {
                         let polyLine = MapPolyline(coordinates: &points, count: numberOfPoints)
                         polyLine.overlay = overlay
-                        mapView.addOverlay(polyLine)
+                        DispatchQueue.main.async(execute: {
+                            self.mapView.addOverlay(polyLine)
+                        })
                     }
                     else {
                         let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
                         polygon.overlay = overlay
-                        mapView.addOverlay(polygon)
+                        DispatchQueue.main.async(execute: {
+                            self.mapView.addOverlay(polygon)
+                        })
                     }
                 }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.addGestureRecognizerToOverlay()
             }
         }
     }
@@ -219,7 +230,6 @@ class MapWalkViewController: UIViewController {
         }
 
         sender.onContextMenuDismissed = { [weak self] in
-            print("Context menu dismissed")
             if self?.drawingType == .None {
                 self?.setImageTintColor()
                 self?.startEndDragging()
@@ -307,12 +317,16 @@ class MapWalkViewController: UIViewController {
                 if self.drawingType == .EncirclingArea {
                     let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
                     polygon.overlay = savedOverlay
-                    mapView.addOverlay(polygon)
+                    DispatchQueue.main.async(execute: {
+                        self.mapView.addOverlay(polygon)
+                    })
                 }
                 else {
                     let polyLine = MapPolyline(coordinates: &points, count: numberOfPoints)
                     polyLine.overlay = savedOverlay
-                    mapView.addOverlay(polyLine)
+                    DispatchQueue.main.async(execute: {
+                        self.mapView.addOverlay(polyLine)
+                    })
                 }
                 
                 self.addGestureRecognizerToOverlay()
@@ -324,8 +338,9 @@ class MapWalkViewController: UIViewController {
     }
     
     func resetCanvasView() {
-        isDrawingPolygon = false
+        self.isDrawingPolygon = false
         self.selectedPencilType = .None
+        self.drawingType = .None
         if canvasView != nil {
             canvasView.image = nil
             canvasView.removeFromSuperview()
@@ -406,7 +421,10 @@ class MapWalkViewController: UIViewController {
 extension MapWalkViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polygon = overlay as? MapPolygon {
-            let overlayPathView = MKPolygonRenderer(polygon: polygon)
+            
+            //let overlayPathView = MKPolygonRenderer(polygon: polygon)
+            let overlayPathView = ConstantWidthPolygonRenderer(polygon: polygon)
+            
             if polygon.overlay?.color == "red" {
                 overlayPathView.fillColor = self.redColor.withAlphaComponent(0.2)
                 overlayPathView.strokeColor = self.redColor.withAlphaComponent(0.7)
@@ -423,12 +441,13 @@ extension MapWalkViewController: MKMapViewDelegate {
                 overlayPathView.fillColor = UIColor.cyan.withAlphaComponent(0.2)
                 overlayPathView.strokeColor = UIColor.blue.withAlphaComponent(0.7)
             }
-            overlayPathView.lineWidth = 2.5
+            overlayPathView.lineWidth = 30
             return overlayPathView
         }
         else if let polyline = overlay as? MapPolyline {
-            let overlayPathView = MKPolylineRenderer(polyline: polyline)
-            
+            //let overlayPathView = MKPolylineRenderer(polyline: polyline)
+            let overlayPathView = ConstantWidthPolylineRenderer(polyline: polyline)
+
             if polyline.overlay?.color == "red" {
                 overlayPathView.strokeColor = self.redColor.withAlphaComponent(0.7)
             }
@@ -441,7 +460,7 @@ extension MapWalkViewController: MKMapViewDelegate {
             else {
                 overlayPathView.strokeColor = UIColor.blue.withAlphaComponent(0.7)
             }
-            overlayPathView.lineWidth = 10
+            overlayPathView.lineWidth = 80
             return overlayPathView
         }
         
@@ -449,31 +468,153 @@ extension MapWalkViewController: MKMapViewDelegate {
     }
     
     func addGestureRecognizerToOverlay() {
+        print("addGestureRecognizerToOverlay()")
         for overlay in mapView.overlays {
             if overlay is MapPolygon {
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+                let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+                //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
                 mapView.addGestureRecognizer(tapGesture)
             }
             else if overlay is MapPolyline {
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+                let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
                 mapView.addGestureRecognizer(tapGesture)
             }
         }
     }
     
-    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+    /*@objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         let location = gesture.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
-
-        for overlay in mapView.overlays {
-            if let polygon = overlay as? MapPolygon {
-                if isCoordinateInsidePolygon(coordinate, polygon: polygon) {
-                    // Handle tap on the specific overlay here
-                    print("Tapped on the overlay")
-                    break
+        if gesture.state == .began {
+            
+            for overlay in mapView.overlays {
+                if let polygon = overlay as? MapPolygon {
+                    if isCoordinateInsidePolygon(coordinate, polygon: polygon) {
+                        // Handle tap on the specific overlay here
+                        print("Long press on the overlay")
+                        break
+                    }
                 }
             }
         }
+        else {
+            return
+        }
+    }*/
+    
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: mapView)
+            let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+            
+            // Iterate through your overlays to check if the long press is inside any of them
+            for overlay in mapView.overlays {
+                if overlay is MapPolygon { // You can check for other overlay types too
+                    if let polygonRenderer = mapView.renderer(for: overlay) as? MKPolygonRenderer {
+                        let mapPoint = MKMapPoint(coordinate)
+                        let polygonViewPoint = polygonRenderer.point(for: mapPoint)
+                        
+                        if polygonRenderer.path.contains(polygonViewPoint) {
+                            // Long press is inside this overlay
+                            self.showCustomMenu(at: touchPoint, polygonOverlay: overlay as? MapPolygon, polylineOverlay: nil)
+                            break
+                        }
+                    }
+                }
+                else if overlay is MapPolyline { // You can check for other overlay types too
+                    if let polygonRenderer = mapView.renderer(for: overlay) as? MKPolylineRenderer {
+                        let mapPoint = MKMapPoint(coordinate)
+                        let polygonViewPoint = polygonRenderer.point(for: mapPoint)
+                        
+                        if polygonRenderer.path.contains(polygonViewPoint) {
+                            // Long press is inside this overlay
+                            self.showCustomMenu(at: touchPoint, polygonOverlay: nil, polylineOverlay: overlay as? MapPolyline)
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Handle the Add action
+    func didSelectAdd(polygonOverlay: MapPolygon?, polyLineOverlay: MapPolyline?) {
+        dismissCustomMenu()
+    }
+    
+    func didSelectDelete(polygonOverlay: MapPolygon?, polyLineOverlay: MapPolyline?) {
+        dismissCustomMenu()
+        
+        if polygonOverlay != nil {
+            CoreDataManager.shared.deleteOverlay(overlayID: polygonOverlay?.overlay?.overlayID ?? 0)
+            
+            DispatchQueue.main.async {
+                // Remove the last drawn shape's coordinates
+                for overlay in self.mapView.overlays {
+                    if let ov = overlay as? MapPolygon, ov.overlay?.overlayID == polygonOverlay?.overlay?.overlayID {
+                        self.mapView.removeOverlay(overlay)
+                    }
+                }
+            }
+        }
+        else if polyLineOverlay != nil {
+            CoreDataManager.shared.deleteOverlay(overlayID: polyLineOverlay?.overlay?.overlayID ?? 0)
+            DispatchQueue.main.async {
+                // Remove the last drawn shape's coordinates
+                for overlay in self.mapView.overlays {
+                    if let ov = overlay as? MapPolyline, ov.overlay?.overlayID == polyLineOverlay?.overlay?.overlayID {
+                        self.mapView.removeOverlay(overlay)
+                    }
+                }
+            }
+        }
+        else {
+            //Nothing
+        }
+        
+        
+    }
+    
+    func showCustomMenu(at point: CGPoint, polygonOverlay: MapPolygon?, polylineOverlay: MapPolyline?) {
+        if customMenu == nil {
+            // Add the overlay view
+            overlayView = CustomMenuOverlayView(frame: mapView.bounds)
+            overlayView?.dismissAction = {
+                self.dismissCustomMenu()
+            }
+            mapView.addSubview(overlayView!)
+            
+            let menuWidth: CGFloat = 160
+            let menuHeight: CGFloat = 81
+            
+            let initialFrame = CGRect(x: point.x, y: point.y, width: 0, height: 0)
+            let expandedFrame = CGRect(x: initialFrame.origin.x, y: initialFrame.origin.y, width: menuWidth, height: menuHeight)
+
+            if polygonOverlay != nil {
+                customMenu = CustomMenuView(frame: initialFrame, delegate: self, polygonOverlay: polygonOverlay, polyLineOverlay: nil)
+            }
+            else if polylineOverlay != nil {
+                customMenu = CustomMenuView(frame: initialFrame, delegate: self, polygonOverlay: nil, polyLineOverlay: polylineOverlay)
+            }
+            
+            mapView.addSubview(customMenu!)
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.customMenu?.frame = expandedFrame
+            }) { _ in
+                // Animation completion block
+                self.customMenu?.showButtons()
+            }
+        }
+    }
+    
+    // Function to dismiss the custom menu
+    func dismissCustomMenu() {
+        customMenu?.removeFromSuperview()
+        customMenu = nil
+        
+        overlayView?.removeFromSuperview()
+        overlayView = nil
     }
     
     func isCoordinateInsidePolygon(_ coordinate: CLLocationCoordinate2D, polygon: MKPolygon) -> Bool {
@@ -499,5 +640,27 @@ extension MapWalkViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         return nil
     }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+            return nil
+        }
+    
+    func mapView(_ mapView: MKMapView, contextMenuInteraction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
 }
 
+
+class ConstantWidthPolygonRenderer: MKPolygonRenderer {
+    override func applyStrokeProperties(to context: CGContext, atZoomScale zoomScale: MKZoomScale) {
+        super.applyStrokeProperties(to: context, atZoomScale: zoomScale)
+        context.setLineWidth(self.lineWidth)
+    }
+}
+
+class ConstantWidthPolylineRenderer: MKPolylineRenderer {
+    override func applyStrokeProperties(to context: CGContext, atZoomScale zoomScale: MKZoomScale) {
+        super.applyStrokeProperties(to: context, atZoomScale: zoomScale)
+        context.setLineWidth(self.lineWidth)
+    }
+}

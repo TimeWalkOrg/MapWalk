@@ -29,6 +29,8 @@
 		5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */; };
 		5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */; };
 		5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C52AB469E400AAF34E /* MapPolygon.swift */; };
+		5FA7686D2ABC482200E01722 /* CustomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686C2ABC482200E01722 /* CustomMenuView.swift */; };
+		5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C52AB469E400AAF34E /* MapPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolygon.swift; sourceTree = "<group>"; };
+		5FA7686C2ABC482200E01722 /* CustomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuView.swift; sourceTree = "<group>"; };
+		5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +171,8 @@
 				5F69D2C52AB469E400AAF34E /* MapPolygon.swift */,
 				5F2D6E282AB8295500ACE87D /* MapPolyline.swift */,
 				5F2D6E2E2AB8728100ACE87D /* CustomButton.swift */,
+				5FA7686C2ABC482200E01722 /* CustomMenuView.swift */,
+				5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -313,6 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FA7686D2ABC482200E01722 /* CustomMenuView.swift in Sources */,
 				5F460CFA2AB1E29D0053887A /* Extensions.swift in Sources */,
 				5F460CF92AB1E29D0053887A /* LocationManager.swift in Sources */,
 				5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */,
@@ -327,6 +334,7 @@
 				5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */,
 				5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */,
 				5F2D6E292AB8295500ACE87D /* MapPolyline.swift in Sources */,
+				5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */,
 				5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */,
 				5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */,
 			);

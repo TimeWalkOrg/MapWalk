@@ -30,7 +30,7 @@ class CanvasView: UIImageView {
             image?.draw(in: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
             if drawingType == .EncirclingArea {
                 ctx.setLineCap(.round)
-                ctx.setLineWidth(2.5)
+                ctx.setLineWidth(2)
                 ctx.setStrokeColor(selectedColor.withAlphaComponent(0.7).cgColor)
             }
             else {
@@ -59,7 +59,7 @@ class CanvasView: UIImageView {
             image?.draw(in: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
             if drawingType == .EncirclingArea {
                 ctx.setLineCap(.round)
-                ctx.setLineWidth(2.5)
+                ctx.setLineWidth(2)
             }
             else {
                 ctx.setLineCap(.square)

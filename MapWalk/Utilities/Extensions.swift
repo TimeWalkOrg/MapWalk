@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 extension UIColor {
     convenience init(hexString: String) {
@@ -59,8 +60,21 @@ extension UIApplication {
     }
 }
 
-
-
-
-
-
+extension UIButton {
+    
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+        
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = path.cgPath
+        borderLayer.lineWidth = borderWidth
+        borderLayer.strokeColor = borderColor.cgColor
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.frame = bounds
+        layer.addSublayer(borderLayer)
+    }
+}
