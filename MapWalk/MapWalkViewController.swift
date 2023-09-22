@@ -29,6 +29,8 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
     @IBOutlet weak var viewAvoid: UIView!
     @IBOutlet weak var viewPretty: UIView!
     @IBOutlet weak var viewShop: UIView!
+    @IBOutlet weak var viewTopButton: UIView!
+    @IBOutlet weak var btnMenu: UIButton!
     
     @IBOutlet weak var btnAvoid: CustomButton!
     @IBOutlet weak var btnPretty: CustomButton!
@@ -52,11 +54,12 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
             mapView.mapType = currentMapType
             
             // Update the button image based on the map type
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .unspecified, scale: .large)
             if currentMapType == .standard {
-                btnMapType.setImage(UIImage(systemName: "map.fill"), for: .normal)
+                btnMapType.setImage(UIImage(systemName: "map.fill", withConfiguration: largeConfig), for: .normal)
                 lblMapWalk.textColor = .black
             } else {
-                btnMapType.setImage(UIImage(systemName: "globe"), for: .normal)
+                btnMapType.setImage(UIImage(systemName: "globe.americas.fill", withConfiguration: largeConfig), for: .normal)
                 lblMapWalk.textColor = .white
             }
         }
@@ -110,6 +113,57 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
         self.setupDrawTypeSelectionMenu(sender: self.btnAvoid)
         self.setupDrawTypeSelectionMenu(sender: self.btnPretty)
         self.setupDrawTypeSelectionMenu(sender: self.btnShop)
+        
+        self.btnMenu.layer.cornerRadius = 10
+        self.btnMenu.layer.masksToBounds = true
+        self.setupMenuOptions()
+        
+        self.viewTopButton.layer.cornerRadius = 10
+        self.viewTopButton.layer.shadowColor = UIColor.black.cgColor
+        self.viewTopButton.layer.shadowRadius = 1.5
+        self.viewTopButton.layer.shadowOpacity = 0.3
+        self.viewTopButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+    }
+    /*
+     
+     */
+    func setupMenuOptions() {
+        let exportKml = UIAction(title: "Export KML", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+            let kmlContent = KMLExporter.generateKML(from: self.mapView.overlays)
+            
+            if let kmlData = kmlContent.data(using: .utf8) {
+                // Define the file URL with the .kml extension
+                let kmlFileName = "map_overlay.kml"
+                let kmlURL = FileManager.default.temporaryDirectory.appendingPathComponent(kmlFileName)
+                
+                do {
+                    // Write the KML data to the file URL
+                    try kmlData.write(to: kmlURL)
+                    
+                    // Create an activity view controller to share the file
+                    let activityViewController = UIActivityViewController(activityItems: [kmlURL], applicationActivities: nil)
+                    activityViewController.popoverPresentationController?.sourceView = self.view
+                    
+                    // Present the activity view controller
+                    self.present(activityViewController, animated: true, completion: nil)
+                } catch {
+                    // Handle any errors that occur during file writing
+                    print("Error writing KML file: \(error.localizedDescription)")
+                }
+            }
+        }
+        
+        let option1 = UIAction(title: "Option 1", image: nil) { _ in
+            
+        }
+        
+        let option2 = UIAction(title: "Option 2", image: nil) { _ in
+            
+        }
+                
+        self.btnMenu.overrideUserInterfaceStyle = .dark
+        self.btnMenu.showsMenuAsPrimaryAction = true
+        self.btnMenu.menu = UIMenu(title: "", children: [exportKml, option1, option2])
     }
     
     func updateMap(with location: CLLocation) {
@@ -387,6 +441,10 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
         LocationManager.shared.startUpdatingLocation()
     }
     
+    @IBAction func btnMenuAction(_ sender: Any) {
+        
+    }
+        
     func setImageTintColor() {
         self.viewAvoid.backgroundColor = self.selectedPencilType == .Avoid ? .white : .clear
         self.viewPretty.backgroundColor = self.selectedPencilType == .Pretty ? .white : .clear
