@@ -10,4 +10,5 @@ import MapKit
 
 class MapPolyline: MKPolyline {
     var overlay: Overlays?
+    var strokeColor: UIColor?
 }

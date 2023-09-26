@@ -40,14 +40,10 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
     @IBOutlet weak var imgPrettyPen: UIImageView!
     @IBOutlet weak var imgShopPen: UIImageView!
     
-    let blueColor = UIColor(red: 41.0/255.0, green: 74.0/255.0, blue: 241.0/255.0, alpha: 1.0)
-    let redColor = UIColor(red: 245.0/255.0, green: 85.0/255.0, blue: 70.0/255.0, alpha: 1.0)
-    let greenColor = UIColor(red: 46.0/255.0, green: 197.0/255.0, blue: 25.0/255.0, alpha: 1.0)
-    let grayColor = UIColor(red: 142.0/255.0, green: 141.0/255.0, blue: 146.0/255.0, alpha: 1.0)
     
     var selectedPencilType = PencilType.None
     var drawingType = DrawingType.TracingStreet
-        
+    
     var currentMapType: MKMapType = .standard {
         didSet {
             // Update the map type
@@ -57,7 +53,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
             let largeConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .unspecified, scale: .large)
             if currentMapType == .standard {
                 btnMapType.setImage(UIImage(systemName: "map.fill", withConfiguration: largeConfig), for: .normal)
-                lblMapWalk.textColor = .black
+                lblMapWalk.textColor = .white
             } else {
                 btnMapType.setImage(UIImage(systemName: "globe.americas.fill", withConfiguration: largeConfig), for: .normal)
                 lblMapWalk.textColor = .white
@@ -98,7 +94,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
         }
         
         self.mapView.delegate = self
-        
+        self.mapView.overrideUserInterfaceStyle = .dark
         // Request location permission if needed
         LocationManager.shared.requestLocationPermission()
         
@@ -124,12 +120,10 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
         self.viewTopButton.layer.shadowOpacity = 0.3
         self.viewTopButton.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
-    /*
-     
-     */
+    
     func setupMenuOptions() {
         let exportKml = UIAction(title: "Export KML", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-            let kmlContent = KMLExporter.generateKML(from: self.mapView.overlays)
+            let kmlContent = KMLExporter.generateKML(from: self.mapView.overlays, mapView: self.mapView)
             
             if let kmlData = kmlContent.data(using: .utf8) {
                 // Define the file URL with the .kml extension
@@ -160,15 +154,16 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
         let option2 = UIAction(title: "Option 2", image: nil) { _ in
             
         }
-                
+        
         self.btnMenu.overrideUserInterfaceStyle = .dark
         self.btnMenu.showsMenuAsPrimaryAction = true
         self.btnMenu.menu = UIMenu(title: "", children: [exportKml, option1, option2])
     }
     
     func updateMap(with location: CLLocation) {
+        mapView.showsUserLocation = true
         // Update map view with the location data
-        self.addCurrentLocationAnnotation(with: location)
+        //self.addCurrentLocationAnnotation(with: location)
         
         // Optionally, you can set the map's region to focus on the updated location.
         let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
@@ -209,6 +204,16 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
                     if overlay.isLine == true {
                         let polyLine = MapPolyline(coordinates: &points, count: numberOfPoints)
                         polyLine.overlay = overlay
+                        if overlay.color == "red" {
+                            polyLine.strokeColor = AppColors.redColor.withAlphaComponent(0.7)
+                        }
+                        else if overlay.color == "blue" {
+                            polyLine.strokeColor = AppColors.blueColor.withAlphaComponent(0.7)
+
+                        }
+                        else if overlay.color == "green" {
+                            polyLine.strokeColor = AppColors.greenColor.withAlphaComponent(0.7)
+                        }
                         DispatchQueue.main.async(execute: {
                             self.mapView.addOverlay(polyLine)
                         })
@@ -216,14 +221,49 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
                     else {
                         let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
                         polygon.overlay = overlay
+                        if overlay.color == "red" {
+                            polygon.fillColor = AppColors.redColor.withAlphaComponent(0.2)
+                            polygon.strokeColor = AppColors.redColor.withAlphaComponent(0.7)
+
+                        }
+                        else if overlay.color == "blue" {
+                            polygon.fillColor = AppColors.blueColor.withAlphaComponent(0.2)
+                            polygon.strokeColor = AppColors.blueColor.withAlphaComponent(0.7)
+
+                        }
+                        else if overlay.color == "green" {
+                            polygon.fillColor = AppColors.greenColor.withAlphaComponent(0.2)
+                            polygon.strokeColor = AppColors.greenColor.withAlphaComponent(0.7)
+                        }
                         DispatchQueue.main.async(execute: {
                             self.mapView.addOverlay(polygon)
                         })
                     }
+                    
+                    if overlay.note != "" {
+                        // Calculate the center of the polygon
+                        var centerCoordinate = CLLocationCoordinate2D()
+                        for coordinate in coordinatesArray {
+                            centerCoordinate.latitude += coordinate.latitude
+                            centerCoordinate.longitude += coordinate.longitude
+                        }
+                        centerCoordinate.latitude /= Double(coordinatesArray.count)
+                        centerCoordinate.longitude /= Double(coordinatesArray.count)
+                        
+                        // Add a pin annotation at the center of the polygon
+                        let annotation = MKPointAnnotation()
+                        annotation.coordinate = centerCoordinate
+                        annotation.title = overlay.note
+                        mapView.addAnnotation(annotation)
+                        
+                        // Adjust the map region to fit the polygon and annotation
+                        //mapView.showAnnotations([annotation], animated: true)
+                    }
                 }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.addGestureRecognizerToOverlay()
+                self.addLongGestureRecognizerToOverlay()
+                self.addTapGestureRecognizerToOverlay()
             }
         }
     }
@@ -333,13 +373,13 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
             coordinates.removeAll()
             canvasView = CanvasView(frame: mapView.frame)
             if self.selectedPencilType == .Avoid {
-                canvasView.selectedColor = self.redColor
+                canvasView.selectedColor = AppColors.redColor
             }
             else if self.selectedPencilType == .Pretty {
-                canvasView.selectedColor = self.blueColor
+                canvasView.selectedColor = AppColors.blueColor
             }
             else if self.selectedPencilType == .Shop {
-                canvasView.selectedColor = self.greenColor
+                canvasView.selectedColor = AppColors.greenColor
             }
             canvasView.drawingType = self.drawingType
             canvasView.isUserInteractionEnabled = true
@@ -371,6 +411,20 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
                 if self.drawingType == .EncirclingArea {
                     let polygon = MapPolygon(coordinates: &points, count: numberOfPoints)
                     polygon.overlay = savedOverlay
+                    if color == "red" {
+                        polygon.fillColor = AppColors.redColor.withAlphaComponent(0.2)
+                        polygon.strokeColor = AppColors.redColor.withAlphaComponent(0.7)
+                    }
+                    else if color == "blue" {
+                        polygon.fillColor = AppColors.blueColor.withAlphaComponent(0.2)
+                        polygon.strokeColor = AppColors.blueColor.withAlphaComponent(0.7)
+
+                    }
+                    else if color == "green" {
+                        polygon.fillColor = AppColors.greenColor.withAlphaComponent(0.2)
+                        polygon.strokeColor = AppColors.greenColor.withAlphaComponent(0.7)
+                    }
+
                     DispatchQueue.main.async(execute: {
                         self.mapView.addOverlay(polygon)
                     })
@@ -378,12 +432,22 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
                 else {
                     let polyLine = MapPolyline(coordinates: &points, count: numberOfPoints)
                     polyLine.overlay = savedOverlay
+                    if color == "red" {
+                        polyLine.strokeColor = AppColors.redColor.withAlphaComponent(0.7)
+                    }
+                    else if color == "blue" {
+                        polyLine.strokeColor = AppColors.blueColor.withAlphaComponent(0.7)
+                    }
+                    else if color == "green" {
+                        polyLine.strokeColor = AppColors.greenColor.withAlphaComponent(0.7)
+                    }
                     DispatchQueue.main.async(execute: {
                         self.mapView.addOverlay(polyLine)
                     })
                 }
                 
-                self.addGestureRecognizerToOverlay()
+                self.addLongGestureRecognizerToOverlay()
+                self.addTapGestureRecognizerToOverlay()
             }
             
             self.resetCanvasView()
@@ -444,15 +508,15 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
     @IBAction func btnMenuAction(_ sender: Any) {
         
     }
-        
+    
     func setImageTintColor() {
         self.viewAvoid.backgroundColor = self.selectedPencilType == .Avoid ? .white : .clear
         self.viewPretty.backgroundColor = self.selectedPencilType == .Pretty ? .white : .clear
         self.viewShop.backgroundColor = self.selectedPencilType == .Shop ? .white : .clear
         
-        self.imgAvoidPen.tintColor = self.selectedPencilType == .Avoid ? self.redColor : self.grayColor
-        self.imgPrettyPen.tintColor = self.selectedPencilType == .Pretty ? self.blueColor : self.grayColor
-        self.imgShopPen.tintColor = self.selectedPencilType == .Shop ? self.greenColor : self.grayColor
+        self.imgAvoidPen.tintColor = self.selectedPencilType == .Avoid ? AppColors.redColor : AppColors.grayColor
+        self.imgPrettyPen.tintColor = self.selectedPencilType == .Pretty ? AppColors.blueColor : AppColors.grayColor
+        self.imgShopPen.tintColor = self.selectedPencilType == .Shop ? AppColors.greenColor : AppColors.grayColor
     }
     
     //MARK: - Touch methods
@@ -472,6 +536,11 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate, Cust
         let location = touch.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         coordinates.append(coordinate)
+        
+        if coordinates.count > 0 && self.drawingType == .EncirclingArea {
+            let firstCoord = coordinates[0]
+            coordinates.append(firstCoord)
+        }
         self.startEndDragging()
     }
 }
@@ -484,16 +553,16 @@ extension MapWalkViewController: MKMapViewDelegate {
             let overlayPathView = ConstantWidthPolygonRenderer(polygon: polygon)
             
             if polygon.overlay?.color == "red" {
-                overlayPathView.fillColor = self.redColor.withAlphaComponent(0.2)
-                overlayPathView.strokeColor = self.redColor.withAlphaComponent(0.7)
+                overlayPathView.fillColor = AppColors.redColor.withAlphaComponent(0.2)
+                overlayPathView.strokeColor = AppColors.redColor.withAlphaComponent(0.7)
             }
-            else if polygon.overlay?.color == "pretty" {
-                overlayPathView.fillColor = self.blueColor.withAlphaComponent(0.2)
-                overlayPathView.strokeColor = self.blueColor.withAlphaComponent(0.7)
+            else if polygon.overlay?.color == "blue" {
+                overlayPathView.fillColor = AppColors.blueColor.withAlphaComponent(0.2)
+                overlayPathView.strokeColor = AppColors.blueColor.withAlphaComponent(0.7)
             }
             else if polygon.overlay?.color == "green" {
-                overlayPathView.fillColor = self.greenColor.withAlphaComponent(0.2)
-                overlayPathView.strokeColor = self.greenColor.withAlphaComponent(0.7)
+                overlayPathView.fillColor = AppColors.greenColor.withAlphaComponent(0.2)
+                overlayPathView.strokeColor = AppColors.greenColor.withAlphaComponent(0.7)
             }
             else {
                 overlayPathView.fillColor = UIColor.cyan.withAlphaComponent(0.2)
@@ -507,13 +576,13 @@ extension MapWalkViewController: MKMapViewDelegate {
             let overlayPathView = ConstantWidthPolylineRenderer(polyline: polyline)
 
             if polyline.overlay?.color == "red" {
-                overlayPathView.strokeColor = self.redColor.withAlphaComponent(0.7)
+                overlayPathView.strokeColor = AppColors.redColor.withAlphaComponent(0.7)
             }
-            else if polyline.overlay?.color == "pretty" {
-                overlayPathView.strokeColor = self.blueColor.withAlphaComponent(0.7)
+            else if polyline.overlay?.color == "blue" {
+                overlayPathView.strokeColor = AppColors.blueColor.withAlphaComponent(0.7)
             }
             else if polyline.overlay?.color == "green" {
-                overlayPathView.strokeColor = self.greenColor.withAlphaComponent(0.7)
+                overlayPathView.strokeColor = AppColors.greenColor.withAlphaComponent(0.7)
             }
             else {
                 overlayPathView.strokeColor = UIColor.blue.withAlphaComponent(0.7)
@@ -525,8 +594,45 @@ extension MapWalkViewController: MKMapViewDelegate {
         return MKOverlayRenderer()
     }
     
-    func addGestureRecognizerToOverlay() {
-        print("addGestureRecognizerToOverlay()")
+    // MKMapViewDelegate method to customize annotation view
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+    {
+        if !(annotation is MKPointAnnotation) {
+            return nil
+        }
+        
+        let annotationIdentifier = "AnnotationIdentifier"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+        
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView!.canShowCallout = true
+        }
+        else {
+            annotationView!.annotation = annotation
+        }
+        
+        let pinImage = UIImage(systemName: "bubble.left.fill")?.withRenderingMode(.alwaysTemplate)
+        annotationView!.image = pinImage
+        annotationView?.tintColor = .white
+        
+        return annotationView
+    }
+    
+    // MKMapViewDelegate method to handle tap on annotation's callout
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            // Handle the tap on the callout button (detail disclosure button)
+            if let title = view.annotation?.title, let subtitle = view.annotation?.subtitle {
+                let alertController = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func addLongGestureRecognizerToOverlay() {
+        print("addLongGestureRecognizerToOverlay()")
         for overlay in mapView.overlays {
             if overlay is MapPolygon {
                 let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -540,26 +646,55 @@ extension MapWalkViewController: MKMapViewDelegate {
         }
     }
     
-    /*@objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        let location = gesture.location(in: mapView)
-        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
-        if gesture.state == .began {
-            
-            for overlay in mapView.overlays {
-                if let polygon = overlay as? MapPolygon {
-                    if isCoordinateInsidePolygon(coordinate, polygon: polygon) {
-                        // Handle tap on the specific overlay here
-                        print("Long press on the overlay")
+    func addTapGestureRecognizerToOverlay() {
+        print("addTapGestureRecognizerToOverlay()")
+        for overlay in mapView.overlays {
+            if overlay is MapPolygon {
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+                mapView.addGestureRecognizer(tapGesture)
+            }
+            else if overlay is MapPolyline {
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+                mapView.addGestureRecognizer(tapGesture)
+            }
+        }
+    }
+    
+    @objc func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        let touchPoint = gestureRecognizer.location(in: mapView)
+        let coordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+        
+        // Iterate through your overlays to check if the long press is inside any of them
+        for overlay in mapView.overlays {
+            if overlay is MapPolygon { // You can check for other overlay types too
+                if let polygonRenderer = mapView.renderer(for: overlay) as? MKPolygonRenderer {
+                    let mapPoint = MKMapPoint(coordinate)
+                    let polygonViewPoint = polygonRenderer.point(for: mapPoint)
+                    
+                    if polygonRenderer.path.contains(polygonViewPoint) {
+                        // Tap is inside this overlay
+                        if let ol = overlay as? MapPolygon {
+                            print(ol.overlay?.note)
+                        }
+                        break
+                    }
+                }
+            }
+            else if overlay is MapPolyline { // You can check for other overlay types too
+                if let polygonRenderer = mapView.renderer(for: overlay) as? MKPolylineRenderer {
+                    let mapPoint = MKMapPoint(coordinate)
+                    let polygonViewPoint = polygonRenderer.point(for: mapPoint)
+                    
+                    if polygonRenderer.path.contains(polygonViewPoint) {
+                        // Long press is inside this overlay
+                        self.showCustomMenu(at: touchPoint, polygonOverlay: nil, polylineOverlay: overlay as? MapPolyline)
                         break
                     }
                 }
             }
         }
-        else {
-            return
-        }
-    }*/
-    
+    }
+        
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
             let touchPoint = gestureRecognizer.location(in: mapView)
@@ -597,6 +732,61 @@ extension MapWalkViewController: MKMapViewDelegate {
     
     // Handle the Add action
     func didSelectAdd(polygonOverlay: MapPolygon?, polyLineOverlay: MapPolyline?) {
+        
+        // Create an alert controller
+        let alertController = UIAlertController(title: "Add lable", message: nil, preferredStyle: .alert)
+
+        // Add a text field to the alert controller
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Type a label text"
+            textField.textAlignment = .left
+            textField.delegate = self
+            textField.clearButtonMode = .whileEditing
+        }
+
+        // Add a cancel action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+
+        // Add an OK action
+        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            // Access the text entered by the user
+            if let textField = alertController.textFields?.first {
+                if let enteredText = textField.text {
+                    print("Entered text: \(enteredText)")
+                    
+                    var stringCoordinate = ""
+                    if polygonOverlay != nil {
+                        CoreDataManager.shared.addUpdateNote(overlayID: polygonOverlay?.overlay?.overlayID ?? 0, note: enteredText)
+                        stringCoordinate = polygonOverlay?.overlay?.coordinates ?? ""
+                    }
+                    else {
+                        CoreDataManager.shared.addUpdateNote(overlayID: polyLineOverlay?.overlay?.overlayID ?? 0, note: enteredText)
+                        stringCoordinate = polyLineOverlay?.overlay?.coordinates ?? ""
+                    }
+                    
+                    var centerCoordinate = CLLocationCoordinate2D()
+                    let coordinatesArray = self.convertJSONStringToCoordinates(jsonString: stringCoordinate)
+                    for coordinate in coordinatesArray {
+                        centerCoordinate.latitude += coordinate.latitude
+                        centerCoordinate.longitude += coordinate.longitude
+                    }
+                    centerCoordinate.latitude /= Double(coordinatesArray.count)
+                    centerCoordinate.longitude /= Double(coordinatesArray.count)
+                    
+                    // Add a pin annotation at the center of the polygon
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = centerCoordinate
+                    annotation.title = enteredText
+                    self.mapView.addAnnotation(annotation)
+                }
+            }
+        }
+        alertController.addAction(okAction)
+
+        // Present the alert controller
+        self.present(alertController, animated: true, completion: nil)
+
         dismissCustomMenu()
     }
     
@@ -695,19 +885,14 @@ extension MapWalkViewController: MKMapViewDelegate {
         return mapRect.contains(mapPoint)
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         return nil
     }
-    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-            return nil
-        }
     
     func mapView(_ mapView: MKMapView, contextMenuInteraction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         return nil
     }
 }
-
 
 class ConstantWidthPolygonRenderer: MKPolygonRenderer {
     override func applyStrokeProperties(to context: CGContext, atZoomScale zoomScale: MKZoomScale) {
@@ -720,5 +905,23 @@ class ConstantWidthPolylineRenderer: MKPolylineRenderer {
     override func applyStrokeProperties(to context: CGContext, atZoomScale zoomScale: MKZoomScale) {
         super.applyStrokeProperties(to: context, atZoomScale: zoomScale)
         context.setLineWidth(self.lineWidth)
+    }
+}
+
+extension MapWalkViewController: UITextFieldDelegate {
+    // UITextFieldDelegate method to limit character count
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        // Check if the new text length exceeds 140 characters
+        return newText.count <= 140
+    }
+    
+    // Selector method to handle text field changes
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text, text.count > 140 {
+            textField.text = String(text.prefix(140))
+        }
     }
 }

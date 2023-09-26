@@ -10,4 +10,6 @@ import MapKit
 
 class MapPolygon: MKPolygon {
     var overlay: Overlays?
+    var strokeColor: UIColor?
+    var fillColor: UIColor?
 }
