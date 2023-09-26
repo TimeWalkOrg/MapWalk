@@ -11,6 +11,7 @@
 		5F2D6E2C2AB84F8300ACE87D /* Overlays+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E2A2AB84F8300ACE87D /* Overlays+CoreDataClass.swift */; };
 		5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E2B2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift */; };
 		5F2D6E2F2AB8728100ACE87D /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2D6E2E2AB8728100ACE87D /* CustomButton.swift */; };
+		5F3BD1102AC2C988002B1AF5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3BD10F2AC2C988002B1AF5 /* Constants.swift */; };
 		5F460CC32AB1E2690053887A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CC22AB1E2690053887A /* AppDelegate.swift */; };
 		5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CC42AB1E2690053887A /* SceneDelegate.swift */; };
 		5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CC82AB1E2690053887A /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 		5F2D6E2A2AB84F8300ACE87D /* Overlays+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Overlays+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		5F2D6E2B2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Overlays+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5F2D6E2E2AB8728100ACE87D /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		5F3BD10F2AC2C988002B1AF5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5F460CBF2AB1E2690053887A /* MapWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F460CC22AB1E2690053887A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F460CC42AB1E2690053887A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				5FA7686C2ABC482200E01722 /* CustomMenuView.swift */,
 				5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */,
 				5F909D962ABDA9A9004BBBE4 /* KMLExporter.swift */,
+				5F3BD10F2AC2C988002B1AF5 /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				5F460CC32AB1E2690053887A /* AppDelegate.swift in Sources */,
 				5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */,
 				5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */,
+				5F3BD1102AC2C988002B1AF5 /* Constants.swift in Sources */,
 				5F2D6E292AB8295500ACE87D /* MapPolyline.swift in Sources */,
 				5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */,
 				5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */,
