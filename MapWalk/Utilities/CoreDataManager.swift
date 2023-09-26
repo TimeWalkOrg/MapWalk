@@ -66,7 +66,7 @@ class CoreDataManager {
     
     func renameMap(mapID: Int32, newName: String) {
         let fetchRequest: NSFetchRequest<Map> = Map.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "mapID == %@", mapID)
+        fetchRequest.predicate = NSPredicate(format: "mapID == %d", mapID)
 
         do {
             if let map = try context.fetch(fetchRequest).first {
@@ -95,6 +95,20 @@ class CoreDataManager {
         }
         
         return overlay
+    }
+    
+    func addUpdateNote(overlayID: Int32, note: String) {
+        let fetchRequest: NSFetchRequest<Overlays> = Overlays.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "overlayID == %d", overlayID)
+
+        do {
+            if let overlay = try context.fetch(fetchRequest).first {
+                overlay.note = note
+                try context.save()
+            }
+        } catch {
+            print("Error add/update overlay: \(error)")
+        }
     }
     
     func getOverlayID() -> Int32 {
