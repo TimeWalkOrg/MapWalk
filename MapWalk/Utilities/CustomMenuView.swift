@@ -45,11 +45,12 @@ class CustomMenuView: UIView {
         return view
     }()
     
-    init(frame: CGRect, delegate: CustomMenuDelegate?, polygonOverlay: MapPolygon?, polyLineOverlay: MapPolyline?) {
+    init(frame: CGRect, delegate: CustomMenuDelegate?, polygonOverlay: MapPolygon?, polyLineOverlay: MapPolyline?, addButtonTitle: String) {
         super.init(frame: frame)
         self.delegate = delegate
         self.polygonOverlay = polygonOverlay
         self.polyLineOverlay = polyLineOverlay
+        addButton.setTitle(addButtonTitle, for: .normal)
         setupUI()
     }
     

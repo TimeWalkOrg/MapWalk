@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 extension UIColor {
     convenience init(hexString: String) {
@@ -60,9 +61,9 @@ extension UIApplication {
     }
 }
 
-extension UIButton {
-    
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
+extension UIView {
+    //func roundCorners(_ corners: UIRectCorner, radius: CGFloat, borderColor: UIColor, borderWidth: CGFloat) {
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         
         let mask = CAShapeLayer()
@@ -71,10 +72,34 @@ extension UIButton {
         
         let borderLayer = CAShapeLayer()
         borderLayer.path = path.cgPath
-        borderLayer.lineWidth = borderWidth
-        borderLayer.strokeColor = borderColor.cgColor
+        //borderLayer.lineWidth = borderWidth
+        //borderLayer.strokeColor = borderColor.cgColor
         borderLayer.fillColor = UIColor.clear.cgColor
         borderLayer.frame = bounds
         layer.addSublayer(borderLayer)
+    }
+}
+
+extension MKAnnotationView {
+
+    func loadCustomLines(customLines: [String]) {
+        let stackView = self.stackView()
+        for line in customLines {
+            let label = UILabel()
+            label.text = line
+            label.numberOfLines = 0
+            stackView.addArrangedSubview(label)
+        }
+        self.detailCalloutAccessoryView = stackView
+    }
+
+
+
+    private func stackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        return stackView
     }
 }
