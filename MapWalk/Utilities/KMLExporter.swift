@@ -36,9 +36,12 @@ class KMLExporter {
                 else {
                     strokeColor = UIColor.blue.withAlphaComponent(0.7).hexString()
                 }
+                let strDescription = polyline.overlay?.note ?? ""
                 
                 kmlString += """
                 <Placemark>
+                    <name>Polyline</name>
+                    <description>\(strDescription)</description>
                     <Style>
                         <LineStyle>
                             <color>\(strokeColor)</color>
@@ -83,8 +86,12 @@ class KMLExporter {
                     strokeColor = UIColor.blue.withAlphaComponent(0.7).hexString()
                 }
                 
+                let strDescription = polygon.overlay?.note ?? ""
+                
                 kmlString += """
                 <Placemark>
+                    <name>Polygon</name>
+                    <description>\(strDescription)</description>
                     <Style>
                         <LineStyle>
                             <color>\(strokeColor)</color>
