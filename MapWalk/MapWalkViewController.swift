@@ -8,6 +8,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import Photos
 
 enum PencilType {
     case Avoid
@@ -36,11 +37,11 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var btnAvoid: CustomButton!
     @IBOutlet weak var btnPretty: CustomButton!
     @IBOutlet weak var btnShop: CustomButton!
+    @IBOutlet weak var viewBottomHeight: NSLayoutConstraint!
     
     @IBOutlet weak var imgAvoidPen: UIImageView!
     @IBOutlet weak var imgPrettyPen: UIImageView!
     @IBOutlet weak var imgShopPen: UIImageView!
-    
     
     var selectedPencilType = PencilType.None
     var drawingType = DrawingType.TracingStreet
@@ -71,6 +72,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var lblMapWalk: UILabel!
     var customMenu: CustomMenuView?
     var overlayView: CustomMenuOverlayView?
+    var kmlParser: KMLParser?
     
     //MARK: - Live cycle method
     override func viewDidLoad() {
@@ -81,21 +83,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: - Functions
     func setupView() {
-        let map = CoreDataManager.shared.getMap()
-        if map.count == 0 {
-            CoreDataManager.shared.saveMap(mapName: "MyMap", isMyMap: true)
-            let myMaps = CoreDataManager.shared.getMap()
-            self.currentMap = myMaps.last!
-        }
-        else {
-            for myMap in map {
-                if myMap.isMyMap == true {
-                    self.currentMap = myMap
-                    break
-                }
-            }
-        }
-        
+        self.loadMyMap()
         self.mapView.delegate = self
         
         // Request location permission if needed
@@ -126,44 +114,263 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         self.viewBottomContainer.roundCorners([.topLeft, .topRight], radius: 10)
     }
     
-    func setupMenuOptions() {
-        let exportKml = UIAction(title: "Export KML", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-            let kmlContent = KMLExporter.generateKML(from: self.mapView.overlays, mapView: self.mapView)
-            
-            if let kmlData = kmlContent.data(using: .utf8) {
-                // Define the file URL with the .kml extension
-                let kmlFileName = "map_overlay.kml"
-                let kmlURL = FileManager.default.temporaryDirectory.appendingPathComponent(kmlFileName)
-                
-                do {
-                    // Write the KML data to the file URL
-                    try kmlData.write(to: kmlURL)
-                    
-                    // Create an activity view controller to share the file
-                    let activityViewController = UIActivityViewController(activityItems: [kmlURL], applicationActivities: nil)
-                    activityViewController.popoverPresentationController?.sourceView = self.view
-                    
-                    // Present the activity view controller
-                    self.present(activityViewController, animated: true, completion: nil)
-                } catch {
-                    // Handle any errors that occur during file writing
-                    print("Error writing KML file: \(error.localizedDescription)")
+    func loadMyMap() {
+        let map = CoreDataManager.shared.getMap()
+        if map.count == 0 {
+            CoreDataManager.shared.saveMap(mapName: "Ted's Map", isMyMap: true)
+            let myMaps = CoreDataManager.shared.getMap()
+            self.currentMap = myMaps.last!
+        }
+        else {
+            for myMap in map {
+                if myMap.isMyMap == true {
+                    self.currentMap = myMap
+                    break
                 }
             }
         }
+    }
+    
+    func setupMenuOptions() {
         
-        let option1 = UIAction(title: "Option 1", image: nil) { _ in
+        var option1Title = ""
+        if self.currentMap != nil {
+            option1Title = "Edit my map"
+        }
+        else {
+            option1Title = "Go to my map"
+        }
+        
+        let option1 = UIAction(title: option1Title, image: nil) { _ in
+            if self.currentMap != nil {
+                self.showAlertToRenameMyMap()
+            }
+            else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.clearMap()
+                    self.loadMyMap()
+                    self.viewBottomHeight.constant = 120
+                    LocationManager.shared.hasReceivedInitialLocation = false
+                    LocationManager.shared.startUpdatingLocation()
+                    self.loadOverlaysOnMap()
+                }
+            }
+        }
+        //option1.state = .off
+        
+        let option2 = UIAction(title: "See shared maps", image: nil) { _ in
             
         }
         
-        let option2 = UIAction(title: "Option 2", image: nil) { _ in
-            
+        let option3 = UIAction(title: "Export KML", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+            if self.currentMap == nil {
+                return
+            }
+            self.exportKML()
+        }
+        
+        let option4 = UIAction(title: "Import KML", image: nil) { _ in
+            self.presentFilePicker()
         }
         
         self.btnMenu.overrideUserInterfaceStyle = .dark
         self.btnMenu.showsMenuAsPrimaryAction = true
-        self.btnMenu.menu = UIMenu(title: "", children: [exportKml, option1, option2])
+        self.btnMenu.menu = UIMenu(title: "", children: [option1, option2, option3, option4])
     }
+    
+    func showAlertToRenameMyMap() {
+        let alertController = UIAlertController(title: "Rename", message: nil, preferredStyle: .alert)
+
+        // Add a text field to the alert controller
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Type a name"
+            textField.text = self.currentMap?.mapName ?? ""
+        }
+        
+        // Add a cancel action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+
+        // Add an OK action
+        let okAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            // Access the text entered by the user
+            if let textField = alertController.textFields?.first {
+                if let enteredText = textField.text {
+                    print("Entered text: \(enteredText)")
+                    CoreDataManager.shared.renameMap(mapID: self.currentMap?.mapID ?? 0, newName: enteredText)
+                    self.currentMap?.mapName = enteredText
+                }
+            }
+        }
+        alertController.addAction(okAction)
+
+        // Present the alert controller
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func exportKML() {
+        let kmlContent = KMLExporter.generateKML(from: self.mapView.overlays, mapView: self.mapView)
+        
+        if let kmlData = kmlContent.data(using: .utf8) {
+            // Define the file URL with the .kml extension
+            let kmlFileName = "\(self.currentMap?.mapName ?? "Ted's Map").kml"
+            let kmlURL = FileManager.default.temporaryDirectory.appendingPathComponent(kmlFileName)
+            
+            do {
+                // Write the KML data to the file URL
+                try kmlData.write(to: kmlURL)
+                
+                // Create an activity view controller to share the file
+                let activityViewController = UIActivityViewController(activityItems: [kmlURL], applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = self.view
+                
+                // Present the activity view controller
+                self.present(activityViewController, animated: true, completion: nil)
+            } catch {
+                // Handle any errors that occur during file writing
+                print("Error writing KML file: \(error.localizedDescription)")
+            }
+        }
+    }
+  
+    private func presentFilePicker() {
+        let supportedTypes: [UTType] = [UTType.data]
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        self.present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func importKMLFrom(url: URL) {
+        do {
+            if let directoryURL = Utility.getDirectoryPath(folderName: DirectoryName.ImportedKMLFile) {
+                
+                let destinationURL = directoryURL.appendingPathComponent(url.lastPathComponent)
+                if FileManager.default.fileExists(atPath: destinationURL.path) {
+                    showAlert(title: "This KML file is already exit", message: "do you want to overwrite it?", okActionTitle: "Overwrite") { value in
+                        if value == true {
+                            do {
+                                try FileManager.default.removeItem(at: destinationURL)
+                                try FileManager.default.copyItem(at: url, to: destinationURL)
+                                //Copy KML from Files or iCloud drive to app's document directory
+                                self.openKMLFileFromURL(url: destinationURL)
+                                print("destinationURL: \(destinationURL)")
+                            }
+                            catch let error {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                }
+                else {
+                    try FileManager.default.copyItem(at: url, to: destinationURL) //Copy KML from Files or iCloud drive to app's document directory
+                    self.openKMLFileFromURL(url: destinationURL)
+                    print("destinationURL: \(destinationURL)")
+                }
+            }
+        }
+        catch {
+            print("Error copying video: \(error)")
+        }
+    }
+    
+    func clearMap() {
+        for overlay in self.mapView.overlays {
+            self.mapView.removeOverlay(overlay)
+        }
+        
+        for annotation in self.mapView.annotations {
+            self.mapView.removeAnnotation(annotation)
+        }
+    }
+    
+    func openKMLFileFromURL(url: URL) {
+        
+        self.setupMenuOptions()
+        
+        self.viewBottomHeight.constant = 0
+        self.currentMap = nil
+        
+        kmlParser = KMLParser(url: url)
+        kmlParser?.parseKML()
+        
+        // Add all of the MKOverlay objects parsed from the KML file to the map.
+        if let overlays = kmlParser?.overlays, overlays.count > 0 {
+            
+            mapView.addOverlays(overlays as! [any MKOverlay])
+            
+            // Add all of the MKAnnotation objects parsed from the KML file to the map.
+            let annotations = kmlParser?.points
+            mapView.addAnnotations(annotations as! [any MKAnnotation])
+            
+            // Walk the list of overlays and annotations and create a MKMapRect that
+            // bounds all of them and store it into flyTo.
+            var flyTo = MKMapRect.null
+            for overlay in overlays {
+                if flyTo.isNull {
+                    flyTo = (overlay as AnyObject).boundingMapRect
+                } else {
+                    flyTo = flyTo.union((overlay as AnyObject).boundingMapRect)
+                }
+            }
+            
+            for annotation in annotations! {
+                let annotationPoint = MKMapPoint((annotation as AnyObject).coordinate)
+                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0, height: 0)
+                if flyTo.isNull {
+                    flyTo = pointRect
+                } else {
+                    flyTo = flyTo.union(pointRect)
+                }
+            }
+            
+            // Position the map so that all overlays and annotations are visible on screen.
+            mapView.setVisibleMapRect(flyTo, animated: true)
+        }
+    }
+    
+//    func importKML() {
+//        
+//        if let url = Bundle.main.url(forResource: "KML_Sample", withExtension: "kml") {
+//                        
+//            let kmlParser = KMLParser(url: url)
+//            kmlParser?.parseKML()
+//            
+//            // Add all of the MKOverlay objects parsed from the KML file to the map.
+//            let overlays = kmlParser?.overlays
+//
+//            mapView.addOverlays(overlays as! [any MKOverlay])
+//            
+//            // Add all of the MKAnnotation objects parsed from the KML file to the map.
+//            let annotations = kmlParser?.points
+//            mapView.addAnnotations(annotations as! [any MKAnnotation])
+//            
+//            // Walk the list of overlays and annotations and create a MKMapRect that
+//            // bounds all of them and store it into flyTo.
+//            var flyTo = MKMapRect.null
+//            for overlay in overlays! {
+//                if flyTo.isNull {
+//                    flyTo = (overlay as AnyObject).boundingMapRect
+//                } else {
+//                    flyTo = flyTo.union((overlay as AnyObject).boundingMapRect)
+//                }
+//            }
+//            
+//            for annotation in annotations! {
+//                let annotationPoint = MKMapPoint((annotation as AnyObject).coordinate)
+//                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0, height: 0)
+//                if flyTo.isNull {
+//                    flyTo = pointRect
+//                } else {
+//                    flyTo = flyTo.union(pointRect)
+//                }
+//            }
+//            
+//            // Position the map so that all overlays and annotations are visible on screen.
+//            mapView.setVisibleMapRect(flyTo, animated: true)
+//        }
+//        
+//    }
     
     func updateMap(with location: CLLocation) {
         mapView.showsUserLocation = true
@@ -784,6 +991,9 @@ extension MapWalkViewController: MKMapViewDelegate {
             overlayPathView.lineWidth = 80
             return overlayPathView
         }
+        else if self.kmlParser != nil {
+            return kmlParser?.renderer(for: overlay) ?? MKOverlayRenderer()
+        }
         
         return MKOverlayRenderer()
     }
@@ -791,6 +1001,10 @@ extension MapWalkViewController: MKMapViewDelegate {
     // MKMapViewDelegate method to customize annotation view
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
     {
+        if self.kmlParser != nil {
+            return kmlParser?.view(for: annotation) ?? nil
+        }
+            
         if !(annotation is MapPointAnnotation) {
             return nil
         }
@@ -812,18 +1026,6 @@ extension MapWalkViewController: MKMapViewDelegate {
         annotationView?.tintColor = .white
         
         return annotationView
-    }
-    
-    // MKMapViewDelegate method to handle tap on annotation's callout
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView {
-            // Handle the tap on the callout button (detail disclosure button)
-            if let title = view.annotation?.title, let subtitle = view.annotation?.subtitle {
-                let alertController = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                present(alertController, animated: true, completion: nil)
-            }
-        }
     }
 }
 
@@ -960,6 +1162,37 @@ extension MapWalkViewController: UITextFieldDelegate {
         if let text = textField.text, text.count > 140 {
             textField.text = String(text.prefix(140))
         }
+    }
+}
+
+extension MapWalkViewController: UIDocumentPickerDelegate {
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let pickedURL = urls.first else {
+            return
+        }
+        
+        let _ = pickedURL.startAccessingSecurityScopedResource()
+        // Get the file extension from the URL
+        let fileExtension = pickedURL.pathExtension.lowercased()
+        
+        // Check the file extension or type
+        if fileExtension == "kml" {
+            // It's a KML file
+            print("Picked KML file.")
+            self.importKMLFrom(url: urls.first!)
+        } else {
+            // It's another type of file
+            print("Picked a file with extension: \(fileExtension)")
+            showAlert(title: "Invalid file", message: "Please import KML file", okActionTitle: "Ok") { result in }
+        }
+        
+        pickedURL.stopAccessingSecurityScopedResource()
+        controller.dismiss(animated: true, completion: {})
+    }
+        
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        //self.gotoVideoWatcherController()
     }
 }
 
