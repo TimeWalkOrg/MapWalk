@@ -93,8 +93,6 @@ extension MKAnnotationView {
         self.detailCalloutAccessoryView = stackView
     }
 
-
-
     private func stackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -103,3 +101,33 @@ extension MKAnnotationView {
         return stackView
     }
 }
+
+extension UIViewController {
+    func showAlert(title: String, message: String, okActionTitle: String, completion:@escaping (_ result:Bool) -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: okActionTitle, style: .default) { action in
+            completion(true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { action in
+            completion(false)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true)
+        }
+    }
+}
+
+/*
+ I've pushed my work today, please review it and let me know
+
+ - Export KML file
+ - Import KML file
+ - Rename your map (We can rename our map only, not imported map)
+ - See share map (Remaining)
+ 
+ 
+ Currently, you need to import KML everytime as "See share map" function is remaining(Will implement tomorrow)
+ */

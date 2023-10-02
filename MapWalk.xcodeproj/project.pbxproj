@@ -26,11 +26,17 @@
 		5F460CFA2AB1E29D0053887A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CF72AB1E29C0053887A /* Extensions.swift */; };
 		5F460CFB2AB1E29D0053887A /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CF82AB1E29D0053887A /* CanvasView.swift */; };
 		5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CFE2AB1E2C90053887A /* MapWalkViewController.swift */; };
+		5F61F8092ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F61F8082ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m */; };
+		5F61F80C2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F61F80B2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m */; };
+		5F61F80E2ACADF86005621D9 /* MyMap.kml in Resources */ = {isa = PBXBuildFile; fileRef = 5F61F80D2ACADF86005621D9 /* MyMap.kml */; };
+		5F61F8102ACAE724005621D9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F61F80F2ACAE724005621D9 /* Utilities.swift */; };
 		5F69D2A32AB432F900AAF34E /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2A22AB432F900AAF34E /* UserDefaultManager.swift */; };
 		5F69D2BA2AB44E0F00AAF34E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2B92AB44E0F00AAF34E /* CoreDataManager.swift */; };
 		5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */; };
 		5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */; };
 		5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C52AB469E400AAF34E /* MapPolygon.swift */; };
+		5F722FE12AC6E93200081AC5 /* KMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F722FE02AC6E93200081AC5 /* KMLParser.m */; };
+		5F722FE32AC6E95100081AC5 /* KML_Sample.kml in Resources */ = {isa = PBXBuildFile; fileRef = 5F722FE22AC6E95100081AC5 /* KML_Sample.kml */; };
 		5F909D972ABDA9A9004BBBE4 /* KMLExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F909D962ABDA9A9004BBBE4 /* KMLExporter.swift */; };
 		5FA7686D2ABC482200E01722 /* CustomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686C2ABC482200E01722 /* CustomMenuView.swift */; };
 		5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */; };
@@ -77,11 +83,21 @@
 		5F460CF72AB1E29C0053887A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5F460CF82AB1E29D0053887A /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		5F460CFE2AB1E2C90053887A /* MapWalkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapWalkViewController.swift; sourceTree = "<group>"; };
+		5F61F8072ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KMLConstantWidthPolygonRenderer.h; sourceTree = "<group>"; };
+		5F61F8082ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KMLConstantWidthPolygonRenderer.m; sourceTree = "<group>"; };
+		5F61F80A2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KMLConstantWidthPolylineRenderer.h; sourceTree = "<group>"; };
+		5F61F80B2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KMLConstantWidthPolylineRenderer.m; sourceTree = "<group>"; };
+		5F61F80D2ACADF86005621D9 /* MyMap.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MyMap.kml; sourceTree = "<group>"; };
+		5F61F80F2ACAE724005621D9 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		5F69D2A22AB432F900AAF34E /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		5F69D2B92AB44E0F00AAF34E /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C52AB469E400AAF34E /* MapPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolygon.swift; sourceTree = "<group>"; };
+		5F722FDE2AC6E93100081AC5 /* MapWalk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapWalk-Bridging-Header.h"; sourceTree = "<group>"; };
+		5F722FDF2AC6E93200081AC5 /* KMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMLParser.h; sourceTree = "<group>"; };
+		5F722FE02AC6E93200081AC5 /* KMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMLParser.m; sourceTree = "<group>"; };
+		5F722FE22AC6E95100081AC5 /* KML_Sample.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KML_Sample.kml; sourceTree = "<group>"; };
 		5F909D962ABDA9A9004BBBE4 /* KMLExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMLExporter.swift; sourceTree = "<group>"; };
 		5FA7686C2ABC482200E01722 /* CustomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuView.swift; sourceTree = "<group>"; };
 		5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuOverlayView.swift; sourceTree = "<group>"; };
@@ -141,6 +157,8 @@
 				5F460CC42AB1E2690053887A /* SceneDelegate.swift */,
 				5F460CFE2AB1E2C90053887A /* MapWalkViewController.swift */,
 				5F460CC82AB1E2690053887A /* Main.storyboard */,
+				5F722FE22AC6E95100081AC5 /* KML_Sample.kml */,
+				5F61F80D2ACADF86005621D9 /* MyMap.kml */,
 				5F460CCE2AB1E26A0053887A /* Assets.xcassets */,
 				5F460CD02AB1E26A0053887A /* LaunchScreen.storyboard */,
 				5F460CD32AB1E26A0053887A /* Info.plist */,
@@ -169,6 +187,8 @@
 		5F460CF52AB1E28A0053887A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5F722FDD2AC6E91E00081AC5 /* KMLParser */,
+				5F61F80F2ACAE724005621D9 /* Utilities.swift */,
 				5F69D2A22AB432F900AAF34E /* UserDefaultManager.swift */,
 				5F69D2B92AB44E0F00AAF34E /* CoreDataManager.swift */,
 				5F460CF62AB1E29C0053887A /* LocationManager.swift */,
@@ -195,6 +215,20 @@
 				5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		5F722FDD2AC6E91E00081AC5 /* KMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				5F722FDF2AC6E93200081AC5 /* KMLParser.h */,
+				5F722FE02AC6E93200081AC5 /* KMLParser.m */,
+				5F722FDE2AC6E93100081AC5 /* MapWalk-Bridging-Header.h */,
+				5F61F8072ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.h */,
+				5F61F8082ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m */,
+				5F61F80A2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.h */,
+				5F61F80B2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m */,
+			);
+			path = KMLParser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +299,7 @@
 				TargetAttributes = {
 					5F460CBE2AB1E2690053887A = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1500;
 					};
 					5F460CD72AB1E26A0053887A = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -301,7 +336,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F61F80E2ACADF86005621D9 /* MyMap.kml in Resources */,
 				5F460CD22AB1E26A0053887A /* LaunchScreen.storyboard in Resources */,
+				5F722FE32AC6E95100081AC5 /* KML_Sample.kml in Resources */,
 				5F460CCF2AB1E26A0053887A /* Assets.xcassets in Resources */,
 				5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */,
 			);
@@ -335,11 +372,13 @@
 				5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */,
 				5F69D2A32AB432F900AAF34E /* UserDefaultManager.swift in Sources */,
 				5F2D6E2F2AB8728100ACE87D /* CustomButton.swift in Sources */,
+				5F722FE12AC6E93200081AC5 /* KMLParser.m in Sources */,
 				5F460CFB2AB1E29D0053887A /* CanvasView.swift in Sources */,
 				5F460CCD2AB1E2690053887A /* MapWalk.xcdatamodeld in Sources */,
 				5F2D6E2C2AB84F8300ACE87D /* Overlays+CoreDataClass.swift in Sources */,
 				5F69D2BA2AB44E0F00AAF34E /* CoreDataManager.swift in Sources */,
 				5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */,
+				5F61F8092ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m in Sources */,
 				5F460CC32AB1E2690053887A /* AppDelegate.swift in Sources */,
 				5F38BC082AC40E3500EA9207 /* MapPointAnnotation.swift in Sources */,
 				5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */,
@@ -349,6 +388,8 @@
 				5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */,
 				5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */,
 				5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */,
+				5F61F8102ACAE724005621D9 /* Utilities.swift in Sources */,
+				5F61F80C2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,10 +564,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63K8J7P389;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalk/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide you with nearby services and enhance your experience.";
@@ -543,10 +586,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.barnettlabs.mapwalking;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gbwhatsversion.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Dev_gbwhatsversion;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -557,10 +603,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63K8J7P389;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalk/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide you with nearby services and enhance your experience.";
@@ -577,10 +625,12 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.barnettlabs.mapwalking;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gbwhatsversion.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Dev_gbwhatsversion;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

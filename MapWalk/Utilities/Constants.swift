@@ -16,3 +16,7 @@ struct AppColors {
     
     static let buttonBGColor = UIColor(red: 66.0/255.0, green: 66.0/255.0, blue: 68.0/255.0, alpha: 1.0)
 }
+
+struct DirectoryName {
+    static let ImportedKMLFile = "ImportedKMLFile"
+}
