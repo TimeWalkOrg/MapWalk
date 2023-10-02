@@ -18,15 +18,15 @@ class KMLExporter {
         
         for overlay in overlays {
             if let polyline = overlay as? MapPolyline {
-                let overlayPathView = mapView.renderer(for: polyline) as? MKPolylineRenderer
+                //let overlayPathView = mapView.renderer(for: polyline) as? MKPolylineRenderer
                 //let strokeWidth = overlayPathView?.lineWidth ?? 1.0
                 var strokeColor = ""
                 if polyline.overlay?.color == "red" {
                     //strokeColor = AppColors.redColor.withAlphaComponent(0.7).hexString()
-                    strokeColor = "fff14a29"
+                    strokeColor = "ff4655f5"
                 }
                 else if polyline.overlay?.color == "blue" {
-                    strokeColor = "ff4655f5"
+                    strokeColor = "fff14a29"
                     //strokeColor = AppColors.blueColor.withAlphaComponent(0.7).hexString()
                 }
                 else if polyline.overlay?.color == "green" {
@@ -63,17 +63,21 @@ class KMLExporter {
                 </Placemark>
                 """
             } else if let polygon = overlay as? MapPolygon {
-                let overlayPathView = mapView.renderer(for: polygon) as? MKPolygonRenderer
+                //let overlayPathView = mapView.renderer(for: polygon) as? MKPolygonRenderer
                 //let strokeWidth = overlayPathView?.lineWidth ?? 1.0
                 var strokeColor = ""
                 var fillColor = ""
                 if polygon.overlay?.color == "red" {
-                    strokeColor = "fff14a29"//AppColors.redColor.withAlphaComponent(0.2).hexString()
-                    fillColor = "40f14a29"//AppColors.redColor.withAlphaComponent(0.7).hexString()
+                    strokeColor = "ff4655f5"
+                    //AppColors.redColor.withAlphaComponent(0.2).hexString()
+                    fillColor = "404655f5"
+                    //AppColors.redColor.withAlphaComponent(0.7).hexString()
                 }
                 else if polygon.overlay?.color == "blue" {
-                    strokeColor = "ff4655f5"//AppColors.blueColor.withAlphaComponent(0.2).hexString()
-                    fillColor = "404655f5"//AppColors.blueColor.withAlphaComponent(0.7).hexString()
+                    strokeColor = "fff14a29"
+                    //AppColors.blueColor.withAlphaComponent(0.2).hexString()
+                    fillColor = "40f14a29"
+                    //AppColors.blueColor.withAlphaComponent(0.7).hexString()
                 }
                 else if polygon.overlay?.color == "green" {
                     strokeColor = "ff19c52d"
@@ -120,6 +124,23 @@ class KMLExporter {
                 </Placemark>
                 """
             }
+        }
+        
+        // Iterate through annotations (markers)
+        for annotation in mapView.annotations {
+            if let annotation = annotation as? MKPointAnnotation {
+                // Create KML Point for annotations (markers)
+                let pointString = """
+                            <Placemark>
+                                <name>\(annotation.subtitle ?? "")</name>
+                                <Point>
+                                    <coordinates>\(annotation.coordinate.longitude),\(annotation.coordinate.latitude)</coordinates>
+                                </Point>
+                            </Placemark>
+                        """
+                kmlString += pointString
+            }
+            // Handle other annotation types similarly
         }
         
         kmlString += """

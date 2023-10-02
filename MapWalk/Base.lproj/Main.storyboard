@@ -273,6 +273,7 @@
                         <outlet property="mapView" destination="pE5-tt-QUO" id="GWc-MG-13z"/>
                         <outlet property="viewAvoid" destination="wlf-02-VdX" id="hve-Po-qbF"/>
                         <outlet property="viewBottomContainer" destination="ZaH-lg-z3n" id="vbX-VD-Doz"/>
+                        <outlet property="viewBottomHeight" destination="OFo-On-DpE" id="6xM-oP-hjZ"/>
                         <outlet property="viewPretty" destination="s1L-RT-V0Q" id="gk0-2h-1xS"/>
                         <outlet property="viewShop" destination="gdC-TR-MzY" id="kFt-3c-l4I"/>
                         <outlet property="viewTopButton" destination="VAc-5S-flg" id="s3U-d5-eIJ"/>
