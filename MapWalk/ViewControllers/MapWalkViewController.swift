@@ -131,35 +131,31 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    func moveToMyCurrentMap() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.clearMap()
+            self.loadMyMap()
+            self.viewBottomHeight.constant = 120
+            LocationManager.shared.hasReceivedInitialLocation = false
+            LocationManager.shared.startUpdatingLocation()
+            self.loadOverlaysOnMap()
+        }
+    }
+    
     func setupMenuOptions() {
         
-        var option1Title = ""
-        if self.currentMap != nil {
-            option1Title = "Edit my map"
-        }
-        else {
-            option1Title = "Go to my map"
-        }
-        
-        let option1 = UIAction(title: option1Title, image: nil) { _ in
+        let option1 = UIAction(title: "Edit my map", image: nil) { _ in
             if self.currentMap != nil {
                 self.showAlertToRenameMyMap()
             }
             else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.clearMap()
-                    self.loadMyMap()
-                    self.viewBottomHeight.constant = 120
-                    LocationManager.shared.hasReceivedInitialLocation = false
-                    LocationManager.shared.startUpdatingLocation()
-                    self.loadOverlaysOnMap()
-                }
+                self.moveToMyCurrentMap()
             }
         }
         //option1.state = .off
         
         let option2 = UIAction(title: "See shared maps", image: nil) { _ in
-            
+            self.moveToSharedMapVC()
         }
         
         let option3 = UIAction(title: "Export KML", image: UIImage(systemName: "square.and.arrow.up")) { _ in
@@ -176,6 +172,16 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         self.btnMenu.overrideUserInterfaceStyle = .dark
         self.btnMenu.showsMenuAsPrimaryAction = true
         self.btnMenu.menu = UIMenu(title: "", children: [option1, option2, option3, option4])
+    }
+    
+    func moveToSharedMapVC() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SharedMapViewController") as! SharedMapViewController
+        let navController = UINavigationController(rootViewController: vc)
+        navController.modalPresentationStyle = .overCurrentContext
+        navController.modalTransitionStyle = .crossDissolve
+        navController.navigationBar.isHidden = true
+        vc.delegate = self
+        self.present(navController, animated: true)
     }
     
     func showAlertToRenameMyMap() {
@@ -275,6 +281,8 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func clearMap() {
+        self.currentMap = nil
+        self.kmlParser = nil
         for overlay in self.mapView.overlays {
             self.mapView.removeOverlay(overlay)
         }
@@ -286,10 +294,10 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func openKMLFileFromURL(url: URL) {
         
+        self.clearMap()
         self.setupMenuOptions()
         
         self.viewBottomHeight.constant = 0
-        self.currentMap = nil
         
         kmlParser = KMLParser(url: url)
         kmlParser?.parseKML()
@@ -328,50 +336,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
             mapView.setVisibleMapRect(flyTo, animated: true)
         }
     }
-    
-//    func importKML() {
-//        
-//        if let url = Bundle.main.url(forResource: "KML_Sample", withExtension: "kml") {
-//                        
-//            let kmlParser = KMLParser(url: url)
-//            kmlParser?.parseKML()
-//            
-//            // Add all of the MKOverlay objects parsed from the KML file to the map.
-//            let overlays = kmlParser?.overlays
-//
-//            mapView.addOverlays(overlays as! [any MKOverlay])
-//            
-//            // Add all of the MKAnnotation objects parsed from the KML file to the map.
-//            let annotations = kmlParser?.points
-//            mapView.addAnnotations(annotations as! [any MKAnnotation])
-//            
-//            // Walk the list of overlays and annotations and create a MKMapRect that
-//            // bounds all of them and store it into flyTo.
-//            var flyTo = MKMapRect.null
-//            for overlay in overlays! {
-//                if flyTo.isNull {
-//                    flyTo = (overlay as AnyObject).boundingMapRect
-//                } else {
-//                    flyTo = flyTo.union((overlay as AnyObject).boundingMapRect)
-//                }
-//            }
-//            
-//            for annotation in annotations! {
-//                let annotationPoint = MKMapPoint((annotation as AnyObject).coordinate)
-//                let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0, height: 0)
-//                if flyTo.isNull {
-//                    flyTo = pointRect
-//                } else {
-//                    flyTo = flyTo.union(pointRect)
-//                }
-//            }
-//            
-//            // Position the map so that all overlays and annotations are visible on screen.
-//            mapView.setVisibleMapRect(flyTo, animated: true)
-//        }
-//        
-//    }
-    
+
     func updateMap(with location: CLLocation) {
         mapView.showsUserLocation = true
         
@@ -737,8 +702,13 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func btnCurrentLocationAction(_ sender: Any) {
-        LocationManager.shared.hasReceivedInitialLocation = false
-        LocationManager.shared.startUpdatingLocation()
+        if self.kmlParser == nil {
+            LocationManager.shared.hasReceivedInitialLocation = false
+            LocationManager.shared.startUpdatingLocation()
+        }
+        else {
+            self.moveToMyCurrentMap()
+        }
     }
     
     @IBAction func btnMenuAction(_ sender: Any) {
@@ -1162,6 +1132,12 @@ extension MapWalkViewController: UITextFieldDelegate {
         if let text = textField.text, text.count > 140 {
             textField.text = String(text.prefix(140))
         }
+    }
+}
+
+extension MapWalkViewController: SharedMapDelegate {
+    func showSelectedMapFromURL(url: URL) {
+        self.openKMLFileFromURL(url: url)
     }
 }
 
