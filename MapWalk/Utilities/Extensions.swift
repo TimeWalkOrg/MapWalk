@@ -119,15 +119,3 @@ extension UIViewController {
         }
     }
 }
-
-/*
- I've pushed my work today, please review it and let me know
-
- - Export KML file
- - Import KML file
- - Rename your map (We can rename our map only, not imported map)
- - See share map (Remaining)
- 
- 
- Currently, you need to import KML everytime as "See share map" function is remaining(Will implement tomorrow)
- */
