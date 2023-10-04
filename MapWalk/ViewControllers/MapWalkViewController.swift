@@ -20,13 +20,13 @@ enum PencilType {
 enum DrawingType {
     case EncirclingArea
     case TracingStreet
-    case None
 }
 
 class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var btnMapType: UIButton!
     
+    @IBOutlet weak var viewPenOptionAction: UIView!
     @IBOutlet weak var viewAvoid: UIView!
     @IBOutlet weak var viewPretty: UIView!
     @IBOutlet weak var viewShop: UIView!
@@ -39,12 +39,13 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var btnShop: CustomButton!
     @IBOutlet weak var viewBottomHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var imgShape: UIImageView!
     @IBOutlet weak var imgAvoidPen: UIImageView!
     @IBOutlet weak var imgPrettyPen: UIImageView!
     @IBOutlet weak var imgShopPen: UIImageView!
     
     var selectedPencilType = PencilType.None
-    var drawingType = DrawingType.TracingStreet
+    //var drawingType = DrawingType.TracingStreet
     
     var currentMapType: MKMapType = .standard {
         didSet {
@@ -63,6 +64,18 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    var drawingType = DrawingType.EncirclingArea {
+        didSet {
+            // Update the button image based on the map type
+            //let largeConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .unspecified, scale: .large)
+            if drawingType == .EncirclingArea {
+                imgShape.image = UIImage(systemName: "hexagon")
+            } else {
+                imgShape.image = UIImage(systemName: "line.diagonal")
+            }
+        }
+    }
+    
     private var coordinates: [CLLocationCoordinate2D] = []
     
     private var isDrawingPolygon: Bool = false
@@ -73,6 +86,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     var customMenu: CustomMenuView?
     var overlayView: CustomMenuOverlayView?
     var kmlParser: KMLParser?
+    var openedMapURL: URL?
     
     //MARK: - Live cycle method
     override func viewDidLoad() {
@@ -97,9 +111,6 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         self.loadOverlaysOnMap()
-        self.setupDrawTypeSelectionMenu(sender: self.btnAvoid)
-        self.setupDrawTypeSelectionMenu(sender: self.btnPretty)
-        self.setupDrawTypeSelectionMenu(sender: self.btnShop)
         
         self.btnMenu.layer.cornerRadius = 10
         self.btnMenu.layer.masksToBounds = true
@@ -111,7 +122,9 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         self.viewTopButton.layer.shadowOpacity = 0.3
         self.viewTopButton.layer.shadowOffset = CGSize(width: 0, height: 0)
         
-        self.viewBottomContainer.roundCorners([.topLeft, .topRight], radius: 10)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.viewBottomContainer.roundCorners([.topLeft, .topRight], radius: 10)
+        }
     }
     
     func loadMyMap() {
@@ -133,6 +146,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func moveToMyCurrentMap() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.openedMapURL = nil
             self.clearMap()
             self.loadMyMap()
             self.viewBottomHeight.constant = 120
@@ -144,7 +158,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func setupMenuOptions() {
         
-        let option1 = UIAction(title: "Edit my map", image: nil) { _ in
+        let option1 = UIAction(title: "Name Current Map", image: nil) { _ in
             if self.currentMap != nil {
                 self.showAlertToRenameMyMap()
             }
@@ -154,18 +168,18 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         //option1.state = .off
         
-        let option2 = UIAction(title: "See shared maps", image: nil) { _ in
-            self.moveToSharedMapVC()
-        }
-        
-        let option3 = UIAction(title: "Export KML", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+        let option2 = UIAction(title: "Share Current Map", image: UIImage(systemName: "square.and.arrow.up")) { _ in
             if self.currentMap == nil {
                 return
             }
-            self.exportKML()
+            self.exportKML(sender: self.btnMenu)
         }
         
-        let option4 = UIAction(title: "Import KML", image: nil) { _ in
+        let option3 = UIAction(title: "Shared Maps", image: nil) { _ in
+            self.moveToSharedMapVC()
+        }
+        
+        let option4 = UIAction(title: "Import A Map (or KML)", image: nil) { _ in
             self.presentFilePicker()
         }
         
@@ -181,6 +195,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         navController.modalTransitionStyle = .crossDissolve
         navController.navigationBar.isHidden = true
         vc.delegate = self
+        vc.openedMapURL = self.openedMapURL
         self.present(navController, animated: true)
     }
     
@@ -214,7 +229,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func exportKML() {
+    func exportKML(sender: UIButton) {
         let kmlContent = KMLExporter.generateKML(from: self.mapView.overlays, mapView: self.mapView)
         
         if let kmlData = kmlContent.data(using: .utf8) {
@@ -230,6 +245,11 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
                 let activityViewController = UIActivityViewController(activityItems: [kmlURL], applicationActivities: nil)
                 activityViewController.popoverPresentationController?.sourceView = self.view
                 
+                // Check if the device is iPad
+                if let popoverPresentationController = activityViewController.popoverPresentationController {
+                    popoverPresentationController.sourceView = sender
+                    popoverPresentationController.sourceRect = sender.bounds
+                }
                 // Present the activity view controller
                 self.present(activityViewController, animated: true, completion: nil)
             } catch {
@@ -259,6 +279,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
                                 try FileManager.default.removeItem(at: destinationURL)
                                 try FileManager.default.copyItem(at: url, to: destinationURL)
                                 //Copy KML from Files or iCloud drive to app's document directory
+                                self.openedMapURL = url
                                 self.openKMLFileFromURL(url: destinationURL)
                                 print("destinationURL: \(destinationURL)")
                             }
@@ -336,7 +357,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
             mapView.setVisibleMapRect(flyTo, animated: true)
         }
     }
-
+    
     func updateMap(with location: CLLocation) {
         mapView.showsUserLocation = true
         
@@ -446,48 +467,6 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         //mapView.showAnnotations([annotation], animated: true)
     }
     
-    func setupDrawTypeSelectionMenu(sender: CustomButton) {
-        let encirclingArea = UIAction(title: "Encircling an area", image: nil) { _ in
-            self.resetCanvasView()
-            if sender.tag == 1 {
-                self.selectedPencilType = .Avoid
-            }
-            else if sender.tag == 2 {
-                self.selectedPencilType = .Pretty
-            }
-            else {
-                self.selectedPencilType = .Shop
-            }
-            self.drawingType = .EncirclingArea
-            self.startEndDragging()
-        }
-        
-        let tracingStreet = UIAction(title: "Tracing a street", image: nil) { _ in
-            self.resetCanvasView()
-            if sender.tag == 1 {
-                self.selectedPencilType = .Avoid
-            }
-            else if sender.tag == 2 {
-                self.selectedPencilType = .Pretty
-            }
-            else {
-                self.selectedPencilType = .Shop
-            }
-            self.drawingType = .TracingStreet
-            self.startEndDragging()
-        }
-
-        sender.onContextMenuDismissed = { [weak self] in
-            if self?.drawingType == .None {
-                self?.setImageTintColor()
-                self?.startEndDragging()
-            }
-        }
-        sender.overrideUserInterfaceStyle = .dark
-        sender.showsMenuAsPrimaryAction = true
-        sender.menu = UIMenu(title: "", children: [tracingStreet, encirclingArea])
-    }
-    
     func startEndDragging() {
         if isDrawingPolygon == false {
             isDrawingPolygon = true
@@ -581,7 +560,6 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     func resetCanvasView() {
         self.isDrawingPolygon = false
         self.selectedPencilType = .None
-        self.drawingType = .None
         if canvasView != nil {
             canvasView.image = nil
             canvasView.removeFromSuperview()
@@ -635,6 +613,14 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: - Button actions
     
+    @IBAction func btnShapeTypeAction(_ sender: Any) {
+        if self.drawingType == .EncirclingArea {
+            self.drawingType = .TracingStreet
+        } else {
+            self.drawingType = .EncirclingArea
+        }
+    }
+
     @IBAction func btnMapTypeAction(_ sender: Any) {
         DispatchQueue.main.async {
             self.btnMapType.isEnabled = false
@@ -660,18 +646,19 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func btnAvoidAction(_ sender: Any) {
         self.selectedPencilType = .Avoid
+        self.startEndDragging()
     }
     
     @IBAction func btnPrettyAction(_ sender: Any) {
         self.selectedPencilType = .Pretty
-        //self.startEndDragging()
+        self.startEndDragging()
     }
     
     @IBAction func btnShopAction(_ sender: Any) {
         self.selectedPencilType = .Shop
-        //self.startEndDragging()
+        self.startEndDragging()
     }
-        
+    
     @IBAction func btnUndoAction(_ sender: Any) {
         var overlays = CoreDataManager.shared.getOverlays()
         overlays = overlays.filter({$0.overlaysMap?.mapID == self.currentMap?.mapID}).sorted(by: {$0.overlayID < $1.overlayID})
@@ -1136,7 +1123,12 @@ extension MapWalkViewController: UITextFieldDelegate {
 }
 
 extension MapWalkViewController: SharedMapDelegate {
+    func showCurrentMap() {
+        self.moveToMyCurrentMap()
+    }
+    
     func showSelectedMapFromURL(url: URL) {
+        self.openedMapURL = url
         self.openKMLFileFromURL(url: url)
     }
 }
