@@ -12,7 +12,7 @@ class CanvasView: UIImageView {
     weak var delegate: MapWalkViewController?
     private var location: CGPoint = .zero
     var selectedColor = UIColor.blue
-    var drawingType = DrawingType.None
+    var drawingType = DrawingType.EncirclingArea
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
