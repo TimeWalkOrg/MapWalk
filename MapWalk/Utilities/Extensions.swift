@@ -119,3 +119,21 @@ extension UIViewController {
         }
     }
 }
+
+extension URL {
+    var queryParameters: [String: String]? {
+        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+              let queryItems = components.queryItems else {
+            return nil
+        }
+
+        var parameters = [String: String]()
+        for queryItem in queryItems {
+            if let value = queryItem.value {
+                parameters[queryItem.name] = value
+            }
+        }
+
+        return parameters
+    }
+}

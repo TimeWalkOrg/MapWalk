@@ -34,7 +34,16 @@
 		5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2BF2AB451A100AAF34E /* Map+CoreDataClass.swift */; };
 		5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */; };
 		5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69D2C52AB469E400AAF34E /* MapPolygon.swift */; };
-		5F722FE12AC6E93200081AC5 /* KMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F722FE02AC6E93200081AC5 /* KMLParser.m */; };
+		5F8477AA2ACFD57700052BA4 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F8477A92ACFD57700052BA4 /* UniformTypeIdentifiers.framework */; };
+		5F8477AD2ACFD57700052BA4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F8477AC2ACFD57700052BA4 /* Media.xcassets */; };
+		5F8477AF2ACFD57700052BA4 /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8477AE2ACFD57700052BA4 /* ActionViewController.swift */; };
+		5F8477B22ACFD57700052BA4 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8477B02ACFD57700052BA4 /* MainInterface.storyboard */; };
+		5F8477B62ACFD57700052BA4 /* MapWalkActionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5F8477A72ACFD57700052BA4 /* MapWalkActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5F8477C42ACFEADF00052BA4 /* KMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8477C22ACFEADF00052BA4 /* KMLParser.m */; };
+		5F8477C92ACFF82B00052BA4 /* KMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8477C22ACFEADF00052BA4 /* KMLParser.m */; };
+		5F8477CA2ACFF86B00052BA4 /* KMLConstantWidthPolygonRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F61F8082ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m */; };
+		5F8477CB2ACFF86D00052BA4 /* KMLConstantWidthPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F61F80B2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m */; };
+		5F8477CC2ACFF95500052BA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CCE2AB1E26A0053887A /* Assets.xcassets */; };
 		5F909D972ABDA9A9004BBBE4 /* KMLExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F909D962ABDA9A9004BBBE4 /* KMLExporter.swift */; };
 		5FA7686D2ABC482200E01722 /* CustomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686C2ABC482200E01722 /* CustomMenuView.swift */; };
 		5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */; };
@@ -58,7 +67,28 @@
 			remoteGlobalIDString = 5F460CBE2AB1E2690053887A;
 			remoteInfo = MapWalk;
 		};
+		5F8477B42ACFD57700052BA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F460CB72AB1E2690053887A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F8477A62ACFD57700052BA4;
+			remoteInfo = MapWalkActionExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5F8477B72ACFD57700052BA4 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5F8477B62ACFD57700052BA4 /* MapWalkActionExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5F2D6E282AB8295500ACE87D /* MapPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolyline.swift; sourceTree = "<group>"; };
@@ -95,8 +125,14 @@
 		5F69D2C02AB451A100AAF34E /* Map+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5F69D2C52AB469E400AAF34E /* MapPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolygon.swift; sourceTree = "<group>"; };
 		5F722FDE2AC6E93100081AC5 /* MapWalk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapWalk-Bridging-Header.h"; sourceTree = "<group>"; };
-		5F722FDF2AC6E93200081AC5 /* KMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMLParser.h; sourceTree = "<group>"; };
-		5F722FE02AC6E93200081AC5 /* KMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMLParser.m; sourceTree = "<group>"; };
+		5F8477A72ACFD57700052BA4 /* MapWalkActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MapWalkActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F8477A92ACFD57700052BA4 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
+		5F8477AC2ACFD57700052BA4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		5F8477AE2ACFD57700052BA4 /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		5F8477B12ACFD57700052BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		5F8477B32ACFD57700052BA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F8477C22ACFEADF00052BA4 /* KMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMLParser.m; sourceTree = "<group>"; };
+		5F8477C32ACFEADF00052BA4 /* KMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMLParser.h; sourceTree = "<group>"; };
 		5F909D962ABDA9A9004BBBE4 /* KMLExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMLExporter.swift; sourceTree = "<group>"; };
 		5FA7686C2ABC482200E01722 /* CustomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuView.swift; sourceTree = "<group>"; };
 		5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuOverlayView.swift; sourceTree = "<group>"; };
@@ -127,6 +163,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5F8477A42ACFD57700052BA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F8477AA2ACFD57700052BA4 /* UniformTypeIdentifiers.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -136,6 +180,8 @@
 				5F460CC12AB1E2690053887A /* MapWalk */,
 				5F460CDB2AB1E26A0053887A /* MapWalkTests */,
 				5F460CE52AB1E26A0053887A /* MapWalkUITests */,
+				5F8477AB2ACFD57700052BA4 /* MapWalkActionExtension */,
+				5F8477A82ACFD57700052BA4 /* Frameworks */,
 				5F460CC02AB1E2690053887A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -146,6 +192,7 @@
 				5F460CBF2AB1E2690053887A /* MapWalk.app */,
 				5F460CD82AB1E26A0053887A /* MapWalkTests.xctest */,
 				5F460CE22AB1E26A0053887A /* MapWalkUITests.xctest */,
+				5F8477A72ACFD57700052BA4 /* MapWalkActionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -220,8 +267,8 @@
 		5F722FDD2AC6E91E00081AC5 /* KMLParser */ = {
 			isa = PBXGroup;
 			children = (
-				5F722FDF2AC6E93200081AC5 /* KMLParser.h */,
-				5F722FE02AC6E93200081AC5 /* KMLParser.m */,
+				5F8477C32ACFEADF00052BA4 /* KMLParser.h */,
+				5F8477C22ACFEADF00052BA4 /* KMLParser.m */,
 				5F722FDE2AC6E93100081AC5 /* MapWalk-Bridging-Header.h */,
 				5F61F8072ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.h */,
 				5F61F8082ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m */,
@@ -229,6 +276,25 @@
 				5F61F80B2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m */,
 			);
 			path = KMLParser;
+			sourceTree = "<group>";
+		};
+		5F8477A82ACFD57700052BA4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5F8477A92ACFD57700052BA4 /* UniformTypeIdentifiers.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5F8477AB2ACFD57700052BA4 /* MapWalkActionExtension */ = {
+			isa = PBXGroup;
+			children = (
+				5F8477AC2ACFD57700052BA4 /* Media.xcassets */,
+				5F8477AE2ACFD57700052BA4 /* ActionViewController.swift */,
+				5F8477B02ACFD57700052BA4 /* MainInterface.storyboard */,
+				5F8477B32ACFD57700052BA4 /* Info.plist */,
+			);
+			path = MapWalkActionExtension;
 			sourceTree = "<group>";
 		};
 		5FDEBBF62ACBD5D200C58FCB /* ViewControllers */ = {
@@ -260,10 +326,12 @@
 				5F460CBB2AB1E2690053887A /* Sources */,
 				5F460CBC2AB1E2690053887A /* Frameworks */,
 				5F460CBD2AB1E2690053887A /* Resources */,
+				5F8477B72ACFD57700052BA4 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5F8477B52ACFD57700052BA4 /* PBXTargetDependency */,
 			);
 			name = MapWalk;
 			productName = MapWalk;
@@ -306,6 +374,23 @@
 			productReference = 5F460CE22AB1E26A0053887A /* MapWalkUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		5F8477A62ACFD57700052BA4 /* MapWalkActionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5F8477BA2ACFD57700052BA4 /* Build configuration list for PBXNativeTarget "MapWalkActionExtension" */;
+			buildPhases = (
+				5F8477A32ACFD57700052BA4 /* Sources */,
+				5F8477A42ACFD57700052BA4 /* Frameworks */,
+				5F8477A52ACFD57700052BA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MapWalkActionExtension;
+			productName = MapWalkActionExtension;
+			productReference = 5F8477A72ACFD57700052BA4 /* MapWalkActionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -313,8 +398,8 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					5F460CBE2AB1E2690053887A = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -327,6 +412,9 @@
 					5F460CE12AB1E26A0053887A = {
 						CreatedOnToolsVersion = 14.3.1;
 						TestTargetID = 5F460CBE2AB1E2690053887A;
+					};
+					5F8477A62ACFD57700052BA4 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -346,6 +434,7 @@
 				5F460CBE2AB1E2690053887A /* MapWalk */,
 				5F460CD72AB1E26A0053887A /* MapWalkTests */,
 				5F460CE12AB1E26A0053887A /* MapWalkUITests */,
+				5F8477A62ACFD57700052BA4 /* MapWalkActionExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -376,6 +465,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5F8477A52ACFD57700052BA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F8477AD2ACFD57700052BA4 /* Media.xcassets in Resources */,
+				5F8477CC2ACFF95500052BA4 /* Assets.xcassets in Resources */,
+				5F8477B22ACFD57700052BA4 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -391,7 +490,6 @@
 				5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */,
 				5F69D2A32AB432F900AAF34E /* UserDefaultManager.swift in Sources */,
 				5F2D6E2F2AB8728100ACE87D /* CustomButton.swift in Sources */,
-				5F722FE12AC6E93200081AC5 /* KMLParser.m in Sources */,
 				5F460CFB2AB1E29D0053887A /* CanvasView.swift in Sources */,
 				5F460CCD2AB1E2690053887A /* MapWalk.xcdatamodeld in Sources */,
 				5F2D6E2C2AB84F8300ACE87D /* Overlays+CoreDataClass.swift in Sources */,
@@ -406,6 +504,7 @@
 				5F2D6E292AB8295500ACE87D /* MapPolyline.swift in Sources */,
 				5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */,
 				5F2D6E2D2AB84F8300ACE87D /* Overlays+CoreDataProperties.swift in Sources */,
+				5F8477C42ACFEADF00052BA4 /* KMLParser.m in Sources */,
 				5F69D2C42AB451A100AAF34E /* Map+CoreDataProperties.swift in Sources */,
 				5F61F8102ACAE724005621D9 /* Utilities.swift in Sources */,
 				5FDEBBF92ACBD5FF00C58FCB /* SharedMapViewController.swift in Sources */,
@@ -430,6 +529,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5F8477A32ACFD57700052BA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F8477AF2ACFD57700052BA4 /* ActionViewController.swift in Sources */,
+				5F8477C92ACFF82B00052BA4 /* KMLParser.m in Sources */,
+				5F8477CB2ACFF86D00052BA4 /* KMLConstantWidthPolylineRenderer.m in Sources */,
+				5F8477CA2ACFF86B00052BA4 /* KMLConstantWidthPolygonRenderer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -442,6 +552,11 @@
 			isa = PBXTargetDependency;
 			target = 5F460CBE2AB1E2690053887A /* MapWalk */;
 			targetProxy = 5F460CE32AB1E26A0053887A /* PBXContainerItemProxy */;
+		};
+		5F8477B52ACFD57700052BA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5F8477A62ACFD57700052BA4 /* MapWalkActionExtension */;
+			targetProxy = 5F8477B42ACFD57700052BA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -462,6 +577,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		5F8477B02ACFD57700052BA4 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5F8477B12ACFD57700052BA4 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -469,6 +592,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -529,6 +653,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -582,6 +707,7 @@
 		5F460CED2AB1E26A0053887A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -606,10 +732,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gbwhatsversion.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Dev_gbwhatsversion;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkAppDev_06_Oct_2023;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -621,6 +747,7 @@
 		5F460CEE2AB1E26A0053887A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -645,10 +772,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gbwhatsversion.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Dev_gbwhatsversion;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkAppDev_06_Oct_2023;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -728,6 +855,79 @@
 			};
 			name = Release;
 		};
+		5F8477B82ACFD57700052BA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MapWalkActionExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "View in MapWalk";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app.MapWalkActionExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkExtensionDev_06_Oct_2023;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5F8477B92ACFD57700052BA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MapWalkActionExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "View in MapWalk";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app.MapWalkActionExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkExtensionDev_06_Oct_2023;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -763,6 +963,15 @@
 			buildConfigurations = (
 				5F460CF32AB1E26A0053887A /* Debug */,
 				5F460CF42AB1E26A0053887A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5F8477BA2ACFD57700052BA4 /* Build configuration list for PBXNativeTarget "MapWalkActionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F8477B82ACFD57700052BA4 /* Debug */,
+				5F8477B92ACFD57700052BA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
