@@ -125,6 +125,8 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.viewBottomContainer.roundCorners([.topLeft, .topRight], radius: 10)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleReceivedURL(_:)), name: Notification.Name("ReceivedURL"), object: nil)
     }
     
     func loadMyMap() {
@@ -298,6 +300,16 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         catch {
             print("Error copying video: \(error)")
+        }
+    }
+    
+    @objc func handleReceivedURL(_ notification: Notification) {
+        if let userInfo = notification.userInfo,
+           let url = userInfo["url"] as? URL {
+            // Handle the URL here
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.openKMLFileFromURL(url: url)
+            }
         }
     }
     
