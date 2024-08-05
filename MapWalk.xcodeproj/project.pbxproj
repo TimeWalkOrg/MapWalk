@@ -50,6 +50,10 @@
 		5FDEBBF92ACBD5FF00C58FCB /* SharedMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDEBBF82ACBD5FF00C58FCB /* SharedMapViewController.swift */; };
 		5FDEBBFC2ACBD6C300C58FCB /* SharedMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDEBBFA2ACBD6C300C58FCB /* SharedMapTableViewCell.swift */; };
 		5FDEBBFD2ACBD6C300C58FCB /* SharedMapTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5FDEBBFB2ACBD6C300C58FCB /* SharedMapTableViewCell.xib */; };
+		888ECEC42C60D4B600067371 /* PVPark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888ECEC32C60D4B600067371 /* PVPark.swift */; };
+		888ECEC72C60D4E400067371 /* PVParkMapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888ECEC52C60D4E400067371 /* PVParkMapOverlay.swift */; };
+		888ECEC82C60D4E400067371 /* PVParkMapOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888ECEC62C60D4E400067371 /* PVParkMapOverlayView.swift */; };
+		888ECECA2C60D56000067371 /* ManhattanNew.plist in Resources */ = {isa = PBXBuildFile; fileRef = 888ECEC92C60D56000067371 /* ManhattanNew.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +143,10 @@
 		5FDEBBF82ACBD5FF00C58FCB /* SharedMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedMapViewController.swift; sourceTree = "<group>"; };
 		5FDEBBFA2ACBD6C300C58FCB /* SharedMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedMapTableViewCell.swift; sourceTree = "<group>"; };
 		5FDEBBFB2ACBD6C300C58FCB /* SharedMapTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SharedMapTableViewCell.xib; sourceTree = "<group>"; };
+		888ECEC32C60D4B600067371 /* PVPark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVPark.swift; sourceTree = "<group>"; };
+		888ECEC52C60D4E400067371 /* PVParkMapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVParkMapOverlay.swift; sourceTree = "<group>"; };
+		888ECEC62C60D4E400067371 /* PVParkMapOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVParkMapOverlayView.swift; sourceTree = "<group>"; };
+		888ECEC92C60D56000067371 /* ManhattanNew.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ManhattanNew.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,8 +214,8 @@
 				5F460CC42AB1E2690053887A /* SceneDelegate.swift */,
 				5FDEBBF62ACBD5D200C58FCB /* ViewControllers */,
 				5F460CC82AB1E2690053887A /* Main.storyboard */,
-				5F460CCE2AB1E26A0053887A /* Assets.xcassets */,
 				5F460CD02AB1E26A0053887A /* LaunchScreen.storyboard */,
+				5F460CCE2AB1E26A0053887A /* Assets.xcassets */,
 				5F460CD32AB1E26A0053887A /* Info.plist */,
 				5F460CCB2AB1E2690053887A /* MapWalk.xcdatamodeld */,
 			);
@@ -234,6 +242,9 @@
 		5F460CF52AB1E28A0053887A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				888ECEC52C60D4E400067371 /* PVParkMapOverlay.swift */,
+				888ECEC62C60D4E400067371 /* PVParkMapOverlayView.swift */,
+				888ECEC32C60D4B600067371 /* PVPark.swift */,
 				5F722FDD2AC6E91E00081AC5 /* KMLParser */,
 				5F61F80F2ACAE724005621D9 /* Utilities.swift */,
 				5F69D2A22AB432F900AAF34E /* UserDefaultManager.swift */,
@@ -293,6 +304,7 @@
 				5F8477AE2ACFD57700052BA4 /* ActionViewController.swift */,
 				5F8477B02ACFD57700052BA4 /* MainInterface.storyboard */,
 				5F8477B32ACFD57700052BA4 /* Info.plist */,
+				888ECEC92C60D56000067371 /* ManhattanNew.plist */,
 			);
 			path = MapWalkActionExtension;
 			sourceTree = "<group>";
@@ -447,6 +459,7 @@
 				5F460CD22AB1E26A0053887A /* LaunchScreen.storyboard in Resources */,
 				5FDEBBFD2ACBD6C300C58FCB /* SharedMapTableViewCell.xib in Resources */,
 				5F460CCF2AB1E26A0053887A /* Assets.xcassets in Resources */,
+				888ECECA2C60D56000067371 /* ManhattanNew.plist in Resources */,
 				5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,9 +502,12 @@
 				5F460CF92AB1E29D0053887A /* LocationManager.swift in Sources */,
 				5F69D2C62AB469E400AAF34E /* MapPolygon.swift in Sources */,
 				5F69D2A32AB432F900AAF34E /* UserDefaultManager.swift in Sources */,
+				888ECEC42C60D4B600067371 /* PVPark.swift in Sources */,
 				5F2D6E2F2AB8728100ACE87D /* CustomButton.swift in Sources */,
 				5F460CFB2AB1E29D0053887A /* CanvasView.swift in Sources */,
 				5F460CCD2AB1E2690053887A /* MapWalk.xcdatamodeld in Sources */,
+				888ECEC72C60D4E400067371 /* PVParkMapOverlay.swift in Sources */,
+				888ECEC82C60D4E400067371 /* PVParkMapOverlayView.swift in Sources */,
 				5F2D6E2C2AB84F8300ACE87D /* Overlays+CoreDataClass.swift in Sources */,
 				5F69D2BA2AB44E0F00AAF34E /* CoreDataManager.swift in Sources */,
 				5F69D2C32AB451A100AAF34E /* Map+CoreDataClass.swift in Sources */,

@@ -88,6 +88,15 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     var kmlParser: KMLParser?
     var openedMapURL: URL?
     
+    let regionRadius: CLLocationDistance = 1000
+    var park: PVPark?
+    var selectedLocation = ""
+    var locationOptions: [(name: String, coordinate: CLLocationCoordinate2D)] = [
+        (name: "1776 Manhattan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
+        (name: "1660 Castello Plan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702))
+    ]
+    
+    
     //MARK: - Live cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +131,9 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         self.viewTopButton.layer.shadowOpacity = 0.3
         self.viewTopButton.layer.shadowOffset = CGSize(width: 0, height: 0)
         
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.setMapCenter(self.locationOptions[1].coordinate, name: self.locationOptions[1].name)
             self.viewBottomContainer.roundCorners([.topLeft, .topRight], radius: 10)
         }
         
@@ -183,11 +194,88 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let option4 = UIAction(title: "Import A Map (or KML)", image: nil) { _ in
             self.presentFilePicker()
+            
         }
+        
+        var menuItems: [UIMenuElement] = []
+        for location in self.locationOptions {
+            let menuItem = UIAction(title: location.name, handler: { [weak self] _ in
+                self?.setMapCenter(location.coordinate, name: location.name)
+            })
+            menuItems.append(menuItem)
+        }
+        
+        let option5 = UIMenu(title: "Map Overlay", children: menuItems)
         
         self.btnMenu.overrideUserInterfaceStyle = .dark
         self.btnMenu.showsMenuAsPrimaryAction = true
-        self.btnMenu.menu = UIMenu(title: "", children: [option1, option2, option3, option4])
+        self.btnMenu.menu = UIMenu(title: "", children: [option1, option2, option3, option4, option5])
+    }
+    
+    func setMapCenter(_ coordinate: CLLocationCoordinate2D, name: String) {
+        selectedLocation = name
+        if name == "1776 Manhattan" {
+            let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+            mapView.setRegion(region, animated: true)
+            //self.setCamearAngle(centerCoordinates: coordinate)
+        }
+        else {
+            self.loadImage(plistFilename: "ManhattanNew")
+        }
+    }
+    
+    func loadImage(plistFilename: String) {
+        park = PVPark(filename: plistFilename)
+        if let park = park {
+            let latDelta = park.overlayTopLeftCoordinate.latitude - park.overlayBottomRightCoordinate.latitude
+            // Think of a span as a TV size, measure from one corner to another
+            /*let span = MKCoordinateSpan(latitudeDelta: abs(latDelta), longitudeDelta: 0.0)
+            
+            let region = MKCoordinateRegion(center: park.midCoordinate, span: span)
+            mapView.region = region*/
+            
+            let region = MKCoordinateRegion(center: park.midCoordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+            mapView.setRegion(region, animated: true)
+            
+            loadSelectedOptions()
+            //self.setCamearAngle(centerCoordinates: park.midCoordinate)
+        } else {
+            // Handle the case where 'park' is nil
+        }
+    }
+    
+    func loadSelectedOptions() {
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        self.mapView.removeOverlays(self.mapView.overlays)
+        self.addOverlay()
+    }
+    
+    func addOverlay() {
+        //Original image
+        let overlay = PVParkMapOverlay(park: self.park!)
+        self.mapView.addOverlay(overlay)
+        
+        
+        // Coordinates
+        let topLeft = self.park!.overlayTopLeftCoordinate
+        let topRight = self.park!.overlayTopRightCoordinate
+        let bottomLeft = self.park!.overlayBottomLeftCoordinate
+        let bottomRight = self.calculateBottomRight(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft)
+        
+        let coordinates = [topLeft, topRight, bottomRight, bottomLeft]
+
+        let overlays = MKPolygon(coordinates: coordinates, count: coordinates.count)
+
+        // Add the overlay to your map
+        mapView.addOverlay(overlays)
+    }
+    
+    func calculateBottomRight(topLeft: CLLocationCoordinate2D, topRight: CLLocationCoordinate2D, bottomLeft: CLLocationCoordinate2D) -> CLLocationCoordinate2D {
+        // Calculate the missing bottom right corner
+        let latitude = bottomLeft.latitude + (topRight.latitude - topLeft.latitude)
+        let longitude = bottomLeft.longitude + (topRight.longitude - topLeft.longitude)
+        
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
     func moveToSharedMapVC() {
@@ -683,7 +771,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         
         DispatchQueue.main.async {
             // Remove the last drawn shape's coordinates
-            if let lastOverlay = self.mapView.overlays.last {
+            if let lastOverlay = self.mapView.overlays.last, !(lastOverlay is PVParkMapOverlay) {
                 self.mapView.removeOverlay(lastOverlay)
             }
             
@@ -963,6 +1051,35 @@ extension MapWalkViewController: MKMapViewDelegate {
         else if self.kmlParser != nil {
             return kmlParser?.renderer(for: overlay) ?? MKOverlayRenderer()
         }
+        
+        if overlay is PVParkMapOverlay {
+            let imgName = self.selectedLocation == "MagicMountain" ? "overlay_park" : "groundOverlay"
+            if let magicMountainImage = UIImage(named: imgName) {
+                let overlayView = PVParkMapOverlayView(overlay: overlay, overlayImage: magicMountainImage)
+                return overlayView
+            }
+        }
+        /*else if let polygon = overlay as? MKPolygon {
+            let renderer = MKPolygonRenderer(polygon: polygon)
+            //renderer.fillColor = UIColor.yellow.withAlphaComponent(0.5)
+            
+            renderer.strokeColor = .red
+            renderer.lineWidth = 2
+            /*renderer.lineDashPattern = [20 as NSNumber,   // Long dash
+                                        10 as NSNumber,   // Space
+                                         5 as NSNumber,   // Shorter dash
+                                        10 as NSNumber,   // Space
+                                         1 as NSNumber,   // Dot
+                                        10 as NSNumber]   // Space*/
+            
+            renderer.lineDashPattern = [5 as NSNumber,   // Long dash
+                                        5 as NSNumber,   // Space
+                                         5 as NSNumber,   // Shorter dash
+                                        5 as NSNumber,   // Space
+                                         1 as NSNumber,   // Dot
+                                        5 as NSNumber]   // Space
+            return renderer
+        }*/
         
         return MKOverlayRenderer()
     }
