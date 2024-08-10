@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dUi-wJ-Ftr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dUi-wJ-Ftr">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -281,6 +281,48 @@
                                     <constraint firstItem="2bV-he-nWX" firstAttribute="leading" secondItem="wlf-02-VdX" secondAttribute="trailing" constant="15" id="tut-Hq-vZg"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="w8m-Yj-9e5">
+                                <rect key="frame" x="338" y="217" width="45" height="45"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ox-d0-QXr">
+                                        <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
+                                        <subviews>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DSS-Ji-0AW">
+                                                <rect key="frame" x="8" y="0.0" width="164" height="46"/>
+                                                <connections>
+                                                    <action selector="sliderAlphaAction:" destination="dUi-wJ-Ftr" eventType="valueChanged" id="zrU-AT-KXg"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.25882352941176467" green="0.25882352941176467" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstItem="DSS-Ji-0AW" firstAttribute="top" secondItem="4Ox-d0-QXr" secondAttribute="top" id="4y8-pH-Y1u"/>
+                                            <constraint firstItem="DSS-Ji-0AW" firstAttribute="leading" secondItem="4Ox-d0-QXr" secondAttribute="leading" constant="10" id="77s-TX-bo8"/>
+                                            <constraint firstAttribute="width" constant="180" id="U8U-Ho-3UU"/>
+                                            <constraint firstAttribute="bottom" secondItem="DSS-Ji-0AW" secondAttribute="bottom" id="h2X-Ik-MV8"/>
+                                            <constraint firstAttribute="trailing" secondItem="DSS-Ji-0AW" secondAttribute="trailing" constant="10" id="y7c-Sk-tGm"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtD-aT-WMu">
+                                        <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                                        <color key="backgroundColor" red="0.15686275059999999" green="0.15686275059999999" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="cjI-Nz-sgs"/>
+                                            <constraint firstAttribute="height" constant="45" id="fw4-c8-R7H"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="slider.horizontal.below.sun.max" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="14"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnAlphaAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="uhC-Bz-Nfl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tuB-c7-Vlt"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -289,10 +331,12 @@
                             <constraint firstItem="pE5-tt-QUO" firstAttribute="top" secondItem="b5r-1m-FTp" secondAttribute="top" id="41O-oj-tF6"/>
                             <constraint firstAttribute="bottom" secondItem="ZaH-lg-z3n" secondAttribute="bottom" id="6sU-Fo-1Y3"/>
                             <constraint firstItem="Tbo-1Y-HDa" firstAttribute="top" secondItem="tuB-c7-Vlt" secondAttribute="top" constant="5" id="EBR-Zc-a8J"/>
+                            <constraint firstItem="w8m-Yj-9e5" firstAttribute="top" secondItem="VAc-5S-flg" secondAttribute="bottom" constant="10" id="Mxo-6I-vN1"/>
                             <constraint firstItem="pE5-tt-QUO" firstAttribute="trailing" secondItem="tuB-c7-Vlt" secondAttribute="trailing" id="OrY-Rd-2x8"/>
                             <constraint firstItem="ZaH-lg-z3n" firstAttribute="leading" secondItem="tuB-c7-Vlt" secondAttribute="leading" id="PyC-RE-I2b"/>
                             <constraint firstItem="bDU-xd-3Yu" firstAttribute="top" secondItem="b5r-1m-FTp" secondAttribute="top" constant="61" id="RaH-Cp-sbY"/>
                             <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="VAc-5S-flg" secondAttribute="trailing" constant="10" id="S1P-0R-t9O"/>
+                            <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="w8m-Yj-9e5" secondAttribute="trailing" constant="10" id="bCb-As-LAh"/>
                             <constraint firstItem="VAc-5S-flg" firstAttribute="top" secondItem="bDU-xd-3Yu" secondAttribute="bottom" constant="10" id="fzU-aN-hmR"/>
                             <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="bDU-xd-3Yu" secondAttribute="trailing" constant="10" id="gu7-NG-e3P"/>
                             <constraint firstItem="pE5-tt-QUO" firstAttribute="leading" secondItem="tuB-c7-Vlt" secondAttribute="leading" id="oDP-tR-hzb"/>
@@ -301,6 +345,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnAlpha" destination="OtD-aT-WMu" id="aqN-fI-KJZ"/>
                         <outlet property="btnAvoid" destination="Lq6-vJ-MvI" id="JcB-Eb-cRb"/>
                         <outlet property="btnMapType" destination="h1x-D8-ftL" id="3TQ-Bv-60T"/>
                         <outlet property="btnMenu" destination="bDU-xd-3Yu" id="g5u-Wx-cus"/>
@@ -312,12 +357,15 @@
                         <outlet property="imgShopPen" destination="d3s-9j-SLF" id="CY2-Yp-Des"/>
                         <outlet property="lblMapWalk" destination="Tbo-1Y-HDa" id="c3l-3v-lPZ"/>
                         <outlet property="mapView" destination="pE5-tt-QUO" id="GWc-MG-13z"/>
+                        <outlet property="sliderAlpha" destination="DSS-Ji-0AW" id="Ofh-Zx-8VT"/>
+                        <outlet property="stackSlider" destination="w8m-Yj-9e5" id="SQv-R9-EuM"/>
                         <outlet property="viewAvoid" destination="wlf-02-VdX" id="hve-Po-qbF"/>
                         <outlet property="viewBottomContainer" destination="ZaH-lg-z3n" id="vbX-VD-Doz"/>
                         <outlet property="viewBottomHeight" destination="OFo-On-DpE" id="6xM-oP-hjZ"/>
                         <outlet property="viewPenOptionAction" destination="2bV-he-nWX" id="0an-dt-ftv"/>
                         <outlet property="viewPretty" destination="s1L-RT-V0Q" id="gk0-2h-1xS"/>
                         <outlet property="viewShop" destination="gdC-TR-MzY" id="kFt-3c-l4I"/>
+                        <outlet property="viewSlider" destination="4Ox-d0-QXr" id="iRh-Si-pLH"/>
                         <outlet property="viewTopButton" destination="VAc-5S-flg" id="s3U-d5-eIJ"/>
                     </connections>
                 </viewController>
@@ -422,6 +470,7 @@
         <image name="location.fill" catalog="system" width="128" height="119"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="pencil.tip" catalog="system" width="99" height="128"/>
+        <image name="slider.horizontal.below.sun.max" catalog="system" width="123" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>

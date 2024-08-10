@@ -29,9 +29,13 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var viewPenOptionAction: UIView!
     @IBOutlet weak var viewAvoid: UIView!
     @IBOutlet weak var viewPretty: UIView!
+    @IBOutlet weak var viewSlider: UIView!
+    @IBOutlet weak var stackSlider: UIStackView!
+    
     @IBOutlet weak var viewShop: UIView!
     @IBOutlet weak var viewTopButton: UIView!
     @IBOutlet weak var btnMenu: UIButton!
+    @IBOutlet weak var btnAlpha: UIButton!
     
     @IBOutlet weak var viewBottomContainer: UIView!
     @IBOutlet weak var btnAvoid: CustomButton!
@@ -39,12 +43,14 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var btnShop: CustomButton!
     @IBOutlet weak var viewBottomHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var sliderAlpha: UISlider!
     @IBOutlet weak var imgShape: UIImageView!
     @IBOutlet weak var imgAvoidPen: UIImageView!
     @IBOutlet weak var imgPrettyPen: UIImageView!
     @IBOutlet weak var imgShopPen: UIImageView!
     
     var selectedPencilType = PencilType.None
+    
     //var drawingType = DrawingType.TracingStreet
     
     var currentMapType: MKMapType = .standard {
@@ -90,10 +96,13 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     let regionRadius: CLLocationDistance = 1000
     var park: PVPark?
+    var selectedPVOverlaView: PVParkMapOverlayView?
     var selectedLocation = ""
     var locationOptions: [(name: String, coordinate: CLLocationCoordinate2D)] = [
         (name: "1776 Manhattan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
-        (name: "1660 Castello Plan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702))
+        (name: "1660 Castello Plan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
+        (name: "1776 - Holland downtown", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
+        (name: "1776 - Great Fire", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702))
     ]
     
     
@@ -123,6 +132,12 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.btnMenu.layer.cornerRadius = 10
         self.btnMenu.layer.masksToBounds = true
+        self.btnAlpha.layer.cornerRadius = 10
+        self.btnAlpha.layer.masksToBounds = true
+        self.viewSlider.layer.cornerRadius = 10
+        self.viewSlider.layer.masksToBounds = true
+        self.stackSlider.layer.cornerRadius = 10
+        self.stackSlider.layer.masksToBounds = true
         self.setupMenuOptions()
         
         self.viewTopButton.layer.cornerRadius = 10
@@ -155,6 +170,9 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+        
+        let arrExcludingCategory: [MKPointOfInterestCategory] = [.cafe, .bakery, .brewery, .foodMarket, .nightlife, .restaurant, .winery, .hotel, .store]
+        self.mapView.pointOfInterestFilter = MKPointOfInterestFilter(excluding: arrExcludingCategory)
     }
     
     func moveToMyCurrentMap() {
@@ -215,9 +233,12 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     func setMapCenter(_ coordinate: CLLocationCoordinate2D, name: String) {
         selectedLocation = name
         if name == "1776 Manhattan" {
+            viewSlider.isHidden = true
+            btnAlpha.isSelected = false
+            selectedPVOverlaView = nil
+            
             let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
             mapView.setRegion(region, animated: true)
-            //self.setCamearAngle(centerCoordinates: coordinate)
         }
         else {
             self.loadImage(plistFilename: "ManhattanNew")
@@ -712,6 +733,24 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Button actions
+    @IBAction func btnAlphaAction(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        
+        UIView.animate(withDuration: 0.3) {
+            if let overlayView = self.selectedPVOverlaView {
+                self.sliderAlpha.value = Float(overlayView.alpha)
+                self.viewSlider.isHidden = !sender.isSelected
+            }
+        }
+    }
+    
+    @IBAction func sliderAlphaAction(_ sender: UISlider) {
+        if let overlayView = self.selectedPVOverlaView {
+            overlayView.alpha = CGFloat(sender.value)
+            overlayView.setNeedsDisplay()
+            self.mapView.setNeedsLayout()
+        }
+    }
     
     @IBAction func btnShapeTypeAction(_ sender: Any) {
         if self.drawingType == .EncirclingArea {
@@ -1005,6 +1044,9 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension MapWalkViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        viewSlider.isHidden = true
+        btnAlpha.isSelected = false
+        
         if let polygon = overlay as? MapPolygon {
             
             //let overlayPathView = MKPolygonRenderer(polygon: polygon)
@@ -1053,9 +1095,23 @@ extension MapWalkViewController: MKMapViewDelegate {
         }
         
         if overlay is PVParkMapOverlay {
-            let imgName = self.selectedLocation == "MagicMountain" ? "overlay_park" : "groundOverlay"
+            var imgName = self.selectedLocation == "MagicMountain" ? "overlay_park" : "groundOverlay"
+            switch self.selectedLocation {
+            case "MagicMountain":
+                imgName = "overlay_park"
+            case "1660 Castello Plan":
+                imgName = "groundOverlay"
+            case "1776 - Holland downtown":
+                imgName = "1776-Hollanddowntown"
+            case "1776 - Great Fire":
+                imgName = "1776-GreatFire"
+            default:
+                imgName = "overlay_park"
+            }
+            
             if let magicMountainImage = UIImage(named: imgName) {
                 let overlayView = PVParkMapOverlayView(overlay: overlay, overlayImage: magicMountainImage)
+                self.selectedPVOverlaView = overlayView
                 return overlayView
             }
         }
