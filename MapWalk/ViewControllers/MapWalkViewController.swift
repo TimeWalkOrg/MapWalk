@@ -98,14 +98,19 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     var park: PVPark?
     var selectedPVOverlaView: PVParkMapOverlayView?
     var selectedLocation = ""
-    var locationOptions: [(name: String, coordinate: CLLocationCoordinate2D)] = [
+    /*var locationOptions: [(name: String, coordinate: CLLocationCoordinate2D)] = [
         (name: "1776 Manhattan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
         (name: "1660 Castello Plan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
         (name: "1776 - Holland downtown", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
         (name: "1776 - Great Fire", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702))
+    ]*/
+    
+    var locationOptions: [(name: String, coordinate: CLLocationCoordinate2D)] = [
+        (name: "1660 - Castello Plan", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
+        (name: "1776 - Holland", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702)),
+        (name: "1776 - Great Fire", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702))
     ]
-    
-    
+        
     //MARK: - Live cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +153,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.setMapCenter(self.locationOptions[1].coordinate, name: self.locationOptions[1].name)
+            self.setMapCenter(self.locationOptions[0].coordinate, name: self.locationOptions[0].name)
             self.viewBottomContainer.roundCorners([.topLeft, .topRight], radius: 10)
         }
         
@@ -1099,9 +1104,9 @@ extension MapWalkViewController: MKMapViewDelegate {
             switch self.selectedLocation {
             case "MagicMountain":
                 imgName = "overlay_park"
-            case "1660 Castello Plan":
+            case "1660 - Castello Plan":
                 imgName = "groundOverlay"
-            case "1776 - Holland downtown":
+            case "1776 - Holland":
                 imgName = "1776-Hollanddowntown"
             case "1776 - Great Fire":
                 imgName = "1776-GreatFire"
