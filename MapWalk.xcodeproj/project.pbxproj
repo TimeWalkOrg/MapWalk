@@ -731,7 +731,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalk/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide you with nearby services and enhance your experience.";
@@ -748,10 +748,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkAppDev_06_Oct_2023;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_dev_profile_1_Aug_2024;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -771,7 +771,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalk/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide you with nearby services and enhance your experience.";
@@ -788,10 +788,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkAppDev_06_Oct_2023;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_dev_profile_1_Aug_2024;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -880,7 +880,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -895,10 +895,10 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app.MapWalkActionExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app.mapwalkactionextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkExtensionDev_06_Oct_2023;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_ActionExtension_dev_profile_1_Aug_2024;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -917,7 +917,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KQ3X2L5SCP;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -932,10 +932,10 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.testmapwalk.app.MapWalkActionExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app.mapwalkactionextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = testMapWalkExtensionDev_06_Oct_2023;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_ActionExtension_dev_profile_1_Aug_2024;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
