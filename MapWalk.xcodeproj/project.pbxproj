@@ -45,6 +45,7 @@
 		5F8477CB2ACFF86D00052BA4 /* KMLConstantWidthPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F61F80B2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m */; };
 		5F8477CC2ACFF95500052BA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CCE2AB1E26A0053887A /* Assets.xcassets */; };
 		5F909D972ABDA9A9004BBBE4 /* KMLExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F909D962ABDA9A9004BBBE4 /* KMLExporter.swift */; };
+		5F9438342C6F873000BFB1C6 /* PanModal in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9438332C6F873000BFB1C6 /* PanModal */; };
 		5FA7686D2ABC482200E01722 /* CustomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686C2ABC482200E01722 /* CustomMenuView.swift */; };
 		5FA7686F2ABC49A000E01722 /* CustomMenuOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7686E2ABC49A000E01722 /* CustomMenuOverlayView.swift */; };
 		5FDEBBF92ACBD5FF00C58FCB /* SharedMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDEBBF82ACBD5FF00C58FCB /* SharedMapViewController.swift */; };
@@ -54,6 +55,9 @@
 		888ECEC72C60D4E400067371 /* PVParkMapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888ECEC52C60D4E400067371 /* PVParkMapOverlay.swift */; };
 		888ECEC82C60D4E400067371 /* PVParkMapOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888ECEC62C60D4E400067371 /* PVParkMapOverlayView.swift */; };
 		888ECECA2C60D56000067371 /* ManhattanNew.plist in Resources */ = {isa = PBXBuildFile; fileRef = 888ECEC92C60D56000067371 /* ManhattanNew.plist */; };
+		88A46EA02C6C76E3006D0418 /* MapCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A46E9E2C6C76E3006D0418 /* MapCollectionCell.swift */; };
+		88A46EA12C6C76E3006D0418 /* MapCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A46E9F2C6C76E3006D0418 /* MapCollectionCell.xib */; };
+		88A46EA42C6C784C006D0418 /* MapOverlayPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A46EA32C6C784C006D0418 /* MapOverlayPopupVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +151,9 @@
 		888ECEC52C60D4E400067371 /* PVParkMapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVParkMapOverlay.swift; sourceTree = "<group>"; };
 		888ECEC62C60D4E400067371 /* PVParkMapOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVParkMapOverlayView.swift; sourceTree = "<group>"; };
 		888ECEC92C60D56000067371 /* ManhattanNew.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ManhattanNew.plist; sourceTree = "<group>"; };
+		88A46E9E2C6C76E3006D0418 /* MapCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionCell.swift; sourceTree = "<group>"; };
+		88A46E9F2C6C76E3006D0418 /* MapCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapCollectionCell.xib; sourceTree = "<group>"; };
+		88A46EA32C6C784C006D0418 /* MapOverlayPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapOverlayPopupVC.swift; path = MapWalk/ViewControllers/MapOverlayPopupVC.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F9438342C6F873000BFB1C6 /* PanModal in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,12 +217,10 @@
 			isa = PBXGroup;
 			children = (
 				5F69D2A42AB44D2300AAF34E /* CoreData */,
-				5F460CF52AB1E28A0053887A /* Utilities */,
-				5F460CC22AB1E2690053887A /* AppDelegate.swift */,
-				5F460CC42AB1E2690053887A /* SceneDelegate.swift */,
+				88A46EA22C6C774F006D0418 /* App */,
+				88A46E9B2C6C76BF006D0418 /* View */,
 				5FDEBBF62ACBD5D200C58FCB /* ViewControllers */,
-				5F460CC82AB1E2690053887A /* Main.storyboard */,
-				5F460CD02AB1E26A0053887A /* LaunchScreen.storyboard */,
+				5F460CF52AB1E28A0053887A /* Utilities */,
 				5F460CCE2AB1E26A0053887A /* Assets.xcassets */,
 				5F460CD32AB1E26A0053887A /* Info.plist */,
 				5F460CCB2AB1E2690053887A /* MapWalk.xcdatamodeld */,
@@ -314,6 +320,7 @@
 			children = (
 				5FDEBBF72ACBD5E500C58FCB /* Cells */,
 				5F460CFE2AB1E2C90053887A /* MapWalkViewController.swift */,
+				88A46EA32C6C784C006D0418 /* MapOverlayPopupVC.swift */,
 				5FDEBBF82ACBD5FF00C58FCB /* SharedMapViewController.swift */,
 			);
 			path = ViewControllers;
@@ -326,6 +333,42 @@
 				5FDEBBFB2ACBD6C300C58FCB /* SharedMapTableViewCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		88A46E9B2C6C76BF006D0418 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				88A46E9D2C6C76D1006D0418 /* Cell */,
+				88A46E9C2C6C76C5006D0418 /* Storyboards */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		88A46E9C2C6C76C5006D0418 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				5F460CC82AB1E2690053887A /* Main.storyboard */,
+				5F460CD02AB1E26A0053887A /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		88A46E9D2C6C76D1006D0418 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				88A46E9E2C6C76E3006D0418 /* MapCollectionCell.swift */,
+				88A46E9F2C6C76E3006D0418 /* MapCollectionCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		88A46EA22C6C774F006D0418 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5F460CC22AB1E2690053887A /* AppDelegate.swift */,
+				5F460CC42AB1E2690053887A /* SceneDelegate.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,6 +389,9 @@
 				5F8477B52ACFD57700052BA4 /* PBXTargetDependency */,
 			);
 			name = MapWalk;
+			packageProductDependencies = (
+				5F9438332C6F873000BFB1C6 /* PanModal */,
+			);
 			productName = MapWalk;
 			productReference = 5F460CBF2AB1E2690053887A /* MapWalk.app */;
 			productType = "com.apple.product-type.application";
@@ -439,6 +485,9 @@
 				Base,
 			);
 			mainGroup = 5F460CB62AB1E2690053887A;
+			packageReferences = (
+				5F9438322C6F873000BFB1C6 /* XCRemoteSwiftPackageReference "PanModal" */,
+			);
 			productRefGroup = 5F460CC02AB1E2690053887A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -460,6 +509,7 @@
 				5FDEBBFD2ACBD6C300C58FCB /* SharedMapTableViewCell.xib in Resources */,
 				5F460CCF2AB1E26A0053887A /* Assets.xcassets in Resources */,
 				888ECECA2C60D56000067371 /* ManhattanNew.plist in Resources */,
+				88A46EA12C6C76E3006D0418 /* MapCollectionCell.xib in Resources */,
 				5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,6 +564,7 @@
 				5F61F8092ACADBCF005621D9 /* KMLConstantWidthPolygonRenderer.m in Sources */,
 				5F460CC32AB1E2690053887A /* AppDelegate.swift in Sources */,
 				5F38BC082AC40E3500EA9207 /* MapPointAnnotation.swift in Sources */,
+				88A46EA02C6C76E3006D0418 /* MapCollectionCell.swift in Sources */,
 				5F460CFF2AB1E2C90053887A /* MapWalkViewController.swift in Sources */,
 				5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */,
 				5F3BD1102AC2C988002B1AF5 /* Constants.swift in Sources */,
@@ -525,6 +576,7 @@
 				5F61F8102ACAE724005621D9 /* Utilities.swift in Sources */,
 				5FDEBBF92ACBD5FF00C58FCB /* SharedMapViewController.swift in Sources */,
 				5F61F80C2ACADC4E005621D9 /* KMLConstantWidthPolylineRenderer.m in Sources */,
+				88A46EA42C6C784C006D0418 /* MapOverlayPopupVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -802,7 +854,6 @@
 		5F460CF02AB1E26A0053887A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -821,7 +872,6 @@
 		5F460CF12AB1E26A0053887A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -840,7 +890,6 @@
 		5F460CF32AB1E26A0053887A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -857,7 +906,6 @@
 		5F460CF42AB1E26A0053887A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -993,6 +1041,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5F9438322C6F873000BFB1C6 /* XCRemoteSwiftPackageReference "PanModal" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/slackhq/PanModal.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5F9438332C6F873000BFB1C6 /* PanModal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F9438322C6F873000BFB1C6 /* XCRemoteSwiftPackageReference "PanModal" */;
+			productName = PanModal;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		5F460CCB2AB1E2690053887A /* MapWalk.xcdatamodeld */ = {

@@ -7,6 +7,8 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -42,7 +44,7 @@
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="location.fill" catalog="system">
                                             <color key="titleColor" red="0.62745100259999997" green="0.62745100259999997" blue="0.62745100259999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" weight="bold"/>
                                         </state>
                                         <connections>
                                             <action selector="btnCurrentLocationAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="UEy-gx-C0r"/>
@@ -60,7 +62,7 @@
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
                                             <imageReference key="image" image="map.fill" catalog="system" symbolScale="large"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="14"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="14" weight="bold"/>
                                         </state>
                                         <connections>
                                             <action selector="btnMapTypeAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="DOb-Tf-tzx"/>
@@ -82,15 +84,58 @@
                                 </constraints>
                                 <color key="tintColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="line.3.horizontal" catalog="system">
+                                <state key="normal" image="line.3.horizontal.decrease" catalog="system">
                                     <color key="titleColor" red="0.62745100259999997" green="0.62745100259999997" blue="0.62745100259999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="24" weight="bold"/>
                                 </state>
                                 <connections>
                                     <action selector="btnMenuAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="yyX-zz-IIw"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaH-lg-z3n">
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="w8m-Yj-9e5">
+                                <rect key="frame" x="338" y="217" width="45" height="45"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ox-d0-QXr">
+                                        <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
+                                        <subviews>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DSS-Ji-0AW">
+                                                <rect key="frame" x="8" y="0.0" width="164" height="46"/>
+                                                <color key="tintColor" red="0.75294117650000003" green="0.75294117650000003" blue="0.75294117650000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <connections>
+                                                    <action selector="sliderAlphaAction:" destination="dUi-wJ-Ftr" eventType="valueChanged" id="zrU-AT-KXg"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.25882352941176467" green="0.25882352941176467" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstItem="DSS-Ji-0AW" firstAttribute="top" secondItem="4Ox-d0-QXr" secondAttribute="top" id="4y8-pH-Y1u"/>
+                                            <constraint firstItem="DSS-Ji-0AW" firstAttribute="leading" secondItem="4Ox-d0-QXr" secondAttribute="leading" constant="10" id="77s-TX-bo8"/>
+                                            <constraint firstAttribute="width" constant="180" id="U8U-Ho-3UU"/>
+                                            <constraint firstAttribute="bottom" secondItem="DSS-Ji-0AW" secondAttribute="bottom" id="h2X-Ik-MV8"/>
+                                            <constraint firstAttribute="trailing" secondItem="DSS-Ji-0AW" secondAttribute="trailing" constant="10" id="y7c-Sk-tGm"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtD-aT-WMu">
+                                        <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                                        <color key="backgroundColor" red="0.15686275059999999" green="0.15686275059999999" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="cjI-Nz-sgs"/>
+                                            <constraint firstAttribute="height" constant="45" id="fw4-c8-R7H"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="slider.horizontal.below.sun.max" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18" weight="bold"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnAlphaAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="uhC-Bz-Nfl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </stackView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaH-lg-z3n">
                                 <rect key="frame" x="0.0" y="732" width="393" height="120"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2bV-he-nWX" userLabel="viewShape">
@@ -281,43 +326,58 @@
                                     <constraint firstItem="2bV-he-nWX" firstAttribute="leading" secondItem="wlf-02-VdX" secondAttribute="trailing" constant="15" id="tut-Hq-vZg"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="w8m-Yj-9e5">
-                                <rect key="frame" x="338" y="217" width="45" height="45"/>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dt8-4M-LHG">
+                                <rect key="frame" x="338" y="272" width="45" height="155"/>
                                 <subviews>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ox-d0-QXr">
-                                        <rect key="frame" x="0.0" y="0.0" width="180" height="45"/>
-                                        <subviews>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="DSS-Ji-0AW">
-                                                <rect key="frame" x="8" y="0.0" width="164" height="46"/>
-                                                <connections>
-                                                    <action selector="sliderAlphaAction:" destination="dUi-wJ-Ftr" eventType="valueChanged" id="zrU-AT-KXg"/>
-                                                </connections>
-                                            </slider>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.25882352941176467" green="0.25882352941176467" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <constraints>
-                                            <constraint firstItem="DSS-Ji-0AW" firstAttribute="top" secondItem="4Ox-d0-QXr" secondAttribute="top" id="4y8-pH-Y1u"/>
-                                            <constraint firstItem="DSS-Ji-0AW" firstAttribute="leading" secondItem="4Ox-d0-QXr" secondAttribute="leading" constant="10" id="77s-TX-bo8"/>
-                                            <constraint firstAttribute="width" constant="180" id="U8U-Ho-3UU"/>
-                                            <constraint firstAttribute="bottom" secondItem="DSS-Ji-0AW" secondAttribute="bottom" id="h2X-Ik-MV8"/>
-                                            <constraint firstAttribute="trailing" secondItem="DSS-Ji-0AW" secondAttribute="trailing" constant="10" id="y7c-Sk-tGm"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtD-aT-WMu">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h38-a3-BOP">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                         <color key="backgroundColor" red="0.15686275059999999" green="0.15686275059999999" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="45" id="cjI-Nz-sgs"/>
-                                            <constraint firstAttribute="height" constant="45" id="fw4-c8-R7H"/>
+                                            <constraint firstAttribute="width" constant="45" id="TTC-VC-NY3"/>
+                                            <constraint firstAttribute="height" constant="45" id="scL-A4-6bD"/>
                                         </constraints>
-                                        <color key="tintColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.75294117647058822" green="0.75294117647058822" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
-                                            <imageReference key="image" image="slider.horizontal.below.sun.max" catalog="system" symbolScale="large"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="14"/>
+                                            <imageReference key="image" image="pencil.tip" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18" weight="bold"/>
                                         </state>
                                         <connections>
-                                            <action selector="btnAlphaAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="uhC-Bz-Nfl"/>
+                                            <action selector="btnEditAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="DYl-WP-ZfB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JYd-zg-2Ee">
+                                        <rect key="frame" x="0.0" y="55" width="45" height="45"/>
+                                        <color key="backgroundColor" red="0.15686275059999999" green="0.15686275059999999" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="Kzq-hr-5mH"/>
+                                            <constraint firstAttribute="width" constant="45" id="kaL-3d-NBH"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.75294117647058822" green="0.75294117647058822" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="square.3.layers.3d.top.filled" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnMapsAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="m6z-V9-gYv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0d-4s-q9K">
+                                        <rect key="frame" x="0.0" y="110" width="45" height="45"/>
+                                        <color key="backgroundColor" red="0.15686275059999999" green="0.15686275059999999" blue="0.15686275059999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="D5R-7I-ZOX"/>
+                                            <constraint firstAttribute="height" constant="45" id="GCU-pd-Aj7"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.75294117647058822" green="0.75294117647058822" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="rectangle.landscape.rotate" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18" weight="bold"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnAdjustMapOverlayAction:" destination="dUi-wJ-Ftr" eventType="touchUpInside" id="Qwy-ir-bop"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -336,18 +396,23 @@
                             <constraint firstItem="ZaH-lg-z3n" firstAttribute="leading" secondItem="tuB-c7-Vlt" secondAttribute="leading" id="PyC-RE-I2b"/>
                             <constraint firstItem="bDU-xd-3Yu" firstAttribute="top" secondItem="b5r-1m-FTp" secondAttribute="top" constant="61" id="RaH-Cp-sbY"/>
                             <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="VAc-5S-flg" secondAttribute="trailing" constant="10" id="S1P-0R-t9O"/>
+                            <constraint firstItem="Dt8-4M-LHG" firstAttribute="top" secondItem="w8m-Yj-9e5" secondAttribute="bottom" constant="10" id="awS-84-K9P"/>
                             <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="w8m-Yj-9e5" secondAttribute="trailing" constant="10" id="bCb-As-LAh"/>
                             <constraint firstItem="VAc-5S-flg" firstAttribute="top" secondItem="bDU-xd-3Yu" secondAttribute="bottom" constant="10" id="fzU-aN-hmR"/>
                             <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="bDU-xd-3Yu" secondAttribute="trailing" constant="10" id="gu7-NG-e3P"/>
                             <constraint firstItem="pE5-tt-QUO" firstAttribute="leading" secondItem="tuB-c7-Vlt" secondAttribute="leading" id="oDP-tR-hzb"/>
                             <constraint firstItem="Tbo-1Y-HDa" firstAttribute="leading" secondItem="tuB-c7-Vlt" secondAttribute="leading" constant="15" id="pCj-Bo-4i2"/>
+                            <constraint firstItem="tuB-c7-Vlt" firstAttribute="trailing" secondItem="Dt8-4M-LHG" secondAttribute="trailing" constant="10" id="umQ-Br-D7l"/>
                             <constraint firstItem="ZaH-lg-z3n" firstAttribute="top" secondItem="pE5-tt-QUO" secondAttribute="bottom" constant="-10" id="w3y-cM-tr7"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnAdjustMapOverlay" destination="l0d-4s-q9K" id="hlq-gk-FgA"/>
                         <outlet property="btnAlpha" destination="OtD-aT-WMu" id="aqN-fI-KJZ"/>
                         <outlet property="btnAvoid" destination="Lq6-vJ-MvI" id="JcB-Eb-cRb"/>
+                        <outlet property="btnEdit" destination="h38-a3-BOP" id="p9x-Nl-A8M"/>
                         <outlet property="btnMapType" destination="h1x-D8-ftL" id="3TQ-Bv-60T"/>
+                        <outlet property="btnMaps" destination="JYd-zg-2Ee" id="F73-RP-iAZ"/>
                         <outlet property="btnMenu" destination="bDU-xd-3Yu" id="g5u-Wx-cus"/>
                         <outlet property="btnPretty" destination="PBB-YM-kFb" id="UmE-a3-Ulc"/>
                         <outlet property="btnShop" destination="zyw-wb-fCo" id="mvl-Hk-8O8"/>
@@ -358,6 +423,7 @@
                         <outlet property="lblMapWalk" destination="Tbo-1Y-HDa" id="c3l-3v-lPZ"/>
                         <outlet property="mapView" destination="pE5-tt-QUO" id="GWc-MG-13z"/>
                         <outlet property="sliderAlpha" destination="DSS-Ji-0AW" id="Ofh-Zx-8VT"/>
+                        <outlet property="stackOption" destination="Dt8-4M-LHG" id="1HO-VU-VnG"/>
                         <outlet property="stackSlider" destination="w8m-Yj-9e5" id="SQv-R9-EuM"/>
                         <outlet property="viewAvoid" destination="wlf-02-VdX" id="hve-Po-qbF"/>
                         <outlet property="viewBottomContainer" destination="ZaH-lg-z3n" id="vbX-VD-Doz"/>
@@ -462,15 +528,90 @@
             </objects>
             <point key="canvasLocation" x="610" y="-73"/>
         </scene>
+        <!--Map Overlay PopupVC-->
+        <scene sceneID="RNt-7e-agw">
+            <objects>
+                <viewController storyboardIdentifier="MapOverlayPopupVC" id="sgC-Kg-ofK" customClass="MapOverlayPopupVC" customModule="MapWalk" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xmT-Cl-wdZ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map Overlay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8w-8d-n4o">
+                                <rect key="frame" x="18" y="75" width="357" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Srf-Wu-eDM">
+                                <rect key="frame" x="0.0" y="117" width="393" height="701"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="5" id="5Z5-oX-NAx">
+                                    <size key="itemSize" width="128" height="94"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bJ8-j3-fGg">
+                                        <rect key="frame" x="10" y="0.0" width="128" height="90"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="khS-zv-PEb">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="90"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="128" height="90"/>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="F7N-Ye-D1Y"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Srf-Wu-eDM" firstAttribute="top" secondItem="U8w-8d-n4o" secondAttribute="bottom" constant="25" id="6Ol-d5-8CZ"/>
+                            <constraint firstItem="U8w-8d-n4o" firstAttribute="top" secondItem="F7N-Ye-D1Y" secondAttribute="top" constant="16" id="FWl-TS-rDW"/>
+                            <constraint firstItem="Srf-Wu-eDM" firstAttribute="leading" secondItem="F7N-Ye-D1Y" secondAttribute="leading" id="ME5-4n-d4n"/>
+                            <constraint firstItem="F7N-Ye-D1Y" firstAttribute="trailing" secondItem="U8w-8d-n4o" secondAttribute="trailing" constant="18" id="qUe-xd-293"/>
+                            <constraint firstItem="F7N-Ye-D1Y" firstAttribute="bottom" secondItem="Srf-Wu-eDM" secondAttribute="bottom" id="uUt-j8-SZi"/>
+                            <constraint firstItem="Srf-Wu-eDM" firstAttribute="trailing" secondItem="F7N-Ye-D1Y" secondAttribute="trailing" id="uYP-Te-4HS"/>
+                            <constraint firstItem="U8w-8d-n4o" firstAttribute="leading" secondItem="F7N-Ye-D1Y" secondAttribute="leading" constant="18" id="wdb-wT-k9H"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="Srf-Wu-eDM" id="Eec-ZX-zuO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="80G-fe-6ZK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1243.5114503816794" y="-68.309859154929583"/>
+        </scene>
     </scenes>
+    <designables>
+        <designable name="6bc-li-YiI">
+            <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+        <designable name="Lq6-vJ-MvI">
+            <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+        <designable name="PBB-YM-kFb">
+            <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+        <designable name="zyw-wb-fCo">
+            <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+    </designables>
     <resources>
         <image name="arrow.uturn.backward" catalog="system" width="128" height="113"/>
         <image name="hexagon" catalog="system" width="128" height="125"/>
-        <image name="line.3.horizontal" catalog="system" width="128" height="65"/>
+        <image name="line.3.horizontal.decrease" catalog="system" width="128" height="73"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="pencil.tip" catalog="system" width="99" height="128"/>
+        <image name="rectangle.landscape.rotate" catalog="system" width="128" height="119"/>
         <image name="slider.horizontal.below.sun.max" catalog="system" width="123" height="128"/>
+        <image name="square.3.layers.3d.top.filled" catalog="system" width="128" height="125"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

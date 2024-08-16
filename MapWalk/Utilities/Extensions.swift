@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import CoreGraphics
 import MapKit
 
 extension UIColor {
@@ -135,5 +136,92 @@ extension URL {
         }
 
         return parameters
+    }
+}
+
+@IBDesignable
+extension UIView {
+    @IBInspectable var CornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
+            layer.masksToBounds = newValue > 0
+        }
+    }
+    
+    @IBInspectable var BorderWidth: CGFloat {
+        get {
+            return layer.borderWidth
+        }
+        set {
+            self.layer.borderWidth = newValue
+            self.layer.masksToBounds = newValue > 0
+        }
+    }
+    
+    @IBInspectable var BorderColor: UIColor {
+        get {
+            return self.BorderColor
+        } set {
+            self.layer.borderColor = newValue.cgColor
+            
+        }
+    }
+    
+    @IBInspectable var Round: Bool {
+        get {
+            return false
+        } set {
+            if newValue {
+                self.layer.cornerRadius = self.frame.size.height/2
+                self.layer.masksToBounds = true
+            }
+            
+        }
+    }
+}
+
+extension String {
+    func toCoordinate() -> CLLocationCoordinate2D {
+        // Remove curly braces and split the string by comma
+        let cleanedString = self.trimmingCharacters(in: CharacterSet(charactersIn: "{}"))
+        let components = cleanedString.split(separator: ",")
+        
+        // Check if we have exactly two components
+        guard components.count == 2,
+              let latitude = Double(components[0].trimmingCharacters(in: .whitespaces)),
+              let longitude = Double(components[1].trimmingCharacters(in: .whitespaces)) else {
+            return kCLLocationCoordinate2DInvalid
+        }
+        
+        // Return CLLocationCoordinate2D instance
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    func toCGAffineTransform() -> CGAffineTransform? {
+        // Regular expression to match the components of CGAffineTransform
+        let regexPattern = #"CGAffineTransform\(a: ([\d.-]+), b: ([\d.-]+), c: ([\d.-]+), d: ([\d.-]+), tx: ([\d.-]+), ty: ([\d.-]+)\)"#
+        
+        guard let regex = try? NSRegularExpression(pattern: regexPattern, options: []) else {
+            return nil
+        }
+        
+        guard let match = regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.count)) else {
+            return nil
+        }
+        
+        let nsString = self as NSString
+        guard let a = Double(nsString.substring(with: match.range(at: 1))),
+              let b = Double(nsString.substring(with: match.range(at: 2))),
+              let c = Double(nsString.substring(with: match.range(at: 3))),
+              let d = Double(nsString.substring(with: match.range(at: 4))),
+              let tx = Double(nsString.substring(with: match.range(at: 5))),
+              let ty = Double(nsString.substring(with: match.range(at: 6))) else {
+            return nil
+        }
+        
+        return CGAffineTransform(a: a, b: b, c: c, d: d, tx: tx, ty: ty)
     }
 }
