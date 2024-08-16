@@ -148,4 +148,123 @@ class CoreDataManager {
             print("Error deleting overlay: \(error)")
         }
     }
+    
+    func getMapImageOverlays() -> [MapImageOverlays] {
+        let fetchRequest: NSFetchRequest<MapImageOverlays> = MapImageOverlays.fetchRequest()
+        do {
+            let overlay = try context.fetch(fetchRequest)
+            return overlay
+        } catch {
+            print("Error fetching Map overlay: \(error)")
+            return []
+        }
+    }
+    
+    func getMapImageOverlayID() -> Int32 {
+        var overlayID: Int32 = 0
+        let overlays = self.getMapImageOverlays()
+        if overlays.count > 0 {
+            if let lastOverlay = overlays.max(by: { ($0.overlayID) < ($1.overlayID) }) {
+                overlayID = lastOverlay.overlayID
+            }
+        }
+        overlayID += 1
+        print("saved Map overlayID: \(overlayID)")
+        return Int32(overlayID)
+    }
+    
+    func fetchMapImageOverlays() -> [MapImageOverlays] {
+        let fetchRequest: NSFetchRequest<MapImageOverlays> = MapImageOverlays.fetchRequest()
+        
+        do {
+            let overlays = try context.fetch(fetchRequest)
+            if overlays.isEmpty {
+                return saveMapImageOverlays()
+            }
+            return overlays
+        } catch {
+            print("Error fetching MapImageOverlays: \(error)")
+            return []
+        }
+        
+    }
+    
+    func saveMapImageOverlays() -> [MapImageOverlays] {
+        let locationOptions: [(name: String, coordinate: CLLocationCoordinate2D, image: UIImage?, icon: UIImage?)] = [
+            (name: "None", coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0), image: nil, icon: nil),
+            (name: "Castello - 1660", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702), UIImage(named: "groundOverlay"),
+             icon: UIImage(named: "1660-Castello_ic")),
+            (name: "Holland - 1776", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702), UIImage(named: "1776-Hollanddowntown"),
+             icon: UIImage(named: "1776-Hollanddowntown_ic")),
+            (name: "GreatFire - 1776", coordinate: CLLocationCoordinate2D(latitude: 40.7804442, longitude: -73.9767702), UIImage(named: "1776-GreatFire"),
+             icon: UIImage(named: "1776-GreatFire_ic"))
+        ]
+        
+        var arrMapImageOverlays: [MapImageOverlays] = []
+        for location in locationOptions {
+            let overlay = saveMapImageOverlay(
+                name: location.name,
+                image: location.image?.pngData(),
+                coordinates: "{\(location.coordinate.latitude),\(location.coordinate.longitude)}",
+                midCoord: "{40.70524,-74.01091}",
+                overlayTopLeftCoord: "{40.71077,-74.01834}",
+                overlayTopRightCoord: "{40.71077,-74.00409}",
+                overlayBottomLeftCoord: "{40.69918,-74.0183}",
+                icon: location.icon?.pngData()
+            )
+            
+            arrMapImageOverlays.append(overlay)
+        }
+        
+        return arrMapImageOverlays
+    }
+    
+    func saveMapImageOverlay(name: String, image: Data?, coordinates: String, midCoord: String, overlayTopLeftCoord: String, overlayTopRightCoord: String, overlayBottomLeftCoord: String, icon: Data?) -> MapImageOverlays {
+        let overlay = MapImageOverlays(context: context)
+        overlay.overlayID = self.getMapImageOverlayID()
+        overlay.image = image
+        overlay.name = name
+        overlay.coordinates = coordinates
+        overlay.midCoord = midCoord
+        overlay.overlayTopLeftCoord = overlayTopLeftCoord
+        overlay.overlayTopRightCoord = overlayTopRightCoord
+        overlay.overlayBottomLeftCoord = overlayBottomLeftCoord
+        overlay.transform = "\(CGAffineTransform.identity)"
+        overlay.icon = icon
+        
+        do {
+            try context.save()
+        } catch {
+            print("Error saving map: \(error)")
+        }
+        
+        return overlay
+    }
+    
+    func updateMapImageOverlayTransform(_ transform: CGAffineTransform, mapImageOverlays: MapImageOverlays) -> MapImageOverlays  {
+        mapImageOverlays.transform = "\(transform)"
+
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save overlay transform: \(error)")
+        }
+        
+        return mapImageOverlays
+    }
+    
+    func deleteAllMapImageOverlays() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = MapImageOverlays.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            let result = try context.execute(deleteRequest) as? NSBatchDeleteResult
+            print("Deleted \(result?.result ?? 0) MapImageOverlays objects.")
+            
+            // To ensure the deleted objects are removed from the context:
+            try context.save()
+        } catch {
+            print("Error deleting MapImageOverlays: \(error)")
+        }
+    }
 }

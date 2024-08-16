@@ -13,3 +13,7 @@ import CoreData
 public class Overlays: NSManagedObject {
 
 }
+
+public class MapImageOverlays: NSManagedObject {
+
+}

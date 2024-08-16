@@ -146,6 +146,7 @@ extension SharedMapViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
                 if self.arrKMLFiles.count == 0 {
+                    self.delegate?.showCurrentMap()
                     self.showContentUnavailableView()
                 }
             }
