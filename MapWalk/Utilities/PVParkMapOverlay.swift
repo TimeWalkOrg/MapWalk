@@ -21,16 +21,17 @@ import MapKit
 class PVParkMapOverlay: NSObject, MKOverlay {
     var coordinate: CLLocationCoordinate2D
     var boundingMapRect: MKMapRect
+    var mapImageOverlay: MapImageOverlays
 
     init(mapImageOverlay: MapImageOverlays) {
-        let bottomLeftCord = mapImageOverlay.overlayBottomLeftCoord!.toCoordinate().latitude
-        let TopRightCord = mapImageOverlay.overlayTopRightCoord!.toCoordinate().latitude
+        self.mapImageOverlay = mapImageOverlay
+        
         let topLeft = MKMapPoint(mapImageOverlay.overlayTopLeftCoord!.toCoordinate())
         let topRight = MKMapPoint(mapImageOverlay.overlayTopRightCoord!.toCoordinate())
         let bottomLeft = MKMapPoint(mapImageOverlay.overlayBottomLeftCoord!.toCoordinate())
-        
-        boundingMapRect = MKMapRect(origin: MKMapPoint(x: topLeft.x, y: topLeft.y),
-                                    size: MKMapSize(width: fabs(topLeft.x - topRight.x), height: fabs(topLeft.y - bottomLeft.y)))
-        coordinate = mapImageOverlay.midCoord?.toCoordinate() ?? kCLLocationCoordinate2DInvalid
+        let mapRect = MKMapRect(origin: MKMapPoint(x: topLeft.x, y: topLeft.y), size: MKMapSize(width: fabs(topLeft.x - topRight.x), height: fabs(topLeft.y - bottomLeft.y)))
+      
+        boundingMapRect = .world //mapRect
+        coordinate = mapImageOverlay.coordinates?.toCoordinate() ?? kCLLocationCoordinate2DInvalid
     }
 }

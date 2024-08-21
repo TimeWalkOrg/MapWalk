@@ -225,3 +225,43 @@ extension String {
         return CGAffineTransform(a: a, b: b, c: c, d: d, tx: tx, ty: ty)
     }
 }
+
+extension UIImage {
+    /// Flips the image either vertically, horizontally, or both.
+    /// - Parameters:
+    ///   - flipVertically: A Boolean value indicating whether to flip the image vertically.
+    ///   - flipHorizontally: A Boolean value indicating whether to flip the image horizontally.
+    /// - Returns: A new `UIImage` instance with the specified flip transformations applied.
+    func flip(flipVertically: Bool, flipHorizontally: Bool) -> UIImage {
+        var transform = CGAffineTransform.identity
+        
+        if flipVertically {
+            transform = transform.scaledBy(x: 1, y: -1)
+        }
+        
+        if flipHorizontally {
+            transform = transform.scaledBy(x: -1, y: 1)
+        }
+        
+        return applyTransform(transform)
+    }
+    
+    private func applyTransform(_ transform: CGAffineTransform) -> UIImage {
+        let size = self.size
+        UIGraphicsBeginImageContext(size)
+        guard let context = UIGraphicsGetCurrentContext() else { return self }
+        
+        // Translate context to center, apply transformation, then translate back
+        context.translateBy(x: size.width / 2, y: size.height / 2)
+        context.concatenate(transform)
+        context.translateBy(x: -size.width / 2, y: -size.height / 2)
+        
+        // Draw the image
+        self.draw(in: CGRect(origin: .zero, size: size))
+        
+        let transformedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return transformedImage ?? self
+    }
+}

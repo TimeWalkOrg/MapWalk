@@ -253,6 +253,22 @@ class CoreDataManager {
         return mapImageOverlays
     }
     
+    func updateMapImageOverlayCordinates(cordinates: Coordinates, mapImageOverlays: MapImageOverlays) -> MapImageOverlays {
+        
+        mapImageOverlays.overlayTopLeftCoord = "{\(cordinates.topLeft.latitude), \(cordinates.topLeft.longitude)}"
+        mapImageOverlays.overlayTopRightCoord = "{\(cordinates.topRight.latitude), \(cordinates.topRight.longitude)}"
+        mapImageOverlays.overlayBottomLeftCoord = "{\(cordinates.bottomLeft.latitude), \(cordinates.bottomLeft.longitude)}"
+        mapImageOverlays.midCoord = "{\(cordinates.center.latitude), \(cordinates.center.longitude)}"
+        
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save overlay transform: \(error)")
+        }
+        
+        return mapImageOverlays
+    }
+    
     func deleteAllMapImageOverlays() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = MapImageOverlays.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)

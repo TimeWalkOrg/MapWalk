@@ -35,7 +35,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var stackOption: UIStackView!
     
     @IBOutlet weak var viewShop: UIView!
-    @IBOutlet weak var viewTopButton: UIView!
+    @IBOutlet weak var viewButtonContainer: UIView!
     @IBOutlet weak var btnMenu: UIButton!
     @IBOutlet weak var btnAlpha: UIButton!
     
@@ -159,27 +159,30 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         
         //self.loadOverlaysOnMap()
         
-        self.btnMenu.layer.cornerRadius = 10
-        self.btnMenu.layer.masksToBounds = true
-        self.btnAlpha.layer.cornerRadius = 10
-        self.btnAlpha.layer.masksToBounds = true
-        self.viewSlider.layer.cornerRadius = 10
-        self.viewSlider.layer.masksToBounds = true
-        self.stackSlider.layer.cornerRadius = 10
-        self.stackSlider.layer.masksToBounds = true
-        self.btnEdit.layer.cornerRadius = 10
-        self.btnEdit.layer.masksToBounds = true
-        self.btnMaps.layer.cornerRadius = 10
-        self.btnMaps.layer.masksToBounds = true
-        self.btnAdjustMapOverlay.layer.cornerRadius = 10
-        self.btnAdjustMapOverlay.layer.masksToBounds = true
+        //self.btnMenu.layer.cornerRadius = 10
+        //self.btnMenu.layer.masksToBounds = true
+        //self.btnAlpha.layer.cornerRadius = 10
+        //self.btnAlpha.layer.masksToBounds = true
+        //self.viewSlider.layer.cornerRadius = 10
+        //self.viewSlider.layer.masksToBounds = true
+        //self.stackSlider.layer.cornerRadius = 10
+        //self.stackSlider.layer.masksToBounds = true
+        //self.btnEdit.layer.cornerRadius = 10
+        //self.btnEdit.layer.masksToBounds = true
+        //self.btnMaps.layer.cornerRadius = 10
+        //self.btnMaps.layer.masksToBounds = true
+        //self.btnAdjustMapOverlay.layer.cornerRadius = 10
+        //self.btnAdjustMapOverlay.layer.masksToBounds = true
+        
+        self.btnMenu.roundCorners([.topLeft, .topRight], radius: 10)
+        self.btnAdjustMapOverlay.roundCorners([.bottomLeft, .bottomRight], radius: 10)
         self.setupMenuOptions()
         
-        self.viewTopButton.layer.cornerRadius = 10
-        self.viewTopButton.layer.shadowColor = UIColor.black.cgColor
-        self.viewTopButton.layer.shadowRadius = 1.5
-        self.viewTopButton.layer.shadowOpacity = 0.3
-        self.viewTopButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        
+        self.viewButtonContainer.layer.shadowColor = UIColor.black.cgColor
+        self.viewButtonContainer.layer.shadowRadius = 1.5
+        self.viewButtonContainer.layer.shadowOpacity = 0.3
+        self.viewButtonContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
         
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -243,7 +246,9 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
             .hotel,
             .laundry,
             .marina,
+            .museum,
             .movieTheater,
+            .nationalPark,
             .nightlife,
             .parking,
             .pharmacy,
@@ -256,8 +261,10 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
             .stadium,
             .store,
             .theater,
+            .campground,
+            .university,
             .winery,
-            .zoo
+            .zoo,
         ]
         self.mapView.pointOfInterestFilter = MKPointOfInterestFilter(excluding: arrExcludingCategory)
     }
@@ -312,35 +319,10 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
             
         }
         
-        /*var menuItems: [UIMenuElement] = []
-        for location in self.locationOptions {
-            let menuItem = UIAction(title: location.name, handler: { [weak self] _ in
-                self?.setMapCenter(location.coordinate, name: location.name)
-            })
-            menuItems.append(menuItem)
-        }
-        
-        let option5 = UIMenu(title: "Map Overlay", children: menuItems)*/
-        
         self.btnMenu.overrideUserInterfaceStyle = .dark
         self.btnMenu.showsMenuAsPrimaryAction = true
         self.btnMenu.menu = UIMenu(title: "", children: [option1, option2, option3, option4])
     }
-    
-//    func setMapCenter(_ coordinate: CLLocationCoordinate2D, name: String, isForNewMap: Bool = false) {
-//        selectedLocation = name
-//        if name == "1776 Manhattan" {
-//            viewSlider.isHidden = true
-//            btnAlpha.isSelected = false
-//            selectedPVOverlaView = nil
-//            
-//            let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-//            mapView.setRegion(region, animated: true)
-//        }
-//        else {
-//            self.loadImage(plistFilename: "ManhattanNew", isForNewMap: isForNewMap)
-//        }
-//    }
     
     func selectLocationOption(_ location: MapImageOverlays, isForNewMap: Bool = false) {
         if let coordinates = location.midCoord?.toCoordinate() {
@@ -356,30 +338,6 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-//    func loadImage(plistFilename: String, isForNewMap: Bool = false) {
-//        park = PVPark(filename: plistFilename)
-//        if let park = park {
-//            let latDelta = park.overlayTopLeftCoordinate.latitude - park.overlayBottomRightCoordinate.latitude
-//            // Think of a span as a TV size, measure from one corner to another
-//            /*let span = MKCoordinateSpan(latitudeDelta: abs(latDelta), longitudeDelta: 0.0)
-//            
-//            let region = MKCoordinateRegion(center: park.midCoordinate, span: span)
-//            mapView.region = region*/
-//            
-//            let region = MKCoordinateRegion(center: park.midCoordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-//            mapView.setRegion(region, animated: true)
-//            
-//            if isForNewMap == false {
-//                loadSelectedOptions()
-//            } else {
-//                addOverlay()
-//            }
-//            //self.setCamearAngle(centerCoordinates: park.midCoordinate)
-//        } else {
-//            // Handle the case where 'park' is nil
-//        }
-//    }
-    
     func loadSelectedOptions() {
         self.mapView.removeAnnotations(self.mapView.annotations)
         self.mapView.removeOverlays(self.mapView.overlays)
@@ -388,7 +346,7 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func addOverlay() {
         //Original image
-        let overlay = PVParkMapOverlay(mapImageOverlay: selectedLocation!)  //PVParkMapOverlay(park: self.park!)
+        let overlay = PVParkMapOverlay(mapImageOverlay: selectedLocation!)
         self.mapView.addOverlay(overlay)
         
         
@@ -405,26 +363,6 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         // Add the overlay to your map
         mapView.addOverlay(overlays)
     }
-    
-//    func addOverlay() {
-//        //Original image
-//        let overlay = PVParkMapOverlay(park: self.park!)
-//        self.mapView.addOverlay(overlay)
-//        
-//        
-//        // Coordinates
-//        let topLeft = self.park!.overlayTopLeftCoordinate
-//        let topRight = self.park!.overlayTopRightCoordinate
-//        let bottomLeft = self.park!.overlayBottomLeftCoordinate
-//        let bottomRight = self.calculateBottomRight(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft)
-//        
-//        let coordinates = [topLeft, topRight, bottomRight, bottomLeft]
-//
-//        let overlays = MKPolygon(coordinates: coordinates, count: coordinates.count)
-//
-//        // Add the overlay to your map
-//        mapView.addOverlay(overlays)
-//    }
     
     func calculateBottomRight(topLeft: CLLocationCoordinate2D, topRight: CLLocationCoordinate2D, bottomLeft: CLLocationCoordinate2D) -> CLLocationCoordinate2D {
         // Calculate the missing bottom right corner
@@ -870,6 +808,22 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Button actions
+    @IBAction func btnShowOptionAction(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        let selected = sender.isSelected
+        let bgColor = UIColor(hexString: "C0C0C0")
+        let tintColor = UIColor(hexString: "282828")
+        
+        sender.backgroundColor = selected ? bgColor : tintColor
+        sender.tintColor = selected ? tintColor : bgColor
+        
+        UIView.animate(withDuration: 0.3) {
+            self.viewButtonContainer.isHidden = !selected
+            self.viewButtonContainer.alpha = !selected ? 0 : 1
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     @IBAction func btnAlphaAction(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
@@ -1021,7 +975,6 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if selectedPVOverlaView != nil && selectedLocation?.name != "None" {
             let isEnabled = !sender.isSelected
-            print("isEnabled: \(isEnabled)")
             mapView.isScrollEnabled = isEnabled
             mapView.isZoomEnabled = isEnabled
             mapView.isPitchEnabled = isEnabled
@@ -1274,119 +1227,75 @@ class MapWalkViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @objc private func handlePinch(_ gesture: UIPinchGestureRecognizer) {
         guard let renderer = selectedPVOverlaView else { return }
+        let scale = gesture.scale
         
-        let overlayCenter = renderer.overlayCenter
-        var currentTransform = CGAffineTransform.identity
-        
-        if gesture.state == .began {
-            lastScale = 1.0
+        if gesture.state == .began || gesture.state == .changed {
+            // Get the current center of the overlay
+            let currentCenterX = renderer.currentBoundingMapRect.midX
+            let currentCenterY = renderer.currentBoundingMapRect.midY
+            
+            // Calculate the new size after scaling
+            let newWidth = renderer.currentBoundingMapRect.size.width * scale
+            let newHeight = renderer.currentBoundingMapRect.size.height * scale
+            
+            // Calculate the new origin to maintain the center
+            let newOriginX = currentCenterX - (newWidth / 2)
+            let newOriginY = currentCenterY - (newHeight / 2)
+            
+            // Update the currentBoundingMapRect with the new size and origin
+            renderer.currentBoundingMapRect = MKMapRect(origin: MKMapPoint(x: newOriginX, y: newOriginY), size: MKMapSize(width: newWidth, height: newHeight))
+            
+            // Reset the scale to 1 to prevent compounding scales
+            gesture.scale = 1
         }
         
-        if gesture.state == .changed {
-            let scale = gesture.scale
-            let deltaScale = scale / lastScale
-            lastScale = scale
-            
-            // Adjust transformation relative to the center of the overlay
-            let translationToCenter = CGAffineTransform(translationX: -overlayCenter.x, y: -overlayCenter.y)
-            let scaling = CGAffineTransform(scaleX: deltaScale, y: deltaScale)
-            let translationBack = CGAffineTransform(translationX: overlayCenter.x, y: overlayCenter.y)
-            
-            currentTransform = renderer.imageTransform
-                .concatenating(translationToCenter)
-                .concatenating(scaling)
-                .concatenating(translationBack)
-            
-            renderer.applyTransform(currentTransform)
-        }
+        // Trigger a redraw of the overlay
+        renderer.setNeedsDisplay()
+        mapView.setNeedsDisplay()
         
-        if gesture.state == .ended {
-            lastScale = 1.0
-            
-            if let selectedLocation = self.selectedLocation {
-                _ = CoreDataManager.shared.updateMapImageOverlayTransform(renderer.imageTransform, mapImageOverlays: selectedLocation)
-            }
+        if gesture.state == .ended, let selectedLocation = self.selectedLocation {
+            let coordinates = renderer.getCoordinates()
+            _ = CoreDataManager.shared.updateMapImageOverlayCordinates(cordinates: coordinates, mapImageOverlays: selectedLocation)
         }
     }
 
     @objc private func handleRotate(_ gesture: UIRotationGestureRecognizer) {
         guard let renderer = selectedPVOverlaView else { return }
+        let rotation = gesture.rotation
+        let rotationTransform = CGAffineTransform(rotationAngle: rotation)
+        let finalTransform = renderer.imageTransform.concatenating(rotationTransform)
         
-        let overlayCenter = renderer.overlayCenter
-        
-        if gesture.state == .began {
-            lastRotation = 0.0
+        if gesture.state == .began || gesture.state == .changed {
+            renderer.imageTransform = finalTransform
+            gesture.rotation = 0
+            print(renderer.imageTransform)
         }
-        
-        if gesture.state == .changed {
-            let rotation = gesture.rotation - lastRotation
-            lastRotation = gesture.rotation
-            
-            // Adjust transformation relative to the center of the overlay
-            let translationToCenter = CGAffineTransform(translationX: -overlayCenter.x, y: -overlayCenter.y)
-            let rotationTransform = CGAffineTransform(rotationAngle: rotation)
-            let translationBack = CGAffineTransform(translationX: overlayCenter.x, y: overlayCenter.y)
-            
-            let currentTransform = renderer.imageTransform
-                .concatenating(translationToCenter)
-                .concatenating(rotationTransform)
-                .concatenating(translationBack)
-            
-            renderer.applyTransform(currentTransform)
-        }
-        
-        if gesture.state == .ended {
-            lastRotation = 0.0
-            
-            if let selectedLocation = self.selectedLocation {
-                _ = CoreDataManager.shared.updateMapImageOverlayTransform(renderer.imageTransform, mapImageOverlays: selectedLocation)
-            }
-        }
-        
+
+        renderer.setNeedsDisplay()
         mapView.setNeedsDisplay()
+        
+        if gesture.state == .ended, let selectedLocation = self.selectedLocation {
+            _ = CoreDataManager.shared.updateMapImageOverlayTransform(finalTransform, mapImageOverlays: selectedLocation)
+        }
     }
 
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
         guard let renderer = selectedPVOverlaView else { return }
         
-        let overlayCenter = renderer.overlayCenter
-        
-        let translation = gesture.translation(in: mapView)
-        
-        if gesture.state == .began {
-            lastTranslation = .zero
+        if gesture.state == .began || gesture.state == .changed {
+            let translation = gesture.velocity(in: mapView)
+            renderer.currentBoundingMapRect.origin.x += translation.x
+            renderer.currentBoundingMapRect.origin.y += translation.y
         }
         
-        if gesture.state == .changed {
-            let dx = translation.x - lastTranslation.x
-            let dy = translation.y - lastTranslation.y
-            lastTranslation = translation
-            
-            // Adjust transformation relative to the center of the overlay
-            let translationToCenter = CGAffineTransform(translationX: -overlayCenter.x, y: -overlayCenter.y)
-            let panning = CGAffineTransform(translationX: dx, y: dy)
-            let translationBack = CGAffineTransform(translationX: overlayCenter.x, y: overlayCenter.y)
-            
-            let currentTransform = renderer.imageTransform
-                .concatenating(translationToCenter)
-                .concatenating(panning)
-                .concatenating(translationBack)
-            
-            renderer.applyTransform(currentTransform)
-        }
-        
-        if gesture.state == .ended {
-            lastTranslation = .zero
-            
-            if let selectedLocation = self.selectedLocation {
-                _ = CoreDataManager.shared.updateMapImageOverlayTransform(renderer.imageTransform, mapImageOverlays: selectedLocation)
-            }
-        }
-        
+        renderer.setNeedsDisplay()
         mapView.setNeedsDisplay()
+        
+        if gesture.state == .ended, let selectedLocation = self.selectedLocation {
+            let coordinates = renderer.getCoordinates()
+            _ = CoreDataManager.shared.updateMapImageOverlayCordinates(cordinates: coordinates, mapImageOverlays: selectedLocation)
+        }
     }
-
-
     
     func showCustomMenu(at point: CGPoint, polygonOverlay: MapPolygon?, polylineOverlay: MapPolyline?) {
         if customMenu == nil {
@@ -1777,6 +1686,7 @@ extension MapWalkViewController: MapOverlayPopupVCDelegate {
             self.btnMaps.backgroundColor = UIColor(hexString: "282828")
             
             if location.name == "None" {
+                self.btnEdit.isSelected = true
                 self.btnEditAction(self.btnEdit)
                 self.btnAdjustMapOverlayAction(self.btnAdjustMapOverlay)
             }
