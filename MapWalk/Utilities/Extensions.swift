@@ -9,6 +9,8 @@ import UIKit
 import CoreLocation
 import CoreGraphics
 import MapKit
+import simd
+import AVFoundation
 
 extension UIColor {
     convenience init(hexString: String) {
@@ -118,6 +120,51 @@ extension UIViewController {
         DispatchQueue.main.async {
             self.present(alert, animated: true)
         }
+    }
+    
+    func showAlert(title: String? = "Oops!", message: String? = "Something went wrong, please try again later!") {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
+    public func checkCameraPermission(completion: @escaping ((Bool) -> Void)) {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch cameraAuthorizationStatus {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        case .authorized:
+            completion(true)
+        case .restricted, .denied:
+            completion(false)
+        @unknown default:
+            completion(false)
+            break
+        }
+    }
+    
+    public func showPermissionAlert() {
+        let alert = UIAlertController(
+            title: "Camera Access Required",
+            message: "Please enable camera access in Settings to use this feature.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -263,5 +310,13 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         return transformedImage ?? self
+    }
+}
+
+// MARK: - simd_float4x4
+extension simd_float4x4 {
+    init(translation: SIMD3<Float>) {
+        self = matrix_identity_float4x4
+        columns.3 = SIMD4<Float>(translation.x, translation.y, translation.z, 1.0)
     }
 }

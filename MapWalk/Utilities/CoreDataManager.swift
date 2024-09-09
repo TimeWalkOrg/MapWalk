@@ -269,6 +269,23 @@ class CoreDataManager {
         return mapImageOverlays
     }
     
+    func deleteMapImageOverlay(overlayID: Int32) {
+        let fetchRequest: NSFetchRequest<MapImageOverlays> = MapImageOverlays.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "overlayID == %d", overlayID)
+        
+        do {
+            let overlays = try context.fetch(fetchRequest)
+            if let overlayToDelete = overlays.first {
+                context.delete(overlayToDelete)
+                try context.save()
+            } else {
+                print("Can't find overlay from Id: \(overlayID)")
+            }
+        } catch {
+            print("Error deleting overlay: \(error)")
+        }
+    }
+    
     func deleteAllMapImageOverlays() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = MapImageOverlays.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
